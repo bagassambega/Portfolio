@@ -1,5 +1,13 @@
 {
-  "trailingComma": "es5",
-  "tabWidth": 2,
-  "semi": false
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "overrides": [
+        {
+            "files": "*.tsx",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
