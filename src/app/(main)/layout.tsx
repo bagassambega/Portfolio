@@ -1,11 +1,34 @@
-import Navbar from "@/components/Navbar";
-import { ReactNode } from "react";
+import Navbar from "@/components/Navbar"
+import { ThemeProvider } from "@/components/ThemeProvider"
+import { Geist, Geist_Mono } from "next/font/google"
+import { ReactNode } from "react"
 
-export default function MainLayout({ children } : { children: ReactNode }) {
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+})
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+})
+
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <Navbar />
-      {children}
-    </>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }
