@@ -1,0 +1,64 @@
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Home, Search } from "lucide-react"
+
+export default function NotFound() {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-zinc-50 dark:bg-black">
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="mx-auto max-w-2xl px-6 py-32 text-center">
+            {/* 404 Text */}
+            <div className="mb-8">
+              <h1 className="text-9xl font-bold text-zinc-900 dark:text-zinc-50 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                404
+              </h1>
+              <div className="mt-4 h-1 w-24 bg-linear-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 mx-auto rounded-full" />
+            </div>
+
+            {/* Error Message */}
+            <div className="mb-12 animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-150">
+              <h2 className="text-3xl font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
+                Page Not Found
+              </h2>
+              <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-md mx-auto">
+                Oops! The page you&apos;re looking for seems to have wandered
+                off into the digital void.
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
+              <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href="/">
+                  <Home className="mr-2 h-4 w-4" />
+                  Back to Home
+                </Link>
+              </Button>
+
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                <Link href="/projects">
+                  <Search className="mr-2 h-4 w-4" />
+                  View Projects
+                </Link>
+              </Button>
+            </div>
+
+            {/* Additional Help Text */}
+            <div className="mt-16 animate-in fade-in duration-1000 delay-500">
+              <p className="text-sm text-zinc-500 dark:text-zinc-500">
+                If you believe this is a mistake, please contact me or try
+                refreshing the page.
+              </p>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+  )
+}
