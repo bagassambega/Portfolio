@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar"
-import { ThemeProvider } from "@/components/ThemeProvider"
+import Navbar from "@/components/layouts/Navbar"
+import { ThemeProvider } from "@/components/layouts/ThemeProvider"
 import { Geist, Geist_Mono } from "next/font/google"
 import { ReactNode } from "react"
 
