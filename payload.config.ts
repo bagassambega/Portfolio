@@ -13,6 +13,9 @@ import { Corporation } from "@/app/collections/Corporation"
 import { SocialMedia } from "@/app/collections/SocialMedia"
 import { Education } from "@/app/collections/Education"
 import { Users } from "@/app/collections/Users"
+import { TechStack } from "@/app/collections/TechStack"
+import { Publication } from "@/app/collections/Publication"
+import { Files } from "@/app/collections/Files"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -30,10 +33,13 @@ export default buildConfig({
         Users,
         Corporation,
         Education,
+        Files,
         Media,
         WorkExperience,
         Project,
+        Publication,
         SocialMedia,
+        TechStack
     ],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || "",
@@ -50,6 +56,7 @@ export default buildConfig({
             enabled: true,
             collections: {
                 media: true,
+                files: true,
             },
             token: process.env.BLOB_READ_WRITE_TOKEN,
         }),

@@ -28,12 +28,12 @@ export const Project: CollectionConfig = {
         },
         {
             name: "sourcecode",
-            label: "Source Code",
+            label: "Source Code URL",
             type: "text",
         },
         {
             name: "url",
-            label: "URL (to visit)",
+            label: "URL Deployment (to visit)",
             type: "text",
         },
         {
@@ -58,6 +58,13 @@ export const Project: CollectionConfig = {
             label: "Media",
             type: "relationship",
             relationTo: "media",
+            hasMany: true
+        },
+        {
+            name: "techstack",
+            label: "Tech Stacks",
+            type: "relationship",
+            relationTo: "techstack",
             hasMany: true
         },
     ]

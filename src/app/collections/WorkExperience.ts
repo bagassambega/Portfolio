@@ -61,5 +61,10 @@ export const WorkExperience: CollectionConfig = {
             relationTo: "media",
             hasMany: true,
         },
+        {
+            name: "result",
+            type: "text",
+            label: "Result (URL, Repository)"
+        },
     ],
 }

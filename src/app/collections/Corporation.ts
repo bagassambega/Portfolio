@@ -33,7 +33,15 @@ export const Corporation: CollectionConfig = {
             name: "logo",
             label: "Corporation's Logo",
             type: "relationship",
-            relationTo: "media"
-        }
+            relationTo: "media",
+            hasMany: false
+        },
+        {
+            name: "techstacks",
+            label: "Tech Stacks Used",
+            type: "relationship",
+            relationTo: "techstack",
+            hasMany: true
+        },
     ]
 }
