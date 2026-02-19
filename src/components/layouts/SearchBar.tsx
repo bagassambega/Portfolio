@@ -29,14 +29,14 @@ export default function SearchBar() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-4">
-      <Button 
-        onClick={() => setOpen(true)} 
-        variant="outline" 
-        className="w-fit inline-flex items-center gap-2 cursor-pointer dark:border-gray-800 border-gray-100 dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-200 dark:text-gray-400 text-gray-500 dark:hover:text-gray-400 hover:text-gray-900"
+    <>
+      <Button
+        onClick={() => setOpen(true)}
+        variant="ghost"
+        className="w-fit inline-flex items-center gap-2 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700"
       >
         <Search />
-        <span>Search or Press ⌘ K</span>
+        <span className="hidden md:inline">Search or Press ⌘ K</span>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -53,6 +53,6 @@ export default function SearchBar() {
           </CommandList>
         </Command>
       </CommandDialog>
-    </div>
+    </>
   )
 }
