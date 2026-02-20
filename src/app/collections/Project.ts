@@ -49,7 +49,7 @@ export const Project: CollectionConfig = {
         },
         {
             name: "media-highlight",
-            label: "Highlight",
+            label: "Highlighted Media",
             type: "relationship",
             relationTo: "media",
         },
@@ -66,6 +66,12 @@ export const Project: CollectionConfig = {
             type: "relationship",
             relationTo: "techstack",
             hasMany: true
+        },
+        {
+            name: "isHighlighted",
+            type: "checkbox",
+            label: "Wants to Highlight?",
+            defaultValue: false,
         },
     ]
 }

@@ -39,12 +39,13 @@ export default buildConfig({
         Project,
         Publication,
         SocialMedia,
-        TechStack
+        TechStack,
     ],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || "",
     typescript: {
-        outputFile: path.resolve(dirname, "payload-types.ts"),
+        autoGenerate: true,
+        outputFile: path.resolve(dirname, "./src/lib/types/payload-types.ts"),
     },
     db: vercelPostgresAdapter({
         pool: {

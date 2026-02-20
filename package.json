@@ -2,12 +2,14 @@
     "name": "portfolio",
     "version": "0.1.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "generate:importmap": "NODE_OPTIONS='--import tsx/esm --import tsconfig-paths/register' payload generate:importmap"
+        "generate:importmap": "payload generate:importmap",
+        "generate:types": "payload generate:types"
     },
     "dependencies": {
         "@payloadcms/db-vercel-postgres": "3.75.0",
