@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="338" viewBox="0 0 600 338">
+  <style>
+    .bg   { fill: #e4e4e7 }
+    .icon { fill: #a1a1aa }
+    .fg   { fill: #e4e4e7 }
+    @media (prefers-color-scheme: dark) {
+      .bg   { fill: #27272a }
+      .icon { fill: #52525b }
+      .fg   { fill: #27272a }
+    }
+  </style>
+  <rect width="600" height="338" class="bg"/>
+  <rect x="240" y="129" width="120" height="80" rx="8" class="icon"/>
+  <circle cx="270" cy="155" r="14" class="fg"/>
+  <polygon points="240,209 288,165 320,193 352,157 360,209" class="fg"/>
+</svg>
