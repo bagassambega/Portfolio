@@ -24,15 +24,37 @@ function lexicalToPlainText(description: Project["description"]): string {
     .trim()
 }
 
+/**
+ * Extracts a relative image path from a Payload media object.
+ *
+ * Payload prefixes media URLs with its configured `serverURL`, producing
+ * absolute URLs like `http://localhost:3000/api/media/file/img.webp` (local)
+ * or `https://bagassambega.vercel.app/api/media/file/img.webp` (production).
+ *
+ * Since these images are served by the same Next.js server via Payload's
+ * /api/media/file route, the origin is stripped to produce a relative path
+ * (e.g., `/api/media/file/img.webp`). This avoids:
+ *   1. Next.js Image Optimization SSRF protection blocking localhost (private IP).
+ *   2. The need to whitelist every possible hostname in next.config.ts.
+ */
 function getImageUrl(highlight: Project["media-highlight"]): string {
   if (highlight && typeof highlight === "object") {
     const media = highlight as Media
-    return (
+    const raw =
       media.sizes?.card?.url ??
       media.sizes?.thumbnail?.url ??
       media.url ??
       "/project-placeholder.svg"
-    )
+
+    // Strip origin from absolute URLs to produce a relative path.
+    // e.g., "http://localhost:3000/api/media/file/img.webp" → "/api/media/file/img.webp"
+    try {
+      const parsed = new URL(raw)
+      return parsed.pathname
+    } catch {
+      // Already a relative path or placeholder — return as-is.
+      return raw
+    }
   }
   return "/project-placeholder.svg"
 }
@@ -96,6 +118,7 @@ export default function ProjectsList() {
                   src={getImageUrl(project["media-highlight"])}
                   alt={project.title}
                   fill
+                  unoptimized
                   className="object-cover"
                 />
               </div>
