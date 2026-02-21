@@ -1,2 +1,8 @@
 /* Custom Payload CMS Admin Styles */
-/* Add your custom admin panel styles here */
+/* Override Tailwind @layer base body styles that bleed into Payload admin.
+   Payload's --theme-bg and --theme-text correctly resolve based on
+   [data-theme=dark] set on <html>, unlike Tailwind's .dark class. */
+body {
+    background: var(--theme-bg) !important;
+    color: var(--theme-text) !important;
+}

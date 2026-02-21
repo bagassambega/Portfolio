@@ -333,6 +333,21 @@ export interface WorkExperience {
 export interface Project {
   id: number;
   title: string;
+  'highlighted-description': {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   description: {
     root: {
       type: string;
@@ -651,6 +666,7 @@ export interface WorkExperienceSelect<T extends boolean = true> {
  */
 export interface ProjectSelect<T extends boolean = true> {
   title?: T;
+  'highlighted-description'?: T;
   description?: T;
   type?: T;
   sourcecode?: T;

@@ -23,13 +23,15 @@ const serverFunction: ServerFunctionClient = async function (args) {
 }
 
 const Layout = ({ children }: Args) => (
-  <RootLayout
-    config={config}
-    importMap={importMap}
-    serverFunction={serverFunction}
-  >
-    {children}
-  </RootLayout>
+  <React.Suspense>
+    <RootLayout
+      config={config}
+      importMap={importMap}
+      serverFunction={serverFunction}
+    >
+      {children}
+    </RootLayout>
+  </React.Suspense>
 )
 
 export default Layout

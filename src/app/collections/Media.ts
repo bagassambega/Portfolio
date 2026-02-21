@@ -1,7 +1,27 @@
-import type { CollectionConfig } from "payload"
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "../../_config/Constant"
+
+const revalidateMedia: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.MEDIA, "days")
+    revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+}
+
+const deleteMedia: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.MEDIA, "days")
+    revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+}
 
 export const Media: CollectionConfig = {
     slug: "media",
+    hooks: {
+        afterChange: [revalidateMedia],
+        afterDelete: [deleteMedia],
+    },
     upload: {
         imageSizes: [
             {

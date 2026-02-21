@@ -1,23 +1,46 @@
-import type { CollectionConfig } from "payload";
-import * as Constant from "../../_config/Constant";
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "../../_config/Constant"
+
+const revalidateProjects: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+}
+
+const deleteProjects: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+}
 
 export const Project: CollectionConfig = {
     slug: "project",
     admin: {
-        useAsTitle: 'title'
+        useAsTitle: "title",
+    },
+    hooks: {
+        afterChange: [revalidateProjects],
+        afterDelete: [deleteProjects],
     },
     fields: [
         {
             name: "title",
             label: "Title",
             type: "text",
-            required: true
+            required: true,
+        },
+        {
+            name: "highlighted-description",
+            type: "richText",
+            label: "Highlighted Description",
+            required: true,
         },
         {
             name: "description",
             label: "Description",
             type: "richText",
-            required: true
+            required: true,
         },
         {
             name: "type",
@@ -58,14 +81,14 @@ export const Project: CollectionConfig = {
             label: "Media",
             type: "relationship",
             relationTo: "media",
-            hasMany: true
+            hasMany: true,
         },
         {
             name: "techstack",
             label: "Tech Stacks",
             type: "relationship",
             relationTo: "techstack",
-            hasMany: true
+            hasMany: true,
         },
         {
             name: "isHighlighted",
@@ -73,5 +96,5 @@ export const Project: CollectionConfig = {
             label: "Wants to Highlight?",
             defaultValue: false,
         },
-    ]
+    ],
 }

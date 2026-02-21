@@ -1,50 +1,99 @@
+"use client"
+
+import { useEffect, useRef, useState, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
+import ProjectCardSkeleton from "@/components/pages/projects/ProjectCardSkeleton"
+import type { Project, Media, ProjectsPage } from "@/lib/services/api"
 
-async function getProjects() {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-  return [
-    {
-      id: 1,
-      title: "Portfolio Website",
-      description: "Personal portfolio built with Next.js and Payload CMS.",
-      tag: "Web",
-      image: "/project-placeholder.svg",
-      date: "2025-01-15",
-    },
-    {
-      id: 2,
-      title: "E-Commerce App",
-      description: "Full-stack e-commerce platform with cart and checkout.",
-      tag: "Fullstack",
-      image: "/project-placeholder.svg",
-      date: "2024-11-03",
-    },
-    {
-      id: 3,
-      title: "CLI Tool",
-      description: "A developer productivity tool built in Rust.",
-      tag: "Systems",
-      image: "/project-placeholder.svg",
-      date: "2024-08-20",
-    },
-  ]
+const LIMIT = 10
+
+function lexicalToPlainText(description: Project["description"]): string {
+  const traverse = (node: Record<string, unknown>): string => {
+    if (node.text && typeof node.text === "string") return node.text
+    if (Array.isArray(node.children)) {
+      return (node.children as Record<string, unknown>[])
+        .map(traverse)
+        .join(" ")
+    }
+    return ""
+  }
+  return traverse(description.root as Record<string, unknown>)
+    .replace(/\s+/g, " ")
+    .trim()
 }
 
-export default async function ProjectsList() {
-  const projects = await getProjects()
+function getImageUrl(highlight: Project["media-highlight"]): string {
+  if (highlight && typeof highlight === "object") {
+    const media = highlight as Media
+    return (
+      media.sizes?.card?.url ??
+      media.sizes?.thumbnail?.url ??
+      media.url ??
+      "/project-placeholder.svg"
+    )
+  }
+  return "/project-placeholder.svg"
+}
+
+export default function ProjectsList() {
+  const [docs, setDocs] = useState<Project[]>([])
+  const [nextCursor, setNextCursor] = useState<number | null>(null)
+  const [isFetching, setIsFetching] = useState(true)
+  const sentinelRef = useRef<HTMLDivElement>(null)
+  const initialised = useRef(false)
+
+  const fetchPage = useCallback(async (cursor: number) => {
+    setIsFetching(true)
+    try {
+      const res = await fetch(`/api/projects?cursor=${cursor}&limit=${LIMIT}`)
+      console.log(res)
+      const data: ProjectsPage = await res.json()
+      setDocs((prev) => (cursor === 1 ? data.docs : [...prev, ...data.docs]))
+      setNextCursor(data.nextCursor)
+    } finally {
+      setIsFetching(false)
+    }
+  }, [])
+
+  // Fetch page 1 on mount
+  useEffect(() => {
+    if (initialised.current) return
+    initialised.current = true
+    fetchPage(1)
+  }, [fetchPage])
+
+  // IntersectionObserver — triggers fetch when sentinel enters viewport
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && nextCursor) fetchPage(nextCursor)
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [fetchPage, nextCursor])
 
   return (
     <section className="w-full max-w-6xl px-6 py-10">
       <h2 className="text-2xl font-semibold mb-6">All Projects</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
-          <Link key={project.id} href="#" className="group">
-            <Card className="flex flex-col overflow-hidden transition-shadow group-hover:shadow-lg">
+        {docs.map((project) => (
+          <Link
+            key={project.id}
+            href={project.url ?? project.sourcecode ?? "#"}
+            target={project.url || project.sourcecode ? "_blank" : undefined}
+            rel="noopener noreferrer"
+            className="group"
+          >
+            <Card className="flex flex-col overflow-hidden transition-shadow group-hover:shadow-lg pt-0">
               <div className="relative w-full aspect-video">
                 <Image
-                  src={project.image}
+                  src={getImageUrl(project["media-highlight"])}
                   alt={project.title}
                   fill
                   className="object-cover"
@@ -52,16 +101,16 @@ export default async function ProjectsList() {
               </div>
               <CardContent className="flex flex-col gap-2 p-4">
                 <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 rounded-full w-fit">
-                  {project.tag}
+                  {project.type}
                 </span>
                 <h3 className="font-semibold text-base leading-tight">
                   {project.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  {project.description}
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {lexicalToPlainText(project.description)}
                 </p>
                 <time className="text-xs text-muted-foreground mt-1">
-                  {new Date(project.date).toLocaleDateString("en-US", {
+                  {new Date(project.starting_date).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -71,7 +120,16 @@ export default async function ProjectsList() {
             </Card>
           </Link>
         ))}
+
+        {isFetching &&
+          Array.from({ length: LIMIT }).map((_, i) => (
+            <ProjectCardSkeleton key={`skeleton-${i}`} />
+          ))}
       </div>
+
+      {nextCursor && !isFetching && (
+        <div ref={sentinelRef} className="h-4 w-full" aria-hidden />
+      )}
     </section>
   )
 }
