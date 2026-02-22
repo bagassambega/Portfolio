@@ -5,13 +5,21 @@ import { ArrowLeft, Calendar, ExternalLink, Github } from "lucide-react"
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/services/api"
 import type { Media, Techstack } from "@/lib/services/api"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
+import ProjectTypeBadge from "@/components/ProjectTypeBadge"
+import { getImageUrl, formatDateShort } from "@/lib/helpers"
 import type { Metadata } from "next"
 
+// ---------------------------------------------------------------------------
+// Static Params — pre-render all known slugs at build time
+// ---------------------------------------------------------------------------
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs()
   return slugs.map((slug) => ({ slug }))
 }
 
+// ---------------------------------------------------------------------------
+// Dynamic Metadata — SEO title & description from project data
+// ---------------------------------------------------------------------------
 export async function generateMetadata({
   params,
 }: {
@@ -27,25 +35,9 @@ export async function generateMetadata({
   }
 }
 
-function getImageUrl(media: number | Media | null | undefined): string | null {
-  if (!media || typeof media === "number") return null
-  const raw =
-    media.sizes?.card?.url ?? media.sizes?.tablet?.url ?? media.url ?? null
-  if (!raw) return null
-  try {
-    return new URL(raw).pathname
-  } catch {
-    return raw
-  }
-}
-
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-  })
-}
-
+// ---------------------------------------------------------------------------
+// Page Component
+// ---------------------------------------------------------------------------
 export default async function ProjectDetailPage({
   params,
 }: {
@@ -64,8 +56,10 @@ export default async function ProjectDetailPage({
     (m): m is Media => typeof m !== "number"
   )
   const dateRange = project.end_date
-    ? `${formatDate(project.starting_date)} – ${formatDate(project.end_date)}`
-    : `${formatDate(project.starting_date)} – Present`
+    ? `${formatDateShort(project.starting_date)} – ${formatDateShort(
+        project.end_date
+      )}`
+    : `${formatDateShort(project.starting_date)} – Present`
 
   return (
     <main className="flex flex-col items-center bg-zinc-50 dark:bg-black min-h-screen">
@@ -95,9 +89,18 @@ export default async function ProjectDetailPage({
 
         {/* ── Project Header ────────────────────────── */}
         <div className="mb-12">
-          <span className="text-xs font-semibold uppercase tracking-widest text-blue-400 mb-2 block">
-            Project
-          </span>
+          <div className="mb-4">
+            {typeof project.type === "object" && project.type !== null ? (
+              <ProjectTypeBadge
+                name={project.type.name}
+                color={project.type.color}
+              />
+            ) : (
+              <span className="text-xs font-semibold uppercase tracking-widest text-blue-400 mb-2 block">
+                Project
+              </span>
+            )}
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-3">
             {project.title}
           </h1>
@@ -107,6 +110,7 @@ export default async function ProjectDetailPage({
             <RichTextRenderer content={project["highlighted-description"]} />
           </div>
 
+          {/* Metadata Row — date + links */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
@@ -121,7 +125,7 @@ export default async function ProjectDetailPage({
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-border text-sm hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                Open Project
+                Deployment
               </a>
             )}
 
@@ -139,11 +143,13 @@ export default async function ProjectDetailPage({
           </div>
         </div>
 
+        {/* ── Description ───────────────────────────── */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Description</h2>
           <RichTextRenderer content={project.description} />
         </section>
 
+        {/* ── Tech Stack ────────────────────────────── */}
         {techstacks.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-4">Tech Stack</h2>
@@ -168,6 +174,7 @@ export default async function ProjectDetailPage({
           </section>
         )}
 
+        {/* ── Media Gallery ─────────────────────────── */}
         {mediaItems.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Screenshots</h2>

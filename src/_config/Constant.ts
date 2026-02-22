@@ -15,14 +15,9 @@ export enum WORK_TYPE {
     FULLTIME = "Full-Time",
 }
 
-export enum PROJECT_TYPE {
-    ACADEMIC = "Academic Project",
-    PERSONAL = "Personal Project",
-    ORGANIZATION = "Organization Project",
-}
-
 export const CACHE_TAGS = {
     PROJECTS: "projects",
+    PROJECT_TYPES: "project-types",
     TECHSTACKS: "techstacks",
     MEDIA: "media",
     WORK_EXPERIENCES: "work-experiences",

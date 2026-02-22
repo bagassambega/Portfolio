@@ -74,6 +74,7 @@ export interface Config {
     media: Media;
     'work-experience': WorkExperience;
     project: Project;
+    'project-type': ProjectType;
     publication: Publication;
     'social-media': SocialMedia;
     techstack: Techstack;
@@ -91,6 +92,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'work-experience': WorkExperienceSelect<false> | WorkExperienceSelect<true>;
     project: ProjectSelect<false> | ProjectSelect<true>;
+    'project-type': ProjectTypeSelect<false> | ProjectTypeSelect<true>;
     publication: PublicationSelect<false> | PublicationSelect<true>;
     'social-media': SocialMediaSelect<false> | SocialMediaSelect<true>;
     techstack: TechstackSelect<false> | TechstackSelect<true>;
@@ -367,7 +369,7 @@ export interface Project {
     };
     [k: string]: unknown;
   };
-  type: 'Academic Project' | 'Personal Project' | 'Organization Project';
+  type: number | ProjectType;
   sourcecode?: string | null;
   url?: string | null;
   starting_date: string;
@@ -376,6 +378,20 @@ export interface Project {
   media?: (number | Media)[] | null;
   techstack?: (number | Techstack)[] | null;
   isHighlighted?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-type".
+ */
+export interface ProjectType {
+  id: number;
+  name: string;
+  /**
+   * Tailwind color class (e.g. blue-400, yellow-400, red-400, green-400)
+   */
+  color: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -471,6 +487,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'project';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'project-type';
+        value: number | ProjectType;
       } | null)
     | ({
         relationTo: 'publication';
@@ -682,6 +702,16 @@ export interface ProjectSelect<T extends boolean = true> {
   media?: T;
   techstack?: T;
   isHighlighted?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-type_select".
+ */
+export interface ProjectTypeSelect<T extends boolean = true> {
+  name?: T;
+  color?: T;
   updatedAt?: T;
   createdAt?: T;
 }

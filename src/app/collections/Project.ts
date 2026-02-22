@@ -81,8 +81,8 @@ export const Project: CollectionConfig = {
         {
             name: "type",
             label: "Project Type",
-            type: "select",
-            options: Object.values(Constant.PROJECT_TYPE),
+            type: "relationship",
+            relationTo: "project-type",
             required: true,
         },
         {
