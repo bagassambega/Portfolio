@@ -333,6 +333,10 @@ export interface WorkExperience {
 export interface Project {
   id: number;
   title: string;
+  /**
+   * Auto-generated from title. Override manually if needed.
+   */
+  'project-slug': string;
   'highlighted-description': {
     root: {
       type: string;
@@ -666,6 +670,7 @@ export interface WorkExperienceSelect<T extends boolean = true> {
  */
 export interface ProjectSelect<T extends boolean = true> {
   title?: T;
+  'project-slug'?: T;
   'highlighted-description'?: T;
   description?: T;
   type?: T;

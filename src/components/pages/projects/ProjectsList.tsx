@@ -107,7 +107,7 @@ export default function ProjectsList() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {docs.map((project, index) => (
           <Link
-            key={project.id}
+            key={project["project-slug"]}
             href={project.url ?? project.sourcecode ?? "#"}
             target={project.url || project.sourcecode ? "_blank" : undefined}
             rel="noopener noreferrer"

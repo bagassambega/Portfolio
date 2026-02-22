@@ -7,13 +7,12 @@ import { Suspense, type ReactNode } from "react"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  preload: true,
 })
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  preload: true,
+  preload: false,
 })
 
 export default function MainLayout({ children }: { children: ReactNode }) {

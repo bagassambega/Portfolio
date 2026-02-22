@@ -12,6 +12,7 @@ export type ProjectListItem = Pick<
     Project,
     | "id"
     | "title"
+    | "project-slug"
     | "highlighted-description"
     | "type"
     | "starting_date"
@@ -50,6 +51,7 @@ export async function getProjectsList(
         sort: "-starting_date",
         select: {
             title: true,
+            "project-slug": true,
             "highlighted-description": true,
             type: true,
             starting_date: true,

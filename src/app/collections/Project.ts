@@ -2,6 +2,7 @@ import type {
     CollectionConfig,
     CollectionAfterChangeHook,
     CollectionAfterDeleteHook,
+    CollectionBeforeValidateHook,
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "../../_config/Constant"
@@ -14,12 +15,34 @@ const deleteProjects: CollectionAfterDeleteHook = () => {
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
 }
 
+/**
+ * Auto-generates `project-slug` from `title` if not provided.
+ * Converts to lowercase, replaces spaces with hyphens, and strips
+ * any characters that are not alphanumeric or hyphens.
+ */
+const generateSlug: CollectionBeforeValidateHook = ({ data }) => {
+    if (
+        data &&
+        (!data["project-slug"] || data["project-slug"] === "") &&
+        data.title
+    ) {
+        data["project-slug"] = data.title
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "")
+            .replace(/-+/g, "-")
+            .replace(/^-|-$/g, "")
+    }
+    return data
+}
+
 export const Project: CollectionConfig = {
     slug: "project",
     admin: {
         useAsTitle: "title",
     },
     hooks: {
+        beforeValidate: [generateSlug],
         afterChange: [revalidateProjects],
         afterDelete: [deleteProjects],
     },
@@ -29,6 +52,19 @@ export const Project: CollectionConfig = {
             label: "Title",
             type: "text",
             required: true,
+        },
+        {
+            name: "project-slug",
+            label: "Slug",
+            type: "text",
+            required: true,
+            unique: true,
+            index: true,
+            admin: {
+                position: "sidebar",
+                description:
+                    "Auto-generated from title. Override manually if needed.",
+            },
         },
         {
             name: "highlighted-description",
