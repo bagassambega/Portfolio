@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 }
 
 export default async function ProjectsPage() {
-  const initialData = await getProjectsList(1)
+  const data = await getProjectsList()
 
   return (
     <main className="flex flex-col items-center justify-center bg-zinc-50 dark:bg-black max-w-full">
       <ProjectsHighlight />
-      <ProjectsList initialData={initialData} />
+      <ProjectsList projects={data.docs} />
     </main>
   )
 }

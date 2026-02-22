@@ -4,8 +4,6 @@ import config from "@payload-config"
 import { CACHE_TAGS } from "@/_config/Constant"
 import type { Project, Media, Techstack } from "@/lib/types/payload-types"
 
-const PAGE_LIMIT = 10
-
 export type { Project, Media, Techstack }
 
 export type ProjectListItem = Pick<
@@ -16,27 +14,23 @@ export type ProjectListItem = Pick<
     | "highlighted-description"
     | "type"
     | "starting_date"
+    | "end_date"
     | "url"
     | "sourcecode"
     | "media-highlight"
 >
 
-export type ProjectsPage = {
+export type ProjectsData = {
     docs: ProjectListItem[]
-    hasNextPage: boolean
-    nextCursor: number | null
     totalDocs: number
 }
 
 /**
- * Fetches a page of projects for the list view.
- * @param cursor  Page number (1-indexed)
- * @param limit   Number of items per page (default: 10)
+ * Fetches all projects for the list view.
+ * Uses "use cache" with cacheTag — the cache is invalidated on-demand
+ * by Payload hooks when projects are created, updated, or deleted.
  */
-export async function getProjectsList(
-    cursor: number = 1,
-    limit: number = PAGE_LIMIT
-): Promise<ProjectsPage> {
+export async function getProjectsList(): Promise<ProjectsData> {
     "use cache"
     cacheLife("days")
     cacheTag(CACHE_TAGS.PROJECTS)
@@ -45,8 +39,7 @@ export async function getProjectsList(
 
     const result = await payload.find({
         collection: "project",
-        page: cursor,
-        limit,
+        limit: 0, // 0 = return all documents
         depth: 1,
         sort: "-starting_date",
         select: {
@@ -55,6 +48,7 @@ export async function getProjectsList(
             "highlighted-description": true,
             type: true,
             starting_date: true,
+            end_date: true,
             url: true,
             sourcecode: true,
             "media-highlight": true,
@@ -63,8 +57,6 @@ export async function getProjectsList(
 
     return {
         docs: result.docs as ProjectListItem[],
-        hasNextPage: result.hasNextPage,
-        nextCursor: result.hasNextPage ? cursor + 1 : null,
         totalDocs: result.totalDocs,
     }
 }

@@ -107,7 +107,6 @@ export default async function ProjectDetailPage({
             <RichTextRenderer content={project["highlighted-description"]} />
           </div>
 
-          {/* Metadata Row — date + links */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
@@ -122,7 +121,7 @@ export default async function ProjectDetailPage({
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-border text-sm hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                Deployment
+                Open Project
               </a>
             )}
 
@@ -140,13 +139,11 @@ export default async function ProjectDetailPage({
           </div>
         </div>
 
-        {/* ── Description ───────────────────────────── */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Description</h2>
           <RichTextRenderer content={project.description} />
         </section>
 
-        {/* ── Tech Stack ────────────────────────────── */}
         {techstacks.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-4">Tech Stack</h2>
@@ -171,7 +168,6 @@ export default async function ProjectDetailPage({
           </section>
         )}
 
-        {/* ── Media Gallery ─────────────────────────── */}
         {mediaItems.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Screenshots</h2>

@@ -1,14 +1,11 @@
-"use client"
-
-import { useEffect, useRef, useState, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
-import ProjectCardSkeleton from "@/components/pages/projects/ProjectCardSkeleton"
-import type { ProjectListItem, Media, ProjectsPage } from "@/lib/services/api"
+import type { ProjectListItem, Media } from "@/lib/services/api"
 
-const LIMIT = 10
-
+/**
+ * Extracts a plain-text representation from a Lexical rich text JSON.
+ */
 function lexicalToPlainText(
   description: ProjectListItem["highlighted-description"]
 ): string {
@@ -45,60 +42,24 @@ function getImageUrl(highlight: ProjectListItem["media-highlight"]): string {
   return "/project-placeholder.svg"
 }
 
-/**
- * Props now include initialData — the first page of projects, fetched
- * server-side at build time by the parent server component.
- */
-interface ProjectsListProps {
-  initialData: ProjectsPage
-}
-
-export default function ProjectsList({ initialData }: ProjectsListProps) {
-  // Initialize with server-fetched data — no client fetch needed for page 1
-  const [docs, setDocs] = useState<ProjectListItem[]>(initialData.docs)
-  const [nextCursor, setNextCursor] = useState<number | null>(
-    initialData.nextCursor
-  )
-  const [isFetching, setIsFetching] = useState(false)
-  const sentinelRef = useRef<HTMLDivElement>(null)
-
-  const fetchPage = useCallback(async (cursor: number) => {
-    setIsFetching(true)
-    try {
-      const res = await fetch(`/api/projects?cursor=${cursor}&limit=${LIMIT}`)
-      const data: ProjectsPage = await res.json()
-      setDocs((prev) => [...prev, ...data.docs])
-      setNextCursor(data.nextCursor)
-    } finally {
-      setIsFetching(false)
-    }
-  }, [])
-
-  // IntersectionObserver — triggers fetch when sentinel enters viewport
-  useEffect(() => {
-    const el = sentinelRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && nextCursor) fetchPage(nextCursor)
-      },
-      { threshold: 0.1 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [fetchPage, nextCursor])
-
+export default function ProjectsList({
+  projects,
+}: {
+  projects: ProjectListItem[]
+}) {
   return (
     <section className="w-full max-w-5xl px-6 flex flex-col justify-center items-center font-inter">
       <div className="flex flex-col items-center justify-center gap-4 mb-16">
-        <h2 className="text-5xl font-semibold font-sans">Projects</h2>
+        <h2 className="text-3xl md:text-5xl font-semibold font-sans">
+          Projects
+        </h2>
         <span className="dark:text-gray-400 text-gray-600">
           All projects I participated and created to implement my knowledge and
           enhance my skills
         </span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {docs.map((project, index) => (
+        {projects.map((project, index) => (
           <Link
             key={project["project-slug"]}
             href={"/projects/" + project["project-slug"]}
@@ -106,7 +67,7 @@ export default function ProjectsList({ initialData }: ProjectsListProps) {
             className="group"
           >
             <Card
-              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 pt-0 opacity-0"
+              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-300 dark:group-hover:shadow-blue-600 group-hover:-translate-y-1 pt-0 opacity-0"
               style={{
                 animation: `fadeUp 0.5s ease-out forwards`,
                 animationDelay: `${index * 100}ms`,
@@ -118,7 +79,7 @@ export default function ProjectsList({ initialData }: ProjectsListProps) {
                   alt={project.title}
                   fill
                   unoptimized
-                  className="object-cover"
+                  className="object-cover group-hover:scale-101 transition-transform duration-300"
                   priority={index === 0}
                   loading={index === 0 ? "eager" : "lazy"}
                 />
@@ -133,27 +94,41 @@ export default function ProjectsList({ initialData }: ProjectsListProps) {
                 <p className="text-sm text-muted-foreground line-clamp-2">
                   {lexicalToPlainText(project["highlighted-description"])}
                 </p>
-                <time className="text-xs text-muted-foreground mt-1">
-                  {new Date(project.starting_date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
+                <span className="text-xs text-muted-foreground mt-1">
+                  <time>
+                    {new Date(project.starting_date).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                  </time>
+                  {project.end_date ? (
+                    <>
+                      <time>
+                         - {new Date(project.end_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </time>
+                    </>
+                  ) : (
+                    <>
+                      {" - Present"}
+                    </>
+                  )}
+                </span>
               </CardContent>
             </Card>
           </Link>
         ))}
-
-        {isFetching &&
-          Array.from({ length: LIMIT }).map((_, i) => (
-            <ProjectCardSkeleton key={`skeleton-${i}`} />
-          ))}
       </div>
-
-      {nextCursor && !isFetching && (
-        <div ref={sentinelRef} className="h-4 w-full" aria-hidden />
-      )}
     </section>
   )
 }
