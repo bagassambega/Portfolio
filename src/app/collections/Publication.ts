@@ -1,9 +1,27 @@
-import type { CollectionConfig } from "payload";
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "@/_config/Constant"
+
+const revalidatePublications: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+}
+
+const deletePublications: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+}
 
 export const Publication: CollectionConfig = {
     slug: "publication",
     admin: {
         useAsTitle: "title",
+    },
+    hooks: {
+        afterChange: [revalidatePublications],
+        afterDelete: [deletePublications],
     },
     fields: [
         {
@@ -32,14 +50,14 @@ export const Publication: CollectionConfig = {
             label: "Publication/Article Documentation",
             type: "relationship",
             relationTo: "media",
-            hasMany: true
+            hasMany: true,
         },
         {
             name: "files",
             label: "Publication/Article Files",
             type: "relationship",
             relationTo: "files",
-            hasMany: true
+            hasMany: true,
         },
-    ]
+    ],
 }

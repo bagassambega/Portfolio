@@ -16,7 +16,10 @@ export type NavLinkType = {
 
 export default function NavLink(props: NavLinkType) {
   const url = usePathname()
-  const active = url === props.href || url.trim().startsWith("/" + props.href)
+  const active =
+    url === props.href ||
+    (props.href !== "/" && url.startsWith(props.href + "/")) ||
+    url === props.href.replace(/\/$/, "")
   return (
     <Link
       href={props.href}

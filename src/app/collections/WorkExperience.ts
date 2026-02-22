@@ -1,5 +1,18 @@
-import type { CollectionConfig } from "payload"
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+
+const revalidateWorkExperiences: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+}
+
+const deleteWorkExperiences: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+}
 
 export const WorkExperience: CollectionConfig = {
     slug: "work-experience",
@@ -9,6 +22,10 @@ export const WorkExperience: CollectionConfig = {
     },
     admin: {
         useAsTitle: "title",
+    },
+    hooks: {
+        afterChange: [revalidateWorkExperiences],
+        afterDelete: [deleteWorkExperiences],
     },
     fields: [
         {
@@ -64,7 +81,7 @@ export const WorkExperience: CollectionConfig = {
         {
             name: "result",
             type: "text",
-            label: "Result (URL, Repository)"
+            label: "Result (URL, Repository)",
         },
     ],
 }

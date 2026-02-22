@@ -1,4 +1,18 @@
-import type { CollectionConfig } from "payload";
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "@/_config/Constant"
+
+const revalidateSocialMedia: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.SOCIAL_MEDIA, "days")
+}
+
+const deleteSocialMedia: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.SOCIAL_MEDIA, "days")
+}
 
 export const SocialMedia: CollectionConfig = {
     slug: "social-media",
@@ -8,6 +22,10 @@ export const SocialMedia: CollectionConfig = {
     },
     admin: {
         useAsTitle: "name",
+    },
+    hooks: {
+        afterChange: [revalidateSocialMedia],
+        afterDelete: [deleteSocialMedia],
     },
     fields: [
         {
@@ -26,6 +44,6 @@ export const SocialMedia: CollectionConfig = {
             label: "Logo (Lucide React Icon Logo Name, i.e. Moon, Sun)",
             type: "text",
             required: true,
-        }
-    ]
+        },
+    ],
 }

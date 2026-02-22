@@ -1,9 +1,27 @@
-import type { CollectionConfig } from "payload";
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "@/_config/Constant"
+
+const revalidateEducation: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+}
+
+const deleteEducation: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+}
 
 export const Education: CollectionConfig = {
     slug: "education",
     admin: {
         useAsTitle: "name",
+    },
+    hooks: {
+        afterChange: [revalidateEducation],
+        afterDelete: [deleteEducation],
     },
     fields: [
         {
@@ -39,5 +57,5 @@ export const Education: CollectionConfig = {
             type: "relationship",
             relationTo: "media",
         },
-    ]
+    ],
 }

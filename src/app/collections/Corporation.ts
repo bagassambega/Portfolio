@@ -1,9 +1,29 @@
-import type { CollectionConfig } from "payload";
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "@/_config/Constant"
+
+const revalidateCorporations: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.CORPORATIONS, "days")
+    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+}
+
+const deleteCorporations: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.CORPORATIONS, "days")
+    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+}
 
 export const Corporation: CollectionConfig = {
     slug: "corporation",
     admin: {
         useAsTitle: "name",
+    },
+    hooks: {
+        afterChange: [revalidateCorporations],
+        afterDelete: [deleteCorporations],
     },
     fields: [
         {
@@ -34,14 +54,14 @@ export const Corporation: CollectionConfig = {
             label: "Corporation's Logo",
             type: "relationship",
             relationTo: "media",
-            hasMany: false
+            hasMany: false,
         },
         {
             name: "techstacks",
             label: "Tech Stacks Used",
             type: "relationship",
             relationTo: "techstack",
-            hasMany: true
+            hasMany: true,
         },
-    ]
+    ],
 }

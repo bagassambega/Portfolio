@@ -26,19 +26,6 @@ function lexicalToPlainText(
     .trim()
 }
 
-/**
- * Extracts a relative image path from a Payload media object.
- *
- * Payload prefixes media URLs with its configured `serverURL`, producing
- * absolute URLs like `http://localhost:3000/api/media/file/img.webp` (local)
- * or `https://bagassambega.vercel.app/api/media/file/img.webp` (production).
- *
- * Since these images are served by the same Next.js server via Payload's
- * /api/media/file route, the origin is stripped to produce a relative path
- * (e.g., `/api/media/file/img.webp`). This avoids:
- *   1. Next.js Image Optimization SSRF protection blocking localhost (private IP).
- *   2. The need to whitelist every possible hostname in next.config.ts.
- */
 function getImageUrl(highlight: ProjectListItem["media-highlight"]): string {
   if (highlight && typeof highlight === "object") {
     const media = highlight as Media
@@ -48,44 +35,44 @@ function getImageUrl(highlight: ProjectListItem["media-highlight"]): string {
       media.url ??
       "/project-placeholder.svg"
 
-    // Strip origin from absolute URLs to produce a relative path.
-    // e.g., "http://localhost:3000/api/media/file/img.webp" → "/api/media/file/img.webp"
     try {
       const parsed = new URL(raw)
       return parsed.pathname
     } catch {
-      // Already a relative path or placeholder — return as-is.
       return raw
     }
   }
   return "/project-placeholder.svg"
 }
 
-export default function ProjectsList() {
-  const [docs, setDocs] = useState<ProjectListItem[]>([])
-  const [nextCursor, setNextCursor] = useState<number | null>(null)
-  const [isFetching, setIsFetching] = useState(true)
+/**
+ * Props now include initialData — the first page of projects, fetched
+ * server-side at build time by the parent server component.
+ */
+interface ProjectsListProps {
+  initialData: ProjectsPage
+}
+
+export default function ProjectsList({ initialData }: ProjectsListProps) {
+  // Initialize with server-fetched data — no client fetch needed for page 1
+  const [docs, setDocs] = useState<ProjectListItem[]>(initialData.docs)
+  const [nextCursor, setNextCursor] = useState<number | null>(
+    initialData.nextCursor
+  )
+  const [isFetching, setIsFetching] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
-  const initialised = useRef(false)
 
   const fetchPage = useCallback(async (cursor: number) => {
     setIsFetching(true)
     try {
       const res = await fetch(`/api/projects?cursor=${cursor}&limit=${LIMIT}`)
       const data: ProjectsPage = await res.json()
-      setDocs((prev) => (cursor === 1 ? data.docs : [...prev, ...data.docs]))
+      setDocs((prev) => [...prev, ...data.docs])
       setNextCursor(data.nextCursor)
     } finally {
       setIsFetching(false)
     }
   }, [])
-
-  // Fetch page 1 on mount
-  useEffect(() => {
-    if (initialised.current) return
-    initialised.current = true
-    fetchPage(1)
-  }, [fetchPage])
 
   // IntersectionObserver — triggers fetch when sentinel enters viewport
   useEffect(() => {
@@ -102,18 +89,29 @@ export default function ProjectsList() {
   }, [fetchPage, nextCursor])
 
   return (
-    <section className="w-full max-w-6xl px-6 py-10">
-      <h2 className="text-2xl font-semibold mb-6">All Projects</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section className="w-full max-w-5xl px-6 flex flex-col justify-center items-center font-inter">
+      <div className="flex flex-col items-center justify-center gap-4 mb-16">
+        <h2 className="text-5xl font-semibold font-sans">Projects</h2>
+        <span className="dark:text-gray-400 text-gray-600">
+          All projects I participated and created to implement my knowledge and
+          enhance my skills
+        </span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {docs.map((project, index) => (
           <Link
             key={project["project-slug"]}
-            href={project.url ?? project.sourcecode ?? "#"}
-            target={project.url || project.sourcecode ? "_blank" : undefined}
+            href={"/projects/" + project["project-slug"]}
             rel="noopener noreferrer"
             className="group"
           >
-            <Card className="flex flex-col overflow-hidden transition-shadow group-hover:shadow-lg pt-0">
+            <Card
+              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 pt-0 opacity-0"
+              style={{
+                animation: `fadeUp 0.5s ease-out forwards`,
+                animationDelay: `${index * 100}ms`,
+              }}
+            >
               <div className="relative w-full aspect-video">
                 <Image
                   src={getImageUrl(project["media-highlight"])}
@@ -125,7 +123,7 @@ export default function ProjectsList() {
                   loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
-              <CardContent className="flex flex-col gap-2 p-4">
+              <CardContent className="flex flex-col gap-2 px-4">
                 <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 rounded-full w-fit">
                   {project.type}
                 </span>
