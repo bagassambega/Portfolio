@@ -22,6 +22,9 @@ export const TechStack: CollectionConfig = {
         afterChange: [revalidateTechStacks],
         afterDelete: [deleteTechStacks],
     },
+    admin: {
+        useAsTitle: "name",
+    },
     fields: [
         {
             name: "name",

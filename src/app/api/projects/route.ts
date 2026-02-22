@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { getProjects } from "@/lib/services/api"
+import { getProjectsList } from "@/lib/services/api"
 
 export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl
@@ -13,6 +13,6 @@ export async function GET(req: NextRequest) {
         )
     }
 
-    const data = await getProjects(cursor, limit)
+    const data = await getProjectsList(cursor, limit)
     return NextResponse.json(data)
 }

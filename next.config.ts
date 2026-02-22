@@ -2,9 +2,17 @@ import type { NextConfig } from "next"
 import { withPayload } from "@payloadcms/next/withPayload"
 
 const nextConfig: NextConfig = {
-    /* config options here */
     reactCompiler: true,
-    cacheComponents: true,
+    experimental: {
+        useCache: true,
+    },
+    cacheLife: {
+        days: {
+            stale: 3600,
+            revalidate: 86400,
+            expire: 604800,
+        },
+    },
     images: {
         remotePatterns: [
             {

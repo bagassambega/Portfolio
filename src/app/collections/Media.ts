@@ -18,6 +18,9 @@ const deleteMedia: CollectionAfterDeleteHook = () => {
 
 export const Media: CollectionConfig = {
     slug: "media",
+    access: {
+        read: () => true,
+    },
     hooks: {
         afterChange: [revalidateMedia],
         afterDelete: [deleteMedia],

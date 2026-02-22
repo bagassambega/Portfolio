@@ -363,7 +363,7 @@ export interface Project {
     };
     [k: string]: unknown;
   };
-  type: 'Academic Project' | 'Project' | 'Organization Project';
+  type: 'Academic Project' | 'Personal Project' | 'Organization Project';
   sourcecode?: string | null;
   url?: string | null;
   starting_date: string;

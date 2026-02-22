@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Suspense } from "react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
@@ -16,9 +17,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <>
-  {children}
-  <Analytics />
-  <SpeedInsights />
-  </>
+  return (
+    <>
+      <Suspense>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </Suspense>
+    </>
+  )
 }

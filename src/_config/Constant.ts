@@ -17,7 +17,7 @@ export enum WORK_TYPE {
 
 export enum PROJECT_TYPE {
     ACADEMIC = "Academic Project",
-    PROJECT = "Project",
+    PERSONAL = "Personal Project",
     ORGANIZATION = "Organization Project",
 }
 

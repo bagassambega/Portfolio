@@ -5,11 +5,13 @@ import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import ProjectCardSkeleton from "@/components/pages/projects/ProjectCardSkeleton"
-import type { Project, Media, ProjectsPage } from "@/lib/services/api"
+import type { ProjectListItem, Media, ProjectsPage } from "@/lib/services/api"
 
 const LIMIT = 10
 
-function lexicalToPlainText(description: Project["description"]): string {
+function lexicalToPlainText(
+  description: ProjectListItem["highlighted-description"]
+): string {
   const traverse = (node: Record<string, unknown>): string => {
     if (node.text && typeof node.text === "string") return node.text
     if (Array.isArray(node.children)) {
@@ -37,7 +39,7 @@ function lexicalToPlainText(description: Project["description"]): string {
  *   1. Next.js Image Optimization SSRF protection blocking localhost (private IP).
  *   2. The need to whitelist every possible hostname in next.config.ts.
  */
-function getImageUrl(highlight: Project["media-highlight"]): string {
+function getImageUrl(highlight: ProjectListItem["media-highlight"]): string {
   if (highlight && typeof highlight === "object") {
     const media = highlight as Media
     const raw =
@@ -60,7 +62,7 @@ function getImageUrl(highlight: Project["media-highlight"]): string {
 }
 
 export default function ProjectsList() {
-  const [docs, setDocs] = useState<Project[]>([])
+  const [docs, setDocs] = useState<ProjectListItem[]>([])
   const [nextCursor, setNextCursor] = useState<number | null>(null)
   const [isFetching, setIsFetching] = useState(true)
   const sentinelRef = useRef<HTMLDivElement>(null)
@@ -70,7 +72,6 @@ export default function ProjectsList() {
     setIsFetching(true)
     try {
       const res = await fetch(`/api/projects?cursor=${cursor}&limit=${LIMIT}`)
-      console.log(res)
       const data: ProjectsPage = await res.json()
       setDocs((prev) => (cursor === 1 ? data.docs : [...prev, ...data.docs]))
       setNextCursor(data.nextCursor)
@@ -104,7 +105,7 @@ export default function ProjectsList() {
     <section className="w-full max-w-6xl px-6 py-10">
       <h2 className="text-2xl font-semibold mb-6">All Projects</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {docs.map((project) => (
+        {docs.map((project, index) => (
           <Link
             key={project.id}
             href={project.url ?? project.sourcecode ?? "#"}
@@ -120,6 +121,8 @@ export default function ProjectsList() {
                   fill
                   unoptimized
                   className="object-cover"
+                  priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
               <CardContent className="flex flex-col gap-2 p-4">
@@ -130,7 +133,7 @@ export default function ProjectsList() {
                   {project.title}
                 </h3>
                 <p className="text-sm text-muted-foreground line-clamp-2">
-                  {lexicalToPlainText(project.description)}
+                  {lexicalToPlainText(project["highlighted-description"])}
                 </p>
                 <time className="text-xs text-muted-foreground mt-1">
                   {new Date(project.starting_date).toLocaleDateString("en-US", {
