@@ -3,23 +3,17 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, Calendar, ExternalLink, Github } from "lucide-react"
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/services/api"
-import type { Media, Techstack } from "@/lib/services/api"
+import type { Media, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ProjectTypeBadge from "@/components/ProjectTypeBadge"
 import { getImageUrl, formatDateShort } from "@/lib/helpers"
 import type { Metadata } from "next"
 
-// ---------------------------------------------------------------------------
-// Static Params — pre-render all known slugs at build time
-// ---------------------------------------------------------------------------
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs()
   return slugs.map((slug) => ({ slug }))
 }
 
-// ---------------------------------------------------------------------------
-// Dynamic Metadata — SEO title & description from project data
-// ---------------------------------------------------------------------------
 export async function generateMetadata({
   params,
 }: {
@@ -35,9 +29,6 @@ export async function generateMetadata({
   }
 }
 
-// ---------------------------------------------------------------------------
-// Page Component
-// ---------------------------------------------------------------------------
 export default async function ProjectDetailPage({
   params,
 }: {
@@ -64,7 +55,6 @@ export default async function ProjectDetailPage({
   return (
     <main className="flex flex-col items-center bg-zinc-50 dark:bg-black min-h-screen">
       <article className="w-full max-w-3xl px-6 py-16 font-inter">
-        {/* ── Back Link ─────────────────────────────── */}
         <Link
           href="/projects"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-blue-400 transition-colors mb-8 group"
@@ -73,7 +63,6 @@ export default async function ProjectDetailPage({
           Back to Projects
         </Link>
 
-        {/* ── Banner Image ──────────────────────────── */}
         {bannerUrl && (
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8 border border-border">
             <Image
@@ -87,7 +76,6 @@ export default async function ProjectDetailPage({
           </div>
         )}
 
-        {/* ── Project Header ────────────────────────── */}
         <div className="mb-12">
           <div className="mb-4">
             {typeof project.type === "object" && project.type !== null ? (
@@ -105,12 +93,10 @@ export default async function ProjectDetailPage({
             {project.title}
           </h1>
 
-          {/* Tagline — highlighted-description rendered as plain text */}
           <div className="text-lg text-muted-foreground mb-6">
             <RichTextRenderer content={project["highlighted-description"]} />
           </div>
 
-          {/* Metadata Row — date + links */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
@@ -125,7 +111,7 @@ export default async function ProjectDetailPage({
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-border text-sm hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                Deployment
+                Open the Project
               </a>
             )}
 
@@ -143,13 +129,11 @@ export default async function ProjectDetailPage({
           </div>
         </div>
 
-        {/* ── Description ───────────────────────────── */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Description</h2>
           <RichTextRenderer content={project.description} />
         </section>
 
-        {/* ── Tech Stack ────────────────────────────── */}
         {techstacks.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-4">Tech Stack</h2>
@@ -174,7 +158,6 @@ export default async function ProjectDetailPage({
           </section>
         )}
 
-        {/* ── Media Gallery ─────────────────────────── */}
         {mediaItems.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Screenshots</h2>

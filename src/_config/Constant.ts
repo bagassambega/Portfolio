@@ -21,6 +21,7 @@ export const CACHE_TAGS = {
     TECHSTACKS: "techstacks",
     MEDIA: "media",
     WORK_EXPERIENCES: "work-experiences",
+    ORGANIZATION_EXPERIENCES: "organization-experiences",
     HERO: "hero",
     CORPORATIONS: "corporations",
     EDUCATION: "education",

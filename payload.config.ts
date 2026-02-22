@@ -7,6 +7,7 @@ import { fileURLToPath } from "url"
 import sharp from "sharp"
 import { Media } from "@/app/collections/Media"
 import { WorkExperience } from "@/app/collections/WorkExperience"
+import { OrganizationExperience } from "@/app/collections/OrganizationExperience"
 import { Project } from "@/app/collections/Project"
 import { Hero } from "@/app/collections/Hero"
 import { Corporation } from "@/app/collections/Corporation"
@@ -38,6 +39,7 @@ export default buildConfig({
         Files,
         Media,
         WorkExperience,
+        OrganizationExperience,
         Project,
         ProjectType,
         Publication,

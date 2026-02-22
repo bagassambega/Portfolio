@@ -12,8 +12,19 @@ export default async function ProjectsPage() {
 
   return (
     <main className="flex flex-col items-center justify-center bg-zinc-50 dark:bg-black max-w-full">
-      <ProjectsHighlight />
-      <ProjectsList projects={data.docs} />
+      <div className="w-full max-w-5xl px-6 flex flex-col justify-center items-center font-inter">
+        <div className="flex flex-col items-center justify-center gap-4 mb-16">
+          <h2 className="text-3xl md:text-5xl font-semibold font-sans">
+            Projects
+          </h2>
+          <span className="dark:text-gray-400 text-gray-600">
+            All projects I participated and created to implement my knowledge and
+            enhance my skills
+          </span>
+        </div>
+        <ProjectsHighlight />
+        <ProjectsList projects={data.docs} />
+      </div>
     </main>
   )
 }

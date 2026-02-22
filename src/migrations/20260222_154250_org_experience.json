@@ -1048,6 +1048,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
         "type": {
           "name": "type",
           "type": "enum_work_experience_type",
@@ -1088,7 +1094,7 @@
         },
         "result": {
           "name": "result",
-          "type": "varchar",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
@@ -1108,6 +1114,21 @@
         }
       },
       "indexes": {
+        "work_experience_slug_idx": {
+          "name": "work_experience_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "work_experience_corporation_idx": {
           "name": "work_experience_corporation_idx",
           "columns": [
@@ -1289,6 +1310,301 @@
         "work_experience_rels_media_fk": {
           "name": "work_experience_rels_media_fk",
           "tableFrom": "work_experience_rels",
+          "tableTo": "media",
+          "columnsFrom": [
+            "media_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.organization_experience": {
+      "name": "organization_experience",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "enum_organization_experience_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location": {
+          "name": "location",
+          "type": "enum_organization_experience_location",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "starting_date": {
+          "name": "starting_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "corporation_id": {
+          "name": "corporation_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "result": {
+          "name": "result",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "organization_experience_slug_idx": {
+          "name": "organization_experience_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "organization_experience_corporation_idx": {
+          "name": "organization_experience_corporation_idx",
+          "columns": [
+            {
+              "expression": "corporation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "organization_experience_updated_at_idx": {
+          "name": "organization_experience_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "organization_experience_created_at_idx": {
+          "name": "organization_experience_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "organization_experience_corporation_id_corporation_id_fk": {
+          "name": "organization_experience_corporation_id_corporation_id_fk",
+          "tableFrom": "organization_experience",
+          "tableTo": "corporation",
+          "columnsFrom": [
+            "corporation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.organization_experience_rels": {
+      "name": "organization_experience_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "media_id": {
+          "name": "media_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "organization_experience_rels_order_idx": {
+          "name": "organization_experience_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "organization_experience_rels_parent_idx": {
+          "name": "organization_experience_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "organization_experience_rels_path_idx": {
+          "name": "organization_experience_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "organization_experience_rels_media_id_idx": {
+          "name": "organization_experience_rels_media_id_idx",
+          "columns": [
+            {
+              "expression": "media_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "organization_experience_rels_parent_fk": {
+          "name": "organization_experience_rels_parent_fk",
+          "tableFrom": "organization_experience_rels",
+          "tableTo": "organization_experience",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "organization_experience_rels_media_fk": {
+          "name": "organization_experience_rels_media_fk",
+          "tableFrom": "organization_experience_rels",
           "tableTo": "media",
           "columnsFrom": [
             "media_id"
@@ -1692,9 +2008,11 @@
         },
         "color": {
           "name": "color",
-          "type": "varchar",
+          "type": "enum_project_type_color",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'slate'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -2363,6 +2681,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "organization_experience_id": {
+          "name": "organization_experience_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "project_id": {
           "name": "project_id",
           "type": "integer",
@@ -2520,6 +2844,21 @@
           "columns": [
             {
               "expression": "work_experience_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_organization_experience_id_idx": {
+          "name": "payload_locked_documents_rels_organization_experience_id_idx",
+          "columns": [
+            {
+              "expression": "organization_experience_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -2691,6 +3030,19 @@
           "tableTo": "work_experience",
           "columnsFrom": [
             "work_experience_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_organization_experience_fk": {
+          "name": "payload_locked_documents_rels_organization_experience_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "organization_experience",
+          "columnsFrom": [
+            "organization_experience_id"
           ],
           "columnsTo": [
             "id"
@@ -3165,6 +3517,46 @@
         "Online",
         "Offline"
       ]
+    },
+    "public.enum_organization_experience_type": {
+      "name": "enum_organization_experience_type",
+      "schema": "public",
+      "values": [
+        "Ongoing",
+        "Finished"
+      ]
+    },
+    "public.enum_organization_experience_location": {
+      "name": "enum_organization_experience_location",
+      "schema": "public",
+      "values": [
+        "Hybrid",
+        "Online",
+        "Offline"
+      ]
+    },
+    "public.enum_project_type_color": {
+      "name": "enum_project_type_color",
+      "schema": "public",
+      "values": [
+        "slate",
+        "gray",
+        "red",
+        "orange",
+        "amber",
+        "yellow",
+        "green",
+        "emerald",
+        "teal",
+        "cyan",
+        "blue",
+        "indigo",
+        "violet",
+        "purple",
+        "fuchsia",
+        "pink",
+        "rose"
+      ]
     }
   },
   "schemas": {},
@@ -3177,6 +3569,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "e97a3b65-ec71-466f-99be-1b2ebd7e3c48",
+  "id": "60871409-8983-4bc5-ba59-dd0f7918800c",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

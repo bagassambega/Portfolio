@@ -7,12 +7,12 @@ import type {
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
 
-const revalidateWorkExperiences: CollectionAfterChangeHook = () => {
-    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+const revalidateOrganizationExperiences: CollectionAfterChangeHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
 }
 
-const deleteWorkExperiences: CollectionAfterDeleteHook = () => {
-    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+const deleteOrganizationExperiences: CollectionAfterDeleteHook = () => {
+    revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
 }
 
 /**
@@ -50,7 +50,7 @@ const generateSlug: CollectionBeforeValidateHook = async ({ data, req }) => {
             }
         } catch (error) {
             console.error(
-                "Error fetching corporation for WorkExperience slug automatically.",
+                "Error fetching corporation for OrganizationExperience slug automatically.",
                 error
             )
             // Fallback to just the title if corporation fetch fails
@@ -65,19 +65,19 @@ const generateSlug: CollectionBeforeValidateHook = async ({ data, req }) => {
     return data
 }
 
-export const WorkExperience: CollectionConfig = {
-    slug: "work-experience",
+export const OrganizationExperience: CollectionConfig = {
+    slug: "organization-experience",
     labels: {
-        plural: "Work Experiences",
-        singular: "Work Experience",
+        plural: "Organization Experiences",
+        singular: "Organization Experience",
     },
     admin: {
         useAsTitle: "title",
     },
     hooks: {
         beforeValidate: [generateSlug],
-        afterChange: [revalidateWorkExperiences],
-        afterDelete: [deleteWorkExperiences],
+        afterChange: [revalidateOrganizationExperiences],
+        afterDelete: [deleteOrganizationExperiences],
     },
     fields: [
         {

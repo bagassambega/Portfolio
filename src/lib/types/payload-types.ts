@@ -73,6 +73,7 @@ export interface Config {
     files: File;
     media: Media;
     'work-experience': WorkExperience;
+    'organization-experience': OrganizationExperience;
     project: Project;
     'project-type': ProjectType;
     publication: Publication;
@@ -91,6 +92,7 @@ export interface Config {
     files: FilesSelect<false> | FilesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'work-experience': WorkExperienceSelect<false> | WorkExperienceSelect<true>;
+    'organization-experience': OrganizationExperienceSelect<false> | OrganizationExperienceSelect<true>;
     project: ProjectSelect<false> | ProjectSelect<true>;
     'project-type': ProjectTypeSelect<false> | ProjectTypeSelect<true>;
     publication: PublicationSelect<false> | PublicationSelect<true>;
@@ -303,6 +305,10 @@ export interface File {
 export interface WorkExperience {
   id: number;
   title: string;
+  /**
+   * Auto-generated from Corporation Name and Title. Override manually if needed.
+   */
+  slug: string;
   type: 'Ongoing' | 'Finished';
   description: {
     root: {
@@ -324,7 +330,71 @@ export interface WorkExperience {
   end_date?: string | null;
   corporation: number | Corporation;
   documentation?: (number | Media)[] | null;
-  result?: string | null;
+  result?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organization-experience".
+ */
+export interface OrganizationExperience {
+  id: number;
+  title: string;
+  /**
+   * Auto-generated from Corporation Name and Title. Override manually if needed.
+   */
+  slug: string;
+  type: 'Ongoing' | 'Finished';
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  location: 'Hybrid' | 'Online' | 'Offline';
+  starting_date: string;
+  end_date?: string | null;
+  corporation: number | Corporation;
+  documentation?: (number | Media)[] | null;
+  result?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -389,9 +459,26 @@ export interface ProjectType {
   id: number;
   name: string;
   /**
-   * Tailwind color class (e.g. blue-400, yellow-400, red-400, green-400)
+   * Select the badge color for this project type.
    */
-  color: string;
+  color:
+    | 'slate'
+    | 'gray'
+    | 'red'
+    | 'orange'
+    | 'amber'
+    | 'yellow'
+    | 'green'
+    | 'emerald'
+    | 'teal'
+    | 'cyan'
+    | 'blue'
+    | 'indigo'
+    | 'violet'
+    | 'purple'
+    | 'fuchsia'
+    | 'pink'
+    | 'rose';
   updatedAt: string;
   createdAt: string;
 }
@@ -483,6 +570,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'work-experience';
         value: number | WorkExperience;
+      } | null)
+    | ({
+        relationTo: 'organization-experience';
+        value: number | OrganizationExperience;
       } | null)
     | ({
         relationTo: 'project';
@@ -673,6 +764,25 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface WorkExperienceSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
+  type?: T;
+  description?: T;
+  location?: T;
+  starting_date?: T;
+  end_date?: T;
+  corporation?: T;
+  documentation?: T;
+  result?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organization-experience_select".
+ */
+export interface OrganizationExperienceSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
   type?: T;
   description?: T;
   location?: T;

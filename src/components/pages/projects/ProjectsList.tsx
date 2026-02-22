@@ -11,16 +11,7 @@ export default function ProjectsList({
   projects: ProjectListItem[]
 }) {
   return (
-    <section className="w-full max-w-5xl px-6 flex flex-col justify-center items-center font-inter">
-      <div className="flex flex-col items-center justify-center gap-4 mb-16">
-        <h2 className="text-3xl md:text-5xl font-semibold font-sans">
-          Projects
-        </h2>
-        <span className="dark:text-gray-400 text-gray-600">
-          All projects I participated and created to implement my knowledge and
-          enhance my skills
-        </span>
-      </div>
+    <section id="project-list">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {projects.map((project, index) => (
           <Link
@@ -55,6 +46,7 @@ export default function ProjectsList({
                   <ProjectTypeBadge
                     name={project.type.name}
                     color={project.type.color}
+                    className="text-xs font-medium px-2.5 py-1 rounded-full w-fit"
                   />
                 ) : (
                   <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 rounded-full w-fit">
