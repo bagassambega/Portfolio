@@ -8,7 +8,7 @@ import {
 } from "@/lib/services/api"
 import type { Media, Corporation, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
-import { getImageUrl, formatDateShort } from "@/lib/helpers"
+import { formatDateShort } from "@/lib/helpers"
 import type { Metadata } from "next"
 
 export async function generateStaticParams() {
@@ -176,7 +176,7 @@ export default async function WorkExperienceDetailPage({
             </h2>
             <div className="flex flex-col gap-8">
               {mediaItems.map((media) => {
-                const url = getImageUrl(media)
+                const url = media.url
                 if (!url) return null
                 return (
                   <figure key={media.id} className="space-y-2">

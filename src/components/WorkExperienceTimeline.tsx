@@ -1,9 +1,9 @@
-import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Calendar, MapPin } from "lucide-react"
 import type { WorkExperienceListItem } from "@/lib/services/api"
 import type { Media, Corporation } from "@/lib/types/payload-types"
+import RichTextRenderer from "@/components/shared/RichTextRenderer"
 
 export default function WorkExperienceTimeline({
   experiences,
@@ -31,15 +31,17 @@ export default function WorkExperienceTimeline({
           year: "numeric",
         })
 
-        const formattedEnd = exp.end_date
-          ? new Date(exp.end_date).toLocaleDateString("en-US", {
-              month: "short",
-              year: "numeric",
-            })
-          : "Present"
+        const formattedEnd =
+          exp.type === "Ongoing" || !exp.end_date
+            ? "Present"
+            : new Date(exp.end_date).toLocaleDateString("en-US", {
+                month: "short",
+                year: "numeric",
+              })
 
         const dateString = `${formattedStart} - ${formattedEnd}`
         const orgName = corp?.name || "Corporation"
+        const orgDescription = corp?.description
 
         return (
           <div key={exp.id} className="flex flex-col items-center w-full group">
@@ -89,9 +91,15 @@ export default function WorkExperienceTimeline({
                     {orgName}
                   </p>
 
-                  <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-2 leading-tight">
+                  <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-1 leading-tight">
                     {exp.title}
                   </h3>
+
+                  {orgDescription && (
+                    <div className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2 mb-3 max-w-xl">
+                      <RichTextRenderer content={orgDescription} />
+                    </div>
+                  )}
 
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-500 dark:text-zinc-400 font-mono">
                     <div className="flex items-center gap-1.5 uppercase tracking-wider">

@@ -10,9 +10,7 @@ interface Props {
   index?: number
 }
 
-export default function OrganizationExperienceCard({
-  experience,
-}: Props) {
+export default function OrganizationExperienceCard({ experience }: Props) {
   const corp = experience.corporation as Corporation
   const logoMedia = corp?.logo as Media | undefined
 
@@ -22,12 +20,13 @@ export default function OrganizationExperienceCard({
     year: "numeric",
   })
 
-  const formattedEnd = experience.end_date
-    ? new Date(experience.end_date).toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      })
-    : "Present"
+  const formattedEnd =
+    experience.type === "Ongoing" || !experience.end_date
+      ? "Present"
+      : new Date(experience.end_date).toLocaleDateString("en-US", {
+          month: "short",
+          year: "numeric",
+        })
 
   const dateString = `${formattedStart} - ${formattedEnd}`
 
