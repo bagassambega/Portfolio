@@ -6,11 +6,8 @@ const nextConfig: NextConfig = {
     experimental: {
         useCache: true,
         serverActions: {
-            allowedOrigins: [
-                "bagassambega.my.id",
-                "www.bagassambega.my.id"
-            ]
-        }
+            allowedOrigins: ["bagassambega.my.id", "www.bagassambega.my.id"],
+        },
     },
     cacheLife: {
         days: {
@@ -32,6 +29,10 @@ const nextConfig: NextConfig = {
             {
                 protocol: "https",
                 hostname: "bagassambega.my.id",
+            },
+            {
+                protocol: "https",
+                hostname: "www.bagassambega.my.id",
             },
             {
                 protocol: "https",

@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Calendar, MapPin, Briefcase } from "lucide-react"
+import { ArrowLeft, Calendar, MapPin, Briefcase, Code } from "lucide-react"
 import {
   getWorkExperienceBySlug,
   getAllWorkExperienceSlugs,
 } from "@/lib/services/api"
 import type { Media, Corporation, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
-import { formatDateShort } from "@/lib/helpers"
+import { getImageUrl, formatDateShort } from "@/lib/helpers"
 import type { Metadata } from "next"
 
 export async function generateStaticParams() {
@@ -47,6 +47,10 @@ export default async function WorkExperienceDetailPage({
 
   const techstacks = (exp.techstacks ?? []).filter(
     (t: number | Techstack): t is Techstack => typeof t !== "number"
+  )
+
+  const mediaItems = (exp.documentation ?? []).filter(
+    (m: number | Media): m is Media => typeof m !== "number"
   )
 
   const dateRange = exp.end_date
@@ -122,24 +126,35 @@ export default async function WorkExperienceDetailPage({
             <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-100">
               Tech Stack
             </h2>
-            <ul className="list-disc list-inside space-y-1.5 text-zinc-500 dark:text-zinc-400">
+            <div className="flex flex-wrap gap-3">
               {techstacks.map((tech: Techstack) => (
-                <li key={tech.id}>
+                <div
+                  key={tech.id}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg text-sm font-medium transition-colors border border-zinc-200 dark:border-zinc-700/50"
+                >
+                  {tech.logo ? (
+                    <div
+                      className="w-4 h-4 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full"
+                      dangerouslySetInnerHTML={{ __html: tech.logo }}
+                    />
+                  ) : (
+                    <Code className="w-4 h-4" />
+                  )}
                   {tech.url ? (
                     <a
                       href={tech.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:text-blue-400 transition-colors"
+                      className="hover:text-blue-500 transition-colors"
                     >
                       {tech.name}
                     </a>
                   ) : (
                     <span>{tech.name}</span>
                   )}
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </section>
         )}
 
@@ -150,6 +165,39 @@ export default async function WorkExperienceDetailPage({
             </h2>
             <div className="prose prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-blue-500">
               <RichTextRenderer content={exp.result} />
+            </div>
+          </section>
+        )}
+
+        {mediaItems.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-100">
+              Documentation
+            </h2>
+            <div className="flex flex-col gap-8">
+              {mediaItems.map((media) => {
+                const url = getImageUrl(media)
+                if (!url) return null
+                return (
+                  <figure key={media.id} className="space-y-2">
+                    <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800">
+                      <Image
+                        src={url}
+                        alt={media.alt || "Documentation Image"}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    {media.alt && (
+                      <figcaption className="text-sm font-medium text-zinc-500 dark:text-zinc-400 text-center mt-3">
+                        {media.alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                )
+              })}
             </div>
           </section>
         )}

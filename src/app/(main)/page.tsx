@@ -18,8 +18,8 @@ export default async function Home() {
   return (
     <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-black font-sans relative">
       {/* Section 1: Hero */}
-      <section className="h-screen w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
-        <div className="flex flex-col items-center justify-center text-center max-w-4xl w-full z-20">
+      <section className="min-h-dvh py-20 w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
+        <div className="flex flex-col items-center justify-center text-center max-w-4xl w-full z-20 mt-12 md:mt-0">
           {/* Hero Photo */}
           {heroImageUrl ? (
             <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 mb-8 z-20">
@@ -72,57 +72,63 @@ export default async function Home() {
       {/* Section 2: Menu Cards */}
       <section
         id="menu"
-        className="h-[max(100vh,800px)] lg:h-screen w-full snap-start flex flex-col items-center justify-center px-6 relative z-10"
+        className="min-h-dvh py-20 w-full snap-start flex flex-col items-center justify-center px-6 relative z-10"
       >
-        <div className="max-w-6xl w-full flex flex-col items-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-16 text-zinc-900 dark:text-zinc-50">
+        <div className="max-w-6xl w-full flex flex-col items-center mt-12 md:mt-0">
+          <h2 className="text-3xl md:text-5xl font-bold mb-8 md:mb-16 text-zinc-900 dark:text-zinc-50 text-center">
             Select a path
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full">
             {/* Educations Card */}
             <Link
               href="/educations"
-              className="group relative w-full aspect-3/4 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
+              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
             >
-              <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <GraduationCap className="w-24 h-24 mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500" />
-              <h3 className="text-3xl font-bold text-zinc-900 dark:text-white z-10 mb-2">
-                Educations
-              </h3>
-              <p className="text-zinc-500 dark:text-zinc-400 text-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                My academic journey and publications.
-              </p>
+              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <GraduationCap className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
+              <div className="flex flex-col md:items-center text-left md:text-center z-10">
+                <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
+                  Educations
+                </h3>
+                <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 opacity-80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 md:delay-100 line-clamp-2 md:line-clamp-none">
+                  My academic journey and publications.
+                </p>
+              </div>
             </Link>
 
             {/* Projects Card */}
             <Link
               href="/projects"
-              className="group relative w-full aspect-3/4 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
+              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
             >
-              <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Code className="w-24 h-24 mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500" />
-              <h3 className="text-3xl font-bold text-zinc-900 dark:text-white z-10 mb-2">
-                Projects
-              </h3>
-              <p className="text-zinc-500 dark:text-zinc-400 text-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                Portfolio of active and notable work.
-              </p>
+              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <Code className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
+              <div className="flex flex-col md:items-center text-left md:text-center z-10">
+                <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
+                  Projects
+                </h3>
+                <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 opacity-80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 md:delay-100 line-clamp-2 md:line-clamp-none">
+                  Portfolio of active and notable work.
+                </p>
+              </div>
             </Link>
 
             {/* Experiences Card */}
             <Link
               href="/experiences"
-              className="group relative w-full aspect-3/4 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
+              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
             >
-              <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Briefcase className="w-24 h-24 mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500" />
-              <h3 className="text-3xl font-bold text-zinc-900 dark:text-white z-10 mb-2">
-                Experiences
-              </h3>
-              <p className="text-zinc-500 dark:text-zinc-400 text-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                Work & organizational milestones.
-              </p>
+              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <Briefcase className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
+              <div className="flex flex-col md:items-center text-left md:text-center z-10">
+                <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
+                  Experiences
+                </h3>
+                <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 opacity-80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 md:delay-100 line-clamp-2 md:line-clamp-none">
+                  Work & organizational milestones.
+                </p>
+              </div>
             </Link>
           </div>
         </div>
