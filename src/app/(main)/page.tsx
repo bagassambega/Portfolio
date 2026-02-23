@@ -65,14 +65,14 @@ export default async function Home() {
         </div>
 
         {/* Background Decoratives */}
-        <div className="absolute inset-0 bg-grid-zinc-200/50 dark:bg-grid-white/[0.02] bg-[size:32px_32px] z-0" />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-50 dark:from-black via-transparent to-transparent z-0" />
+        <div className="absolute inset-0 bg-grid-zinc-200/50 dark:bg-grid-white/[0.02] bg-size-[32px_32px] z-0" />
+        <div className="absolute inset-0 bg-linear-to-t from-zinc-50 dark:from-black via-transparent to-transparent z-0" />
       </section>
 
       {/* Section 2: Menu Cards */}
       <section
         id="menu"
-        className="h-[max(100vh,800px)] lg:h-screen w-full snap-start flex flex-col items-center justify-center px-6 py-20 relative z-10"
+        className="h-[max(100vh,800px)] lg:h-screen w-full snap-start flex flex-col items-center justify-center px-6 relative z-10"
       >
         <div className="max-w-6xl w-full flex flex-col items-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-16 text-zinc-900 dark:text-zinc-50">
@@ -83,9 +83,9 @@ export default async function Home() {
             {/* Educations Card */}
             <Link
               href="/educations"
-              className="group relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
+              className="group relative w-full aspect-3/4 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <GraduationCap className="w-24 h-24 mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500" />
               <h3 className="text-3xl font-bold text-zinc-900 dark:text-white z-10 mb-2">
                 Educations
@@ -98,9 +98,9 @@ export default async function Home() {
             {/* Projects Card */}
             <Link
               href="/projects"
-              className="group relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
+              className="group relative w-full aspect-3/4 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Code className="w-24 h-24 mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500" />
               <h3 className="text-3xl font-bold text-zinc-900 dark:text-white z-10 mb-2">
                 Projects
@@ -113,9 +113,9 @@ export default async function Home() {
             {/* Experiences Card */}
             <Link
               href="/experiences"
-              className="group relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
+              className="group relative w-full aspect-3/4 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-col items-center justify-center p-8"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Briefcase className="w-24 h-24 mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500" />
               <h3 className="text-3xl font-bold text-zinc-900 dark:text-white z-10 mb-2">
                 Experiences

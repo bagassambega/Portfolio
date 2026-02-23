@@ -53,14 +53,18 @@ export default function WorkExperienceTimeline({
             >
               <div
                 className="
-                                    flex flex-row items-start gap-6 
-                                    p-6 rounded-2xl border
-                                    bg-white dark:bg-zinc-900/40 
-                                    border-zinc-200 dark:border-zinc-800
-                                    transition-all duration-300 ease-out
-                                    hover:scale-105 hover:bg-zinc-100 dark:hover:bg-zinc-800
-                                    cursor-pointer w-full
-                                "
+                    flex flex-row items-start gap-6 
+                    p-6 rounded-2xl border
+                    bg-white dark:bg-zinc-900/40 
+                    border-zinc-200 dark:border-zinc-800
+                    transition-all duration-300 ease-out
+                    hover:scale-105 hover:bg-zinc-100 dark:hover:bg-zinc-800
+                    cursor-pointer w-full opacity-0
+                "
+                style={{
+                  animation: `fadeUp 0.5s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`,
+                }}
               >
                 {/* Left Logo */}
                 <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden flex items-center justify-center p-2 relative">

@@ -16,7 +16,7 @@ export default async function ExperiencesPage() {
   const orgExperiences = await getOrganizationExperiencesList()
 
   return (
-    <main className="flex flex-col items-center justify-start min-h-screen bg-zinc-50 dark:bg-black w-full px-4 py-12 md:py-24">
+    <main className="flex flex-col items-center justify-start min-h-screen bg-zinc-50 dark:bg-black w-full px-4">
       <div className="flex flex-col items-center w-full max-w-5xl gap-8">
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-4">
@@ -70,7 +70,10 @@ export default async function ExperiencesPage() {
               <div className="grid grid-cols-1 w-full max-w-3xl gap-6">
                 {orgExperiences.length > 0 ? (
                   orgExperiences.map((exp) => (
-                    <OrganizationExperienceCard key={exp.id} experience={exp} />
+                    <OrganizationExperienceCard
+                      key={exp.id}
+                      experience={exp}
+                    />
                   ))
                 ) : (
                   <div className="text-center py-12 text-zinc-500">

@@ -7,9 +7,12 @@ import type { Media, Corporation } from "@/lib/types/payload-types"
 
 interface Props {
   experience: OrganizationExperienceListItem
+  index?: number
 }
 
-export default function OrganizationExperienceCard({ experience }: Props) {
+export default function OrganizationExperienceCard({
+  experience,
+}: Props) {
   const corp = experience.corporation as Corporation
   const logoMedia = corp?.logo as Media | undefined
 

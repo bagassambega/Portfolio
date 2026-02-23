@@ -17,8 +17,10 @@ import { getImageUrl } from "@/lib/helpers"
 
 export default function PublicationCard({
   publication,
+  index = 0,
 }: {
   publication: PublicationListItem
+  index?: number
 }) {
   const [open, setOpen] = useState(false)
 
@@ -49,7 +51,13 @@ export default function PublicationCard({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/10 flex flex-col items-start h-full pb-6">
+        <div
+          className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/10 flex flex-col items-start h-full pb-6 opacity-0"
+          style={{
+            animation: `fadeUp 0.5s ease-out forwards`,
+            animationDelay: `${index * 100}ms`,
+          }}
+        >
           {/* Top Image Box */}
           <div className="relative w-full aspect-video bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-800 overflow-hidden mb-4">
             {mainImageUrl ? (

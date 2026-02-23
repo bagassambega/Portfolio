@@ -29,14 +29,18 @@ export default async function EducationsPage() {
         {/* Massive Education Cards */}
         <section className="w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-            {educations.map((edu) => {
+            {educations.map((edu, index) => {
               const logoMedia = edu.logo as Media | undefined
               const logoUrl = logoMedia ? getImageUrl(logoMedia) : null
 
               return (
                 <div
                   key={edu.id}
-                  className="flex flex-col items-center justify-center p-12 bg-zinc-100 dark:bg-[#1a1a1a] border border-zinc-200 dark:border-zinc-800 rounded-[2rem] hover:bg-zinc-200 dark:hover:bg-[#222] transition-colors duration-300"
+                  className="flex flex-col items-center justify-center p-12 bg-zinc-100 dark:bg-[#1a1a1a] border border-zinc-200 dark:border-zinc-800 rounded-[2rem] hover:bg-zinc-200 dark:hover:bg-[#222] transition-colors duration-300 opacity-0"
+                  style={{
+                    animation: `fadeUp 0.5s ease-out forwards`,
+                    animationDelay: `${index * 100}ms`,
+                  }}
                 >
                   {logoUrl ? (
                     <div className="relative w-40 h-40 md:w-48 md:h-48 mb-8 drop-shadow-2xl">
@@ -78,8 +82,8 @@ export default async function EducationsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {publications.length > 0 ? (
-              publications.map((pub) => (
-                <PublicationCard key={pub.id} publication={pub} />
+              publications.map((pub, index) => (
+                <PublicationCard key={pub.id} publication={pub} index={index} />
               ))
             ) : (
               <div className="col-span-full text-center py-12 text-zinc-500">
