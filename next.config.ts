@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
     reactCompiler: true,
     experimental: {
         useCache: true,
+        serverActions: {
+            allowedOrigins: [
+                "bagassambega.my.id",
+                "www.bagassambega.my.id"
+            ]
+        }
     },
     cacheLife: {
         days: {
