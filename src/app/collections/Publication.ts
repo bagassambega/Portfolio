@@ -59,5 +59,36 @@ export const Publication: CollectionConfig = {
             relationTo: "files",
             hasMany: true,
         },
+        {
+            name: "isPublished",
+            label: "Is Published?",
+            type: "checkbox",
+            defaultValue: false,
+            admin: {
+                position: "sidebar",
+            },
+        },
+        {
+            name: "publishedTo",
+            label: "Published To (e.g. Medium, IEEE)",
+            type: "text",
+            admin: {
+                position: "sidebar",
+                condition: (data) => Boolean(data?.isPublished),
+            },
+        },
+        {
+            name: "publishDate",
+            label: "Completion / Publish Date",
+            type: "date",
+            required: true,
+            admin: {
+                position: "sidebar",
+                date: {
+                    pickerAppearance: "dayOnly",
+                    displayFormat: "MMMM yyyy",
+                },
+            },
+        },
     ],
 }

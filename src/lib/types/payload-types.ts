@@ -508,6 +508,9 @@ export interface Publication {
   repository?: string | null;
   image?: (number | Media)[] | null;
   files?: (number | File)[] | null;
+  isPublished?: boolean | null;
+  publishedTo?: string | null;
+  publishDate: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -836,6 +839,9 @@ export interface PublicationSelect<T extends boolean = true> {
   repository?: T;
   image?: T;
   files?: T;
+  isPublished?: T;
+  publishedTo?: T;
+  publishDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -6,6 +6,9 @@ import type {
     Project,
     WorkExperience,
     OrganizationExperience,
+    Education,
+    Publication,
+    Hero,
 } from "@/lib/types/payload-types"
 
 export type ProjectListItem = Pick<
@@ -246,4 +249,78 @@ export async function getAllOrganizationExperienceSlugs(): Promise<string[]> {
         select: { slug: true },
     })
     return result.docs.map((d) => d.slug).filter(Boolean) as string[]
+}
+
+export type EducationListItem = Pick<
+    Education,
+    "id" | "level" | "name" | "gpa" | "credits" | "description" | "logo"
+>
+
+export async function getEducationsList() {
+    "use cache"
+    cacheLife("days")
+    cacheTag(CACHE_TAGS.EDUCATION)
+
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+        collection: "education",
+        limit: 0,
+        depth: 2, // resolve logo media
+        sort: "createdAt",
+    })
+    return result.docs as EducationListItem[]
+}
+
+export type PublicationListItem = Pick<
+    Publication,
+    | "id"
+    | "title"
+    | "description"
+    | "url"
+    | "repository"
+    | "image"
+    | "files"
+    | "isPublished"
+    | "publishedTo"
+    | "publishDate"
+>
+
+export async function getPublicationsList() {
+    "use cache"
+    cacheLife("days")
+    cacheTag(CACHE_TAGS.PUBLICATIONS)
+
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+        collection: "publication",
+        limit: 0,
+        depth: 2, // resolve image and files
+        sort: "-publishDate", // usually you'd want to sort by publishDate now
+        select: {
+            title: true,
+            description: true,
+            url: true,
+            repository: true,
+            image: true,
+            files: true,
+            isPublished: true,
+            publishedTo: true,
+            publishDate: true,
+        },
+    })
+    return result.docs as PublicationListItem[]
+}
+
+export async function getHero(): Promise<Hero | null> {
+    "use cache"
+    cacheLife("days")
+    cacheTag(CACHE_TAGS.HERO)
+
+    const payload = await getPayload({ config })
+    const result = await payload.findGlobal({
+        slug: "hero",
+        depth: 2,
+    })
+
+    return (result as Hero) ?? null
 }
