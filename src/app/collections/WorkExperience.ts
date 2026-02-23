@@ -144,6 +144,13 @@ export const WorkExperience: CollectionConfig = {
             hasMany: true,
         },
         {
+            name: "techstacks",
+            label: "Tech Stacks Used",
+            type: "relationship",
+            relationTo: "techstack",
+            hasMany: true,
+        },
+        {
             name: "result",
             type: "richText",
             label: "Result (URL, Repository, Final Artifacts)",

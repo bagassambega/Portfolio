@@ -6,7 +6,7 @@ import {
   getWorkExperienceBySlug,
   getAllWorkExperienceSlugs,
 } from "@/lib/services/api"
-import type { Media, Corporation } from "@/lib/types/payload-types"
+import type { Media, Corporation, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import { formatDateShort } from "@/lib/helpers"
 import type { Metadata } from "next"
@@ -44,6 +44,10 @@ export default async function WorkExperienceDetailPage({
 
   const corp = exp.corporation as Corporation
   const logoUrl = (corp?.logo as Media | undefined)?.url
+
+  const techstacks = (exp.techstacks ?? []).filter(
+    (t: number | Techstack): t is Techstack => typeof t !== "number"
+  )
 
   const dateRange = exp.end_date
     ? `${formatDateShort(exp.starting_date)} – ${formatDateShort(exp.end_date)}`
@@ -112,6 +116,32 @@ export default async function WorkExperienceDetailPage({
             <RichTextRenderer content={exp.description} />
           </div>
         </section>
+
+        {techstacks.length > 0 && (
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-100">
+              Tech Stack
+            </h2>
+            <ul className="list-disc list-inside space-y-1.5 text-zinc-500 dark:text-zinc-400">
+              {techstacks.map((tech: Techstack) => (
+                <li key={tech.id}>
+                  {tech.url ? (
+                    <a
+                      href={tech.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:text-blue-400 transition-colors"
+                    >
+                      {tech.name}
+                    </a>
+                  ) : (
+                    <span>{tech.name}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {exp.result && (
           <section className="mb-16">

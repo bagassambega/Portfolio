@@ -56,12 +56,5 @@ export const Corporation: CollectionConfig = {
             relationTo: "media",
             hasMany: false,
         },
-        {
-            name: "techstacks",
-            label: "Tech Stacks Used",
-            type: "relationship",
-            relationTo: "techstack",
-            hasMany: true,
-        },
     ],
 }

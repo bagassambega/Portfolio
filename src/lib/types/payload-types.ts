@@ -189,7 +189,6 @@ export interface Corporation {
     [k: string]: unknown;
   } | null;
   logo?: (number | null) | Media;
-  techstacks?: (number | Techstack)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -237,18 +236,6 @@ export interface Media {
       filename?: string | null;
     };
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "techstack".
- */
-export interface Techstack {
-  id: number;
-  name: string;
-  url?: string | null;
-  logo?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -330,6 +317,7 @@ export interface WorkExperience {
   end_date?: string | null;
   corporation: number | Corporation;
   documentation?: (number | Media)[] | null;
+  techstacks?: (number | Techstack)[] | null;
   result?: {
     root: {
       type: string;
@@ -345,6 +333,18 @@ export interface WorkExperience {
     };
     [k: string]: unknown;
   } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "techstack".
+ */
+export interface Techstack {
+  id: number;
+  name: string;
+  url?: string | null;
+  logo?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -673,7 +673,6 @@ export interface CorporationSelect<T extends boolean = true> {
   country?: T;
   description?: T;
   logo?: T;
-  techstacks?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -775,6 +774,7 @@ export interface WorkExperienceSelect<T extends boolean = true> {
   end_date?: T;
   corporation?: T;
   documentation?: T;
+  techstacks?: T;
   result?: T;
   updatedAt?: T;
   createdAt?: T;
