@@ -20,8 +20,6 @@ export type ProjectListItem = Pick<
     | "type"
     | "starting_date"
     | "end_date"
-    | "url"
-    | "sourcecode"
     | "media-highlight"
 >
 
@@ -44,7 +42,6 @@ export async function getProjectsList(): Promise<ProjectsData> {
 
     const result = await payload.find({
         collection: "project",
-        limit: 0, // 0 = return all documents
         depth: 1,
         sort: "-starting_date",
         select: {
@@ -54,8 +51,6 @@ export async function getProjectsList(): Promise<ProjectsData> {
             type: true,
             starting_date: true,
             end_date: true,
-            url: true,
-            sourcecode: true,
             "media-highlight": true,
         },
     })

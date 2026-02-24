@@ -16,13 +16,11 @@ export default async function Home() {
   const heroImageUrl = heroMedia?.url
 
   return (
-    <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-black font-sans relative">
-      {/* Section 1: Hero */}
-      <section className="min-h-dvh py-20 w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
-        <div className="flex flex-col items-center justify-center text-center max-w-4xl w-full z-20 mt-12 md:mt-0">
-          {/* Hero Photo */}
+    <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-black font-sans">
+      <section className="min-h-dvh overflow-y-hidden py-20 w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
+        <div className="flex flex-col items-center justify-center text-center gap-6 max-w-4xl w-full z-20 mt-12 md:mt-0">
           {heroImageUrl ? (
-            <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 mb-8 z-20">
+            <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 mb-10 z-20">
               <Image
                 src={heroImageUrl}
                 alt={heroMedia?.alt || "Hero Media"}
@@ -36,7 +34,6 @@ export default async function Home() {
             <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-zinc-200 dark:bg-zinc-800 mb-8" />
           )}
 
-          {/* Explore About Me Title */}
           <div className="prose prose-zinc dark:prose-invert prose-p:text-4xl md:prose-p:text-6xl prose-p:font-bold prose-p:leading-tight mb-4">
             {hero?.title ? (
               <RichTextRenderer content={hero.title} />
@@ -47,14 +44,12 @@ export default async function Home() {
             )}
           </div>
 
-          {/* Subtitle / Description */}
           {hero?.description && (
             <div className="prose prose-zinc dark:prose-invert prose-p:text-lg md:prose-p:text-xl text-zinc-500 max-w-2xl mb-12">
               <RichTextRenderer content={hero.description} />
             </div>
           )}
 
-          {/* Find Out More Button */}
           <Link
             href="#menu"
             className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 shadow-xl hover:shadow-blue-500/25"
@@ -63,13 +58,8 @@ export default async function Home() {
             <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
           </Link>
         </div>
-
-        {/* Background Decoratives */}
-        <div className="absolute inset-0 bg-grid-zinc-200/50 dark:bg-grid-white/[0.02] bg-size-[32px_32px] z-0" />
-        <div className="absolute inset-0 bg-linear-to-t from-zinc-50 dark:from-black via-transparent to-transparent z-0" />
       </section>
 
-      {/* Section 2: Menu Cards */}
       <section
         id="menu"
         className="min-h-dvh py-20 w-full snap-start flex flex-col items-center justify-center px-6 relative z-10"
@@ -80,7 +70,6 @@ export default async function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full">
-            {/* Educations Card */}
             <Link
               href="/educations"
               className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
@@ -97,7 +86,6 @@ export default async function Home() {
               </div>
             </Link>
 
-            {/* Projects Card */}
             <Link
               href="/projects"
               className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
@@ -114,7 +102,6 @@ export default async function Home() {
               </div>
             </Link>
 
-            {/* Experiences Card */}
             <Link
               href="/experiences"
               className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
