@@ -22,6 +22,20 @@ export function getImageUrl(
     }
 }
 
+
+export function getOriginalImageUrl(
+  media: number | Media | null | undefined
+): string | null {
+  if (!media || typeof media === "number") return null
+  const raw = media.url ?? null
+  if (!raw) return null
+  try {
+    return new URL(raw).pathname
+  } catch {
+    return raw
+  }
+}
+
 /**
  * Converts a Payload Lexical rich-text JSON structure to plain text.
  * Recursively traverses children nodes, concatenating text leaves.

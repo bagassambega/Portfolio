@@ -21,7 +21,7 @@ export default function ProjectsList({
             className="group"
           >
             <Card
-              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 pt-0 opacity-0"
+              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 hover:bg-zinc-100 dark:hover:bg-zinc-900 pt-0 opacity-0"
               style={{
                 animation: `fadeUp 0.5s ease-out forwards`,
                 animationDelay: `${index * 100}ms`,
@@ -53,7 +53,7 @@ export default function ProjectsList({
                     {String(project.type)}
                   </span>
                 )}
-                <h3 className="font-semibold text-base leading-tight">
+                <h3 className="font-semibold text-base leading-tight group-hover:text-blue-800 dark:group-hover:text-blue-400 transition-colors duration-300">
                   {project.title}
                 </h3>
                 <p className="text-sm text-muted-foreground line-clamp-2">

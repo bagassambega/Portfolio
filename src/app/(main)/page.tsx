@@ -52,7 +52,7 @@ export default async function Home() {
 
           <Link
             href="#menu"
-            className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 shadow-xl hover:shadow-blue-500/25"
+            className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 shadow-xl hover:shadow-blue-500/25"
           >
             Find Out More
             <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
@@ -64,7 +64,7 @@ export default async function Home() {
         id="menu"
         className="min-h-dvh py-20 w-full snap-start flex flex-col items-center justify-center px-6 relative z-10"
       >
-        <div className="max-w-6xl w-full flex flex-col items-center mt-12 md:mt-0">
+        <div className="max-w-6xl w-full flex flex-col items-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-8 md:mb-16 text-zinc-900 dark:text-zinc-50 text-center">
             Select a path
           </h2>
@@ -76,8 +76,8 @@ export default async function Home() {
             >
               <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <GraduationCap className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
-              <div className="flex flex-col md:items-center text-left md:text-center z-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
+              <div className="flex flex-col gap-2 md:items-center text-left md:text-center z-10">
+                <h3 className="text-xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
                   Educations
                 </h3>
                 <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 opacity-80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 md:delay-100 line-clamp-2 md:line-clamp-none">
@@ -92,8 +92,8 @@ export default async function Home() {
             >
               <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Code className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
-              <div className="flex flex-col md:items-center text-left md:text-center z-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
+              <div className="flex flex-col gap-2 md:items-center text-left md:text-center z-10">
+                <h3 className="text-xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
                   Projects
                 </h3>
                 <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 opacity-80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 md:delay-100 line-clamp-2 md:line-clamp-none">
@@ -108,8 +108,8 @@ export default async function Home() {
             >
               <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Briefcase className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
-              <div className="flex flex-col md:items-center text-left md:text-center z-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
+              <div className="flex flex-col gap-2 md:items-center text-left md:text-center z-10">
+                <h3 className="text-xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
                   Experiences
                 </h3>
                 <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 opacity-80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 md:delay-100 line-clamp-2 md:line-clamp-none">

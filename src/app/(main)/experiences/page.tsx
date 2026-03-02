@@ -17,7 +17,8 @@ export default async function ExperiencesPage() {
 
   return (
     <main className="flex flex-col items-center justify-start min-h-screen bg-zinc-50 dark:bg-black w-full px-4">
-      <div className="flex flex-col items-center w-full max-w-5xl gap-8">
+      <div className="flex flex-col items-center w-full max-w-5xl gap-2 md:gap-8">
+        
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-4">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-sans tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -52,7 +53,7 @@ export default async function ExperiencesPage() {
             className="w-full mt-0 focus-visible:outline-none focus-visible:ring-0"
           >
             <div className="flex flex-col items-center w-full">
-              <h3 className="text-2xl font-semibold mb-8 text-zinc-800 dark:text-zinc-200">
+              <h3 className="text-2xl font-semibold md:mb-8 text-zinc-800 dark:text-zinc-200">
                 Work Experiences
               </h3>
               <WorkExperienceTimeline experiences={workExperiences} />

@@ -6,7 +6,8 @@ import { getProjectBySlug, getAllProjectSlugs } from "@/lib/services/api"
 import type { Media, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ProjectTypeBadge from "@/components/ProjectTypeBadge"
-import { getImageUrl, formatDateShort } from "@/lib/helpers"
+import { getOriginalImageUrl, formatDateShort } from "@/lib/helpers"
+
 import type { Metadata } from "next"
 
 export async function generateStaticParams() {
@@ -39,7 +40,14 @@ export default async function ProjectDetailPage({
 
   if (!project) notFound()
 
-  const bannerUrl = getImageUrl(project["media-highlight"])
+  const bannerMedia =
+    typeof project["media-highlight"] === "object" &&
+    project["media-highlight"] !== null
+      ? (project["media-highlight"] as Media)
+      : null
+  const bannerUrl = getOriginalImageUrl(project["media-highlight"])
+  const bannerWidth = bannerMedia?.width ?? 1920
+  const bannerHeight = bannerMedia?.height ?? 1080
   const techstacks = (project.techstack ?? []).filter(
     (t): t is Techstack => typeof t !== "number"
   )
@@ -64,13 +72,14 @@ export default async function ProjectDetailPage({
         </Link>
 
         {bannerUrl && (
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8 border border-border">
+          <div className="w-full rounded-2xl overflow-hidden mb-8 border border-border">
             <Image
               src={bannerUrl}
               alt={project.title}
-              fill
+              width={bannerWidth}
+              height={bannerHeight}
               unoptimized
-              className="object-cover"
+              className="w-full h-auto"
               priority
             />
           </div>
@@ -163,17 +172,18 @@ export default async function ProjectDetailPage({
             <h2 className="text-2xl font-bold mb-6">Screenshots</h2>
             <div className="flex flex-col gap-8">
               {mediaItems.map((media) => {
-                const url = getImageUrl(media)
+                const url = getOriginalImageUrl(media)
                 if (!url) return null
                 return (
                   <figure key={media.id} className="space-y-2">
-                    <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border">
+                    <div className="w-full rounded-xl overflow-hidden border border-border">
                       <Image
                         src={url}
                         alt={media.alt}
-                        fill
+                        width={media.width ?? 1920}
+                        height={media.height ?? 1080}
                         unoptimized
-                        className="object-cover"
+                        className="w-full h-auto"
                         loading="lazy"
                       />
                     </div>
