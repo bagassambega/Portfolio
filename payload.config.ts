@@ -49,13 +49,14 @@ export default buildConfig({
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || "",
     typescript: {
-        autoGenerate: true,
+        autoGenerate: false,
         outputFile: path.resolve(dirname, "./src/lib/types/payload-types.ts"),
     },
     db: vercelPostgresAdapter({
         pool: {
             connectionString: process.env.DATABASE_URI || "",
         },
+        push: false,
     }),
     plugins: [
         vercelBlobStorage({
@@ -74,6 +75,6 @@ export default buildConfig({
     ],
     csrf: [
         process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
-        "https://bagassambega.my.id"
+        "https://bagassambega.my.id",
     ],
 })

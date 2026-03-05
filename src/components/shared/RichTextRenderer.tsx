@@ -51,7 +51,7 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
 
     case "paragraph":
       return (
-        <p key={index} className="text-muted-foreground leading-7 mb-4">
+        <p key={index} className="text-foreground leading-7 mb-4">
           {node.children?.map((child, i) => renderNode(child, i))}
         </p>
       )
@@ -112,8 +112,8 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
       const ListTag = node.listType === "number" ? "ol" : "ul"
       const listClass =
         node.listType === "number"
-          ? "list-decimal list-inside mb-4 space-y-1 text-muted-foreground"
-          : "list-disc list-inside mb-4 space-y-1 text-muted-foreground"
+          ? "list-decimal list-inside mb-4 space-y-1 text-foreground"
+          : "list-disc list-inside mb-4 space-y-1 text-foreground"
       return (
         <ListTag key={index} className={listClass}>
           {node.children?.map((child, i) => renderNode(child, i))}

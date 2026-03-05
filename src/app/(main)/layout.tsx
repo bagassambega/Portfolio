@@ -25,6 +25,9 @@ const inter = Inter({
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="apple-mobile-web-app-title" content="Portfolio" />
+      </head>
       <body>
         <Suspense>
           <div
