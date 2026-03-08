@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { ArrowLeft, Calendar, MapPin, Users } from "lucide-react"
 import {
   getOrganizationExperienceBySlug,
@@ -80,7 +80,7 @@ export default async function OrganizationExperienceDetailPage({
           >
             <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl shadow-sm border border-zinc-100 dark:border-zinc-800 flex items-center justify-center p-4 relative overflow-hidden">
               {logoUrl ? (
-                <Image
+                <SkeletonImage
                   src={logoUrl}
                   alt={corp?.name || "Organization Logo"}
                   fill

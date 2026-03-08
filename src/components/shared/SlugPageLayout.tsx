@@ -9,7 +9,7 @@ interface Props {
 
 export default function SlugPageLayout({ children, tocItems }: Props) {
   return (
-    <main className="flex justify-center bg-zinc-50 dark:bg-black min-h-screen">
+    <main className="flex justify-center bg-zinc-50 dark:bg-gray-950 min-h-screen">
       {/* Overlay drawer for smaller screens */}
       <TocDrawer items={tocItems} />
 

@@ -1,9 +1,10 @@
 import Link from "next/link"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { Calendar, MapPin } from "lucide-react"
 import type { WorkExperienceListItem } from "@/lib/services/api"
 import type { Media, Corporation } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
+import { getOriginalImageUrl } from "@/lib/helpers"
 
 export default function WorkExperienceTimeline({
   experiences,
@@ -57,7 +58,7 @@ export default function WorkExperienceTimeline({
                     bg-white dark:bg-zinc-900/40 
                     border-zinc-200 dark:border-zinc-800
                     transition-all duration-300 ease-out
-                    hover:scale-101 hover:bg-zinc-100 dark:hover:bg-zinc-800 will-change-transform
+                    hover:scale-101 hover:bg-zinc-100 dark:hover:bg-zinc-800 will-change-transform backface-hidden
                     cursor-pointer w-full opacity-0
                 "
                 style={{
@@ -67,8 +68,8 @@ export default function WorkExperienceTimeline({
               >
                 <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden flex items-center justify-center p-2 relative">
                   {logoMedia?.url ? (
-                    <Image
-                      src={logoMedia.url}
+                    <SkeletonImage
+                      src={getOriginalImageUrl(logoMedia) ?? logoMedia.url}
                       alt={orgName}
                       fill
                       sizes="(max-width: 768px) 64px, 80px"
@@ -111,7 +112,7 @@ export default function WorkExperienceTimeline({
             </Link>
 
             {!isLast && (
-              <div className="w-0.5 h-12 md:h-16 bg-zinc-200 dark:bg-zinc-800 my-4 shrink-0 transition-colors" />
+              <div className="w-0.5 h-12 md:h-14 bg-zinc-200 dark:bg-zinc-800 my-4 shrink-0 transition-colors" />
             )}
           </div>
         )

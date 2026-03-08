@@ -9,7 +9,18 @@ export const metadata: Metadata = {
     template: "%s | Bagas Sambega",
     default: "Portfolio | Bagas Sambega",
   },
-  description: "Portfolio",
+  description: "Bagas Sambega's Personal Web Portfolio",
+  applicationName: "Portfolio",
+  authors: [
+    {
+      name: "Bagas Sambega Rosyada",
+      url: "bagassambega@gmail.com"
+    },
+    {
+      name: "Bagas Sambega Rosyada",
+      url: "bagassambega.dev@gmail.com"
+    },
+  ]
 }
 
 export default function RootLayout({

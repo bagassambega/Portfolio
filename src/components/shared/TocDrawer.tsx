@@ -180,7 +180,6 @@ function DrawerLink({
         onClick={(e) => {
           e.preventDefault()
           onNavigate()
-          // Small timeout so drawer closes before scroll fires
           setTimeout(() => {
             document
               .getElementById(item.id)

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { ArrowLeft, Calendar, MapPin, Briefcase, Code } from "lucide-react"
 import {
   getWorkExperienceBySlug,
@@ -94,7 +94,7 @@ export default async function WorkExperienceDetailPage({
           >
             <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl shadow-sm border border-zinc-100 dark:border-zinc-800 flex items-center justify-center p-4 relative overflow-hidden">
               {logoUrl ? (
-                <Image
+                <SkeletonImage
                   src={logoUrl}
                   alt={corp?.name || "Company Logo"}
                   fill
@@ -216,7 +216,7 @@ export default async function WorkExperienceDetailPage({
                   return (
                     <figure key={media.id} className="space-y-2">
                       <div className="w-full rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/50 flex items-center justify-center p-2 md:p-4">
-                        <Image
+                        <SkeletonImage
                           src={url}
                           alt={media.alt || "Documentation Image"}
                           width={media.width ?? 1920}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import Link from "next/link"
 import { getHero } from "@/lib/services/api"
 import type { Media } from "@/lib/types/payload-types"
@@ -16,12 +16,12 @@ export default async function Home() {
   const heroImageUrl = heroMedia?.url
 
   return (
-    <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-black font-sans">
+    <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-gray-950 font-sans">
       <section className="min-h-dvh overflow-y-hidden py-20 w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
         <div className="flex flex-col items-center justify-center text-center gap-6 max-w-4xl w-full z-20 mt-12 md:mt-0">
           {heroImageUrl ? (
             <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 mb-10 z-20">
-              <Image
+              <SkeletonImage
                 src={heroImageUrl}
                 alt={heroMedia?.alt || "Hero Media"}
                 fill
@@ -52,7 +52,7 @@ export default async function Home() {
 
           <Link
             href="#menu"
-            className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 shadow-xl hover:shadow-blue-500/25"
+            className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 shadow-xl hover:shadow-blue-500/25 backface-hidden"
           >
             Find Out More
             <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
@@ -72,9 +72,9 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full">
             <Link
               href="/educations"
-              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
+              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0 backface-hidden"
             >
-              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <GraduationCap className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
               <div className="flex flex-col gap-2 md:items-center text-left md:text-center z-10">
                 <h3 className="text-xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
@@ -88,9 +88,9 @@ export default async function Home() {
 
             <Link
               href="/projects"
-              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
+              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0 backface-hidden"
             >
-              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Code className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
               <div className="flex flex-col gap-2 md:items-center text-left md:text-center z-10">
                 <h3 className="text-xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">
@@ -104,9 +104,9 @@ export default async function Home() {
 
             <Link
               href="/experiences"
-              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0"
+              className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0 backface-hidden"
             >
-              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Briefcase className="shrink-0 w-12 h-12 md:w-24 md:h-24 md:mb-6 text-zinc-400 group-hover:text-blue-500 transition-colors duration-500 z-10" />
               <div className="flex flex-col gap-2 md:items-center text-left md:text-center z-10">
                 <h3 className="text-xl md:text-3xl font-bold text-zinc-900 dark:text-white md:mb-2 leading-tight">

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { ArrowLeft, Calendar, ExternalLink, Github } from "lucide-react"
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/services/api"
 import type { Media, Techstack } from "@/lib/types/payload-types"
@@ -93,7 +93,7 @@ export default async function ProjectDetailPage({
           <section id="overview" className="mb-12">
             {bannerUrl && (
               <div className="w-full rounded-2xl overflow-hidden mb-8 border border-border">
-                <Image
+                <SkeletonImage
                   src={bannerUrl}
                   alt={project.title}
                   width={bannerWidth}
@@ -209,7 +209,7 @@ export default async function ProjectDetailPage({
                   return (
                     <figure key={media.id} className="space-y-2">
                       <div className="w-full rounded-xl overflow-hidden border border-border bg-zinc-100 dark:bg-zinc-900/50 flex items-center justify-center p-2 md:p-4">
-                        <Image
+                        <SkeletonImage
                           src={url}
                           alt={media.alt}
                           width={media.width ?? 1920}

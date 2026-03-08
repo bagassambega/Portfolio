@@ -1,9 +1,10 @@
 import React from "react"
 import Link from "next/link"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { Calendar, MapPin } from "lucide-react"
 import type { OrganizationExperienceListItem } from "@/lib/services/api"
 import type { Media, Corporation } from "@/lib/types/payload-types"
+import { getOriginalImageUrl } from "@/lib/helpers"
 
 interface Props {
   experience: OrganizationExperienceListItem
@@ -47,14 +48,14 @@ export default function OrganizationExperienceCard({ experience }: Props) {
                     border-zinc-200 dark:border-zinc-800
                     transition-all duration-300 ease-out
                     hover:scale-105 hover:bg-zinc-100 dark:hover:bg-zinc-800
-                    cursor-pointer w-full
+                    cursor-pointer w-full backface-hidden
                 "
       >
         {/* Left side: Logo */}
         <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden flex items-center justify-center p-2 relative">
           {logoMedia?.url ? (
-            <Image
-              src={logoMedia.url}
+            <SkeletonImage
+              src={getOriginalImageUrl(logoMedia) ?? logoMedia.url}
               alt={orgName}
               fill
               sizes="(max-width: 768px) 64px, 80px"

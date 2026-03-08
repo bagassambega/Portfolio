@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { getEducationsList, getPublicationsList } from "@/lib/services/api"
 import { getImageUrl } from "@/lib/helpers"
 import PublicationCard from "@/components/PublicationCard"
@@ -14,7 +14,7 @@ export default async function EducationsPage() {
   const publications = await getPublicationsList()
 
   return (
-    <main className="flex flex-col items-center justify-start min-h-screen bg-zinc-50 dark:bg-black w-full px-4 py-12 md:py-24">
+    <main className="flex flex-col items-center justify-start min-h-screen bg-zinc-50 dark:bg-gray-950 w-full px-4 py-12 md:py-24">
       <div className="flex flex-col w-full max-w-6xl gap-16">
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-4">
@@ -44,7 +44,7 @@ export default async function EducationsPage() {
                 >
                   {logoUrl ? (
                     <div className="relative w-40 h-40 md:w-48 md:h-48 mb-8 drop-shadow-2xl">
-                      <Image
+                      <SkeletonImage
                         src={logoUrl}
                         alt={logoMedia?.alt || edu.name}
                         fill

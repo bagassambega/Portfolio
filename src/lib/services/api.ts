@@ -21,6 +21,7 @@ export type ProjectListItem = Pick<
     | "starting_date"
     | "end_date"
     | "media-highlight"
+    | "isHighlighted"
 >
 
 export type ProjectsData = {
@@ -52,6 +53,7 @@ export async function getProjectsList(): Promise<ProjectsData> {
             starting_date: true,
             end_date: true,
             "media-highlight": true,
+            isHighlighted: true,
         },
     })
 

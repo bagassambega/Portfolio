@@ -31,7 +31,7 @@ export default function Navbar() {
   ]
 
   return (
-    <div className="relative flex items-center justify-center md:justify-end font-sans bg-linear-to-b from-gray-300 via-gray-50 to-zinc-50 dark:from-gray-900 dark:via-gray-950 dark:to-transparent px-8 pt-4 pb-18">
+    <div className="relative flex items-center justify-center md:justify-end font-sans bg-linear-to-b from-gray-300 via-gray-50 to-transparent dark:from-gray-900 dark:via-gray-950 dark:to-transparent px-8 pt-4 pb-18">
       <div className="absolute left-8 hidden md:flex items-center">
         <Link className="text-lg font-bold tracking-[0.3em] dark:text-gray-200 text-gray-800 select-none" href="/">
           B . S . R

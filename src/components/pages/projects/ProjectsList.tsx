@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { Card, CardContent } from "@/components/ui/card"
 import { getImageUrl, lexicalToPlainText, formatDateFull } from "@/lib/helpers"
 import ProjectTypeBadge from "@/components/ProjectTypeBadge"
@@ -28,7 +28,7 @@ export default function ProjectsList({
               }}
             >
               <div className="relative w-full aspect-video">
-                <Image
+                <SkeletonImage
                   src={
                     getImageUrl(project["media-highlight"]) ??
                     "/project-placeholder.svg"

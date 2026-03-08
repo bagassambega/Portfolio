@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+import SkeletonImage from "@/components/shared/SkeletonImage"
 import { LinkIcon, Download, ExternalLink, FileText } from "lucide-react"
 import {
   Dialog,
@@ -52,7 +52,7 @@ export default function PublicationCard({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div
-          className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/10 flex flex-col items-start h-full pb-6 opacity-0"
+          className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/10 flex flex-col items-start h-full pb-6 opacity-0 backface-hidden"
           style={{
             animation: `fadeUp 0.5s ease-out forwards`,
             animationDelay: `${index * 100}ms`,
@@ -61,7 +61,7 @@ export default function PublicationCard({
           {/* Top Image Box */}
           <div className="relative w-full aspect-video bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-800 overflow-hidden mb-4">
             {mainImageUrl ? (
-              <Image
+              <SkeletonImage
                 src={mainImageUrl}
                 alt={mainImage?.alt || publication.title}
                 fill
@@ -130,7 +130,7 @@ export default function PublicationCard({
           {/* Hero Output inside modal */}
           {mainImageUrl && (
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8 border border-zinc-200 dark:border-zinc-800">
-              <Image
+              <SkeletonImage
                 src={mainImageUrl}
                 alt={publication.title}
                 fill
@@ -160,7 +160,7 @@ export default function PublicationCard({
                       key={idx}
                       className="relative w-full aspect-video rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800"
                     >
-                      <Image
+                      <SkeletonImage
                         src={url}
                         alt={img?.alt || "Gallery image"}
                         fill
