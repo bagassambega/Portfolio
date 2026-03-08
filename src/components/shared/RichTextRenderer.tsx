@@ -28,6 +28,13 @@ type LexicalNode = {
   url?: string
   target?: string
   rel?: string
+  fields?: {
+    url?: string
+    newTab?: boolean
+    linkType?: string
+    rel?: string
+    [key: string]: unknown
+  }
   direction?: string
   indent?: number
   version?: number
@@ -51,7 +58,7 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
 
     case "paragraph":
       return (
-        <p key={index} className="text-foreground leading-7 mb-4">
+        <p key={index} className="text-foreground mb-4">
           {node.children?.map((child, i) => renderNode(child, i))}
         </p>
       )
@@ -59,7 +66,7 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
     case "heading": {
       const tag = (node.tag ?? "h2") as string
       const headingClasses: Record<string, string> = {
-        h1: "text-3xl font-bold mb-6",
+        h1: "text-2xl md:text-5xl font-bold mb-6",
         h2: "text-2xl font-bold mb-4",
         h3: "text-xl font-semibold mb-3",
         h4: "text-lg font-semibold mb-2",
@@ -129,18 +136,22 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
       )
 
     case "link":
-    case "autolink":
+    case "autolink": {
+      const href = node.fields?.url ?? node.url ?? "#"
+      const opensNewTab = node.fields?.newTab ?? node.target === "_blank"
+      const rel = node.fields?.rel ?? node.rel ?? "noopener noreferrer"
       return (
         <a
           key={index}
-          href={node.url ?? "#"}
-          target={node.target ?? "_blank"}
-          rel={node.rel ?? "noopener noreferrer"}
+          href={href}
+          target={opensNewTab ? "_blank" : undefined}
+          rel={opensNewTab ? rel : undefined}
           className="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"
         >
           {node.children?.map((child, i) => renderNode(child, i))}
         </a>
       )
+    }
 
     case "linebreak":
       return <br key={index} />

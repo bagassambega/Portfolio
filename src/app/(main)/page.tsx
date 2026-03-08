@@ -4,6 +4,7 @@ import Link from "next/link"
 import { getHero } from "@/lib/services/api"
 import type { Media } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
+import ScrollToButton from "@/components/shared/ScrollToButton"
 import { ArrowDown, GraduationCap, Briefcase, Code } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -18,45 +19,47 @@ export default async function Home() {
   return (
     <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-gray-950 font-sans">
       <section className="min-h-dvh overflow-y-hidden py-20 w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
-        <div className="flex flex-col items-center justify-center text-center gap-6 max-w-4xl w-full z-20 mt-12 md:mt-0">
+        <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-4 md:gap-12 max-w-6xl w-full z-20 mt-8 md:mt-0">
           {heroImageUrl ? (
-            <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 mb-10 z-20">
+            <div className="relative w-50 h-40 md:w-96 md:h-96 rounded-xl md:rounded-full overflow-hidden shadow-2xl mb-2 md:mb-10 z-20">
               <SkeletonImage
                 src={heroImageUrl}
                 alt={heroMedia?.alt || "Hero Media"}
                 fill
                 unoptimized
                 className="object-cover"
-                priority
+                preload
               />
             </div>
           ) : (
             <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-zinc-200 dark:bg-zinc-800 mb-8" />
           )}
 
-          <div className="prose prose-zinc dark:prose-invert prose-p:text-4xl md:prose-p:text-6xl prose-p:font-bold prose-p:leading-tight mb-4">
-            {hero?.title ? (
-              <RichTextRenderer content={hero.title} />
-            ) : (
-              <h1 className="text-4xl md:text-6xl font-bold font-sans">
-                Explore about me
-              </h1>
-            )}
-          </div>
-
-          {hero?.description && (
-            <div className="prose prose-zinc dark:prose-invert prose-p:text-lg md:prose-p:text-xl text-zinc-500 max-w-2xl mb-12">
-              <RichTextRenderer content={hero.description} />
+          <div className="flex flex-col items-center justify-center text-center gap-0 md:gap-6">
+            <div className="prose prose-zinc dark:prose-invert prose-h1:text-4xl md:prose-h1:text-6xl prose-h1:font-bold mb-0 md:mb-4">
+              {hero?.title ? (
+                <RichTextRenderer content={hero.title} />
+              ) : (
+                <h1 className="text-4xl md:text-6xl font-bold font-sans">
+                  Explore about me
+                </h1>
+              )}
             </div>
-          )}
 
-          <Link
-            href="#menu"
-            className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 shadow-xl hover:shadow-blue-500/25 backface-hidden"
-          >
-            Find Out More
-            <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
-          </Link>
+            {hero?.description && (
+              <div className="text-justify prose prose-zinc dark:prose-invert prose-p:text-sm text-sm md:text-xl md:prose-p:text-2xl leading-7 md:leading-9 text-zinc-500 max-w-2xl mb-0 md:mb-12">
+                <RichTextRenderer content={hero.description} />
+              </div>
+            )}
+
+            <ScrollToButton
+              targetId="menu"
+              className="group inline-flex items-center justify-center gap-1 md:gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-8 py-2 md:py-4 rounded-full font-bold text-xs md:text-lg transition-all hover:scale-105 hover:cursor-pointer shadow-xl hover:shadow-blue-500/25 backface-hidden"
+            >
+              Find Out More
+              <ArrowDown className="w-4 h-4 md:w-5 md:h-5 animate-bounce-down transition-transform " />
+            </ScrollToButton>
+          </div>
         </div>
       </section>
 
