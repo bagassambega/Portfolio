@@ -3,6 +3,7 @@ import { withPayload } from "@payloadcms/next/withPayload"
 
 const nextConfig: NextConfig = {
     reactCompiler: true,
+    allowedDevOrigins: ["*"],
     experimental: {
         useCache: true,
         serverActions: {

@@ -6,9 +6,6 @@ import type { Media } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ScrollToButton from "@/components/shared/ScrollToButton"
 import { ArrowDown, GraduationCap, Briefcase, Code } from "lucide-react"
-import * as simpleIcons from "simple-icons"
-import type { SimpleIcon } from "simple-icons"
-import { slugToVariableName } from "simple-icons/sdk"
 
 export const metadata: Metadata = {
   title: "Home",
@@ -58,10 +55,10 @@ export default async function Home() {
 
             <ScrollToButton
               targetId="menu"
-              className="group inline-flex items-center justify-center gap-1 md:gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-8 py-2 md:py-4 rounded-full font-bold text-xs md:text-lg transition-all hover:scale-105 hover:cursor-pointer shadow-xl hover:shadow-blue-500/25 backface-hidden"
+              className="group inline-flex items-center justify-center gap-1 md:gap-2 mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-lg transition-all hover:scale-105 hover:cursor-pointer shadow-xl hover:shadow-blue-500/25 backface-hidden"
             >
               Find Out More
-              <ArrowDown className="w-4 h-4 md:w-5 md:h-5 animate-bounce-down transition-transform " />
+              <ArrowDown className="w-4.5 h-4.5 md:w-5 md:h-5 animate-bounce-down transition-transform " />
             </ScrollToButton>
           </div>
         </div>
@@ -130,11 +127,7 @@ export default async function Home() {
             {socialMedia && socialMedia.length > 0 && (
               <div className="flex gap-4 mt-2 md:mt-0">
                 {socialMedia.map((sm) => {
-                  const varName = slugToVariableName(sm.logo)
-                  const icon = (simpleIcons as Record<string, SimpleIcon>)[
-                    varName
-                  ]
-                  if (!icon) return null
+                  if (!sm.logo) return null
                   return (
                     <a
                       key={sm.id}
@@ -144,15 +137,7 @@ export default async function Home() {
                       aria-label={sm.name}
                       className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors duration-200"
                     >
-                      <svg
-                        role="img"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 fill-current"
-                      >
-                        <title>{icon.title}</title>
-                        <path d={icon.path} />
-                      </svg>
+                      {sm.logo}
                     </a>
                   )
                 })}

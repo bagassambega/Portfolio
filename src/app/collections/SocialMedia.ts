@@ -41,7 +41,7 @@ export const SocialMedia: CollectionConfig = {
         },
         {
             name: "logo",
-            label: "Logo (SimpleIcons Logo Name, i.e. Moon, Sun)",
+            label: "Logo (SVG, i.e. can be taken from Simple Icons or https://techicons.dev/)",
             type: "text",
             required: true,
         },

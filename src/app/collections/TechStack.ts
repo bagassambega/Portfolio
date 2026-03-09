@@ -40,7 +40,7 @@ export const TechStack: CollectionConfig = {
         {
             name: "logo",
             type: "text",
-            label: "Tech Stack Logo (SVG, example source: https://techicons.dev/)",
+            label: "Tech Stack Logo (SVG, example source: https://techicons.dev/ or Simple Icons)",
         },
     ],
 }
