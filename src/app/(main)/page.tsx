@@ -1,11 +1,14 @@
 import type { Metadata } from "next"
 import SkeletonImage from "@/components/shared/SkeletonImage"
 import Link from "next/link"
-import { getHero } from "@/lib/services/api"
+import { getHero, getSocialMedia } from "@/lib/services/api"
 import type { Media } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ScrollToButton from "@/components/shared/ScrollToButton"
 import { ArrowDown, GraduationCap, Briefcase, Code } from "lucide-react"
+import * as simpleIcons from "simple-icons"
+import type { SimpleIcon } from "simple-icons"
+import { slugToVariableName } from "simple-icons/sdk"
 
 export const metadata: Metadata = {
   title: "Home",
@@ -15,6 +18,7 @@ export default async function Home() {
   const hero = await getHero()
   const heroMedia = hero?.media as Media | undefined
   const heroImageUrl = heroMedia?.url
+  const socialMedia = await getSocialMedia()
 
   return (
     <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-gray-950 font-sans">
@@ -121,6 +125,39 @@ export default async function Home() {
               </div>
             </Link>
           </div>
+
+
+            {socialMedia && socialMedia.length > 0 && (
+              <div className="flex gap-4 mt-2 md:mt-0">
+                {socialMedia.map((sm) => {
+                  const varName = slugToVariableName(sm.logo)
+                  const icon = (simpleIcons as Record<string, SimpleIcon>)[
+                    varName
+                  ]
+                  if (!icon) return null
+                  return (
+                    <a
+                      key={sm.id}
+                      href={sm.url ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={sm.name}
+                      className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors duration-200"
+                    >
+                      <svg
+                        role="img"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 fill-current"
+                      >
+                        <title>{icon.title}</title>
+                        <path d={icon.path} />
+                      </svg>
+                    </a>
+                  )
+                })}
+              </div>
+            )}
         </div>
       </section>
     </div>

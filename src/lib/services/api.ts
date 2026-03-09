@@ -9,7 +9,10 @@ import type {
     Education,
     Publication,
     Hero,
+    SocialMedia,
 } from "@/lib/types/payload-types"
+
+const payload = await getPayload({ config })
 
 export type ProjectListItem = Pick<
     Project,
@@ -38,8 +41,6 @@ export async function getProjectsList(): Promise<ProjectsData> {
     "use cache"
     cacheLife("days")
     cacheTag(CACHE_TAGS.PROJECTS)
-
-    const payload = await getPayload({ config })
 
     const result = await payload.find({
         collection: "project",
@@ -73,8 +74,6 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     cacheLife("days")
     cacheTag(CACHE_TAGS.PROJECTS)
 
-    const payload = await getPayload({ config })
-
     const result = await payload.find({
         collection: "project",
         where: {
@@ -95,8 +94,6 @@ export async function getAllProjectSlugs(): Promise<string[]> {
     "use cache"
     cacheLife("days")
     cacheTag(CACHE_TAGS.PROJECTS)
-
-    const payload = await getPayload({ config })
 
     const result = await payload.find({
         collection: "project",
@@ -141,7 +138,6 @@ export async function getWorkExperiencesList() {
     cacheLife("days")
     cacheTag(CACHE_TAGS.WORK_EXPERIENCES)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "work-experience",
         limit: 0,
@@ -165,7 +161,6 @@ export async function getOrganizationExperiencesList() {
     cacheLife("days")
     cacheTag(CACHE_TAGS.ORGANIZATION_EXPERIENCES)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "organization-experience",
         limit: 0,
@@ -191,7 +186,6 @@ export async function getWorkExperienceBySlug(
     cacheLife("days")
     cacheTag(CACHE_TAGS.WORK_EXPERIENCES)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "work-experience",
         where: { slug: { equals: slug } },
@@ -208,7 +202,6 @@ export async function getOrganizationExperienceBySlug(
     cacheLife("days")
     cacheTag(CACHE_TAGS.ORGANIZATION_EXPERIENCES)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "organization-experience",
         where: { slug: { equals: slug } },
@@ -223,7 +216,6 @@ export async function getAllWorkExperienceSlugs(): Promise<string[]> {
     cacheLife("days")
     cacheTag(CACHE_TAGS.WORK_EXPERIENCES)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "work-experience",
         limit: 0,
@@ -238,7 +230,6 @@ export async function getAllOrganizationExperienceSlugs(): Promise<string[]> {
     cacheLife("days")
     cacheTag(CACHE_TAGS.ORGANIZATION_EXPERIENCES)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "organization-experience",
         limit: 0,
@@ -258,7 +249,6 @@ export async function getEducationsList() {
     cacheLife("days")
     cacheTag(CACHE_TAGS.EDUCATION)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "education",
         limit: 0,
@@ -287,7 +277,6 @@ export async function getPublicationsList() {
     cacheLife("days")
     cacheTag(CACHE_TAGS.PUBLICATIONS)
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
         collection: "publication",
         limit: 0,
@@ -313,11 +302,22 @@ export async function getHero(): Promise<Hero | null> {
     cacheLife("days")
     cacheTag(CACHE_TAGS.HERO)
 
-    const payload = await getPayload({ config })
     const result = await payload.findGlobal({
         slug: "hero",
         depth: 2,
     })
 
     return (result as Hero) ?? null
+}
+
+export async function getSocialMedia(): Promise<SocialMedia[] | null> {
+    "use cache"
+    cacheLife("days")
+    cacheTag(CACHE_TAGS.SOCIAL_MEDIA)
+
+    const result = await payload.find({
+        collection: "social-media"
+    })
+
+    return result.docs as SocialMedia[]
 }

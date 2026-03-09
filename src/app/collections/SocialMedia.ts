@@ -41,7 +41,7 @@ export const SocialMedia: CollectionConfig = {
         },
         {
             name: "logo",
-            label: "Logo (Lucide React Icon Logo Name, i.e. Moon, Sun)",
+            label: "Logo (SimpleIcons Logo Name, i.e. Moon, Sun)",
             type: "text",
             required: true,
         },

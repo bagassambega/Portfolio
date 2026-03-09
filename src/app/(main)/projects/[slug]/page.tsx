@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
-import { ArrowLeft, Calendar, ExternalLink, Github } from "lucide-react"
+import { ArrowLeft, Calendar, ExternalLink } from "lucide-react"
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/services/api"
 import type { Media, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
@@ -10,6 +10,7 @@ import SlugPageLayout from "@/components/shared/SlugPageLayout"
 import type { TocItem } from "@/components/shared/TableOfContents"
 import ProjectTypeBadge from "@/components/ProjectTypeBadge"
 import { getOriginalImageUrl, formatDateShort } from "@/lib/helpers"
+import { siGithub } from "simple-icons"
 
 import type { Metadata } from "next"
 
@@ -153,7 +154,15 @@ export default async function ProjectDetailPage({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-border text-sm hover:bg-foreground hover:text-background hover:border-foreground transition-all"
                   >
-                    <Github className="w-3.5 h-3.5" />
+                    <svg
+                      role="img"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-3.5 h-3.5 fill-current"
+                    >
+                      <title>{siGithub.title}</title>
+                      <path d={siGithub.path} />
+                    </svg>
                     Source Code
                   </a>
                 )}
