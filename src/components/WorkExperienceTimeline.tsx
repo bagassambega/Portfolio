@@ -82,7 +82,7 @@ export default function WorkExperienceTimeline({
                   )}
                 </div>
 
-                <div className="flex flex-col justify-center h-full min-h-16 md:min-h-20">
+                <div className="flex flex-col justify-center gap-2 md:gap-1 h-full min-h-16 md:min-h-20">
                   <p className="text-sm md:text-base font-bold text-blue-500 hover:text-blue-400 mb-1 uppercase tracking-wide">
                     {orgName}
                   </p>

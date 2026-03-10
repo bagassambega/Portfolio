@@ -41,7 +41,7 @@ export default function ProjectsList({
                   loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
-              <CardContent className="flex flex-col gap-2 px-4">
+              <CardContent className="flex flex-col gap-2 px-4 sm:py-4 flex-1 min-w-0 justify-center">
                 {typeof project.type === "object" && project.type !== null ? (
                   <ProjectTypeBadge
                     name={project.type.name}
