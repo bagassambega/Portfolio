@@ -50,7 +50,7 @@ export default async function WorkExperienceDetailPage({
 
   const techstacks = (exp.techstacks ?? []).filter(
     (t: number | Techstack): t is Techstack => typeof t !== "number"
-  )
+  ).sort((a, b) => a.name.localeCompare(b.name))
 
   const mediaItems = (exp.documentation ?? []).filter(
     (m: number | Media): m is Media => typeof m !== "number"
@@ -62,7 +62,7 @@ export default async function WorkExperienceDetailPage({
 
   const tocItems: TocItem[] = [
     { id: "overview", label: "Overview" },
-    { id: "role-description", label: "Role Description" },
+    { id: "role-description", label: "Work Description" },
     ...(techstacks.length > 0
       ? [{ id: "tech-stack", label: "Tech Stack" }]
       : []),
@@ -136,11 +136,11 @@ export default async function WorkExperienceDetailPage({
           <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 mb-12" />
         </AnimatedSection>
 
-        {/* Role Description */}
+        {/* Work Description */}
         <AnimatedSection>
           <section id="role-description" className="mb-16">
             <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-100">
-              Role Description
+              Work Description
             </h2>
             <div className="prose prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-blue-500">
               <RichTextRenderer content={exp.description} />

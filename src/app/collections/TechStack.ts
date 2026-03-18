@@ -43,4 +43,5 @@ export const TechStack: CollectionConfig = {
             label: "Tech Stack Logo (SVG, example source: https://techicons.dev/ or Simple Icons)",
         },
     ],
+    defaultSort: "name",
 }

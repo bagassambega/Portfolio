@@ -53,7 +53,7 @@ export default async function ProjectDetailPage({
   const bannerHeight = bannerMedia?.height ?? 1080
   const techstacks = (project.techstack ?? []).filter(
     (t): t is Techstack => typeof t !== "number"
-  )
+  ).sort((a, b) => a.name.localeCompare(b.name))
   const mediaItems = (project.media ?? []).filter(
     (m): m is Media => typeof m !== "number"
   )
