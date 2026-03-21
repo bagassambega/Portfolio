@@ -92,7 +92,7 @@ export default function WorkExperienceTimeline({
                   </h3>
 
                   {orgDescription && (
-                    <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 max-w-xl">
+                    <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 max-w-xl font-inter line-clamp-4 lg:line-clamp-none">
                       <RichTextRenderer content={orgDescription} />
                     </div>
                   )}
@@ -112,7 +112,7 @@ export default function WorkExperienceTimeline({
             </Link>
 
             {!isLast && (
-              <div className="w-0.5 h-12 md:h-14 bg-zinc-200 dark:bg-zinc-800 my-4 shrink-0 transition-colors" />
+              <div className="w-0.5 h-10 md:h-14 bg-zinc-200 dark:bg-zinc-800 my-4 shrink-0 transition-colors" />
             )}
           </div>
         )

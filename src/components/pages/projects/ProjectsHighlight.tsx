@@ -103,7 +103,7 @@ export default function ProjectsHighlight({
         {!single && (
           <button
             onClick={scrollPrev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-9 rounded-full bg-black/40 hover:bg-black/65 text-white transition-colors backdrop-blur-sm"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-9 rounded-full cursor-pointer bg-black/40 hover:bg-black/65 text-white transition-colors backdrop-blur-sm"
             aria-label="Previous slide"
           >
             <ChevronLeft className="size-5" />
@@ -114,7 +114,7 @@ export default function ProjectsHighlight({
         {!single && (
           <button
             onClick={scrollNext}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-9 rounded-full bg-black/40 hover:bg-black/65 text-white transition-colors backdrop-blur-sm"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-9 rounded-full cursor-pointer bg-black/40 hover:bg-black/65 text-white transition-colors backdrop-blur-sm"
             aria-label="Next slide"
           >
             <ChevronRight className="size-5" />

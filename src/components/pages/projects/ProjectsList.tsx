@@ -21,7 +21,7 @@ export default function ProjectsList({
             className="group"
           >
             <Card
-              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 hover:bg-zinc-100 dark:hover:bg-zinc-900 pt-0 opacity-0"
+              className="flex flex-col overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 hover:bg-zinc-100 dark:hover:bg-zinc-900 pt-0 pb-2 opacity-0"
               style={{
                 animation: `fadeUp 0.5s ease-out forwards`,
                 animationDelay: `${index * 100}ms`,
@@ -41,7 +41,7 @@ export default function ProjectsList({
                   loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
-              <CardContent className="flex flex-col gap-2 px-4 sm:py-4 flex-1 min-w-0 justify-center">
+              <CardContent className="flex flex-col gap-2 md:gap-4 px-4 sm:py-4 flex-1 min-w-0 justify-center">
                 {typeof project.type === "object" && project.type !== null ? (
                   <ProjectTypeBadge
                     name={project.type.name}
@@ -56,10 +56,10 @@ export default function ProjectsList({
                 <h3 className="font-semibold text-base leading-tight group-hover:text-blue-800 dark:group-hover:text-blue-400 transition-colors duration-300">
                   {project.title}
                 </h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">
+                <p className="text-sm text-muted-foreground line-clamp-3 md:line-clamp-none font-inter">
                   {lexicalToPlainText(project["highlighted-description"])}
                 </p>
-                <span className="text-xs text-muted-foreground mt-1">
+                <span className="text-xs text-muted-foreground mt-1 font-sans tracking-wider">
                   <time>{formatDateFull(project.starting_date)}</time>
                   {project.end_date ? (
                     <>
