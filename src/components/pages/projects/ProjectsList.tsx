@@ -1,7 +1,8 @@
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
 import { Card, CardContent } from "@/components/ui/card"
-import { getImageUrl, lexicalToPlainText, formatDateFull } from "@/lib/helpers"
+import { getImageUrl, formatDateFull } from "@/lib/helpers"
+import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ProjectTypeBadge from "@/components/ProjectTypeBadge"
 import type { ProjectListItem } from "@/lib/services/api"
 
@@ -56,9 +57,10 @@ export default function ProjectsList({
                 <h3 className="font-semibold text-base leading-tight group-hover:text-blue-800 dark:group-hover:text-blue-400 transition-colors duration-300">
                   {project.title}
                 </h3>
-                <p className="text-sm text-muted-foreground line-clamp-3 md:line-clamp-none font-inter">
-                  {lexicalToPlainText(project["highlighted-description"])}
-                </p>
+                <RichTextRenderer
+                  content={project["highlighted-description"]}
+                  className="text-sm text-muted-foreground line-clamp-3 md:line-clamp-none font-inter [&>p]:mb-0 [&>ul]:mb-0 [&>ol]:mb-0"
+                />
                 <span className="text-xs text-muted-foreground mt-1 font-sans tracking-wider">
                   <time>{formatDateFull(project.starting_date)}</time>
                   {project.end_date ? (

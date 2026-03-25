@@ -119,8 +119,8 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
       const ListTag = node.listType === "number" ? "ol" : "ul"
       const listClass =
         node.listType === "number"
-          ? "list-decimal list-inside mb-4 space-y-1 text-foreground"
-          : "list-disc list-inside mb-4 space-y-1 text-foreground"
+          ? "list-decimal list-outside ml-4 pl-2 mb-5 space-y-2 text-foreground"
+          : "list-disc list-outside ml-4 pl-2 mb-5 space-y-2 text-foreground"
       return (
         <ListTag key={index} className={listClass}>
           {node.children?.map((child, i) => renderNode(child, i))}
