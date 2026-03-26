@@ -22,7 +22,7 @@ export default async function Home() {
       <section className="min-h-dvh overflow-y-hidden py-20 w-full snap-start flex flex-col items-center justify-center relative px-6 z-10">
         <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-4 md:gap-12 max-w-6xl w-full z-20 mt-8 md:mt-0">
           {heroImageUrl ? (
-            <div className="relative w-50 h-40 md:w-96 md:h-96 rounded-xl md:rounded-full overflow-hidden shadow-2xl mb-2 md:mb-10 z-20">
+            <div className="relative w-50 h-50 md:w-96 md:h-96 rounded-xl md:rounded-4xl overflow-hidden shadow-2xl mb-2 md:mb-10 z-20">
               <SkeletonImage
                 src={heroImageUrl}
                 alt={heroMedia?.alt || "Hero Media"}
@@ -37,18 +37,16 @@ export default async function Home() {
           )}
 
           <div className="flex flex-col items-center justify-center text-center gap-0 md:gap-6">
-            <div className="prose prose-zinc dark:prose-invert prose-h1:text-4xl md:prose-h1:text-6xl prose-h1:font-bold mb-0 md:mb-4">
-              {hero?.title ? (
-                <RichTextRenderer content={hero.title} />
-              ) : (
-                <h1 className="text-4xl md:text-6xl font-bold font-sans">
-                  Explore about me
-                </h1>
-              )}
+            <div className="font-sans text-zinc-800 dark:text-zinc-50 text-3xl md:text-5xl font-bold mb-2 md:mb-4">
+              Bagas Sambega R.
+            </div>
+
+            <div className="font-mono tracking-widest text-muted-foreground text-sm md:text-2xl mb-4 md:mb-6">
+              SOFTWARE ENGINEER
             </div>
 
             {hero?.description && (
-              <div className="text-justify prose prose-zinc dark:prose-invert prose-p:text-sm text-sm md:text-xl md:prose-p:text-2xl leading-7 md:leading-9 text-zinc-500 max-w-2xl mb-0 md:mb-12">
+              <div className="text-center prose prose-zinc dark:prose-invert prose-p:text-sm text-sm md:text-xl md:prose-p:text-2xl leading-7 md:leading-9 text-zinc-500 max-w-2xl mb-0 md:mb-12">
                 <RichTextRenderer content={hero.description} />
               </div>
             )}
