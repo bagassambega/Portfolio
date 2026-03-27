@@ -11,6 +11,20 @@ export default function ProjectsList({
 }: {
   projects: ProjectListItem[]
 }) {
+  projects.forEach(project => {
+    project.starting_date = new Date(project.starting_date).toLocaleDateString('en-US', {
+        month: 'short',
+        year: 'numeric',
+    });
+    
+    if (project.end_date) {
+      project.end_date = new Date(project.end_date).toLocaleDateString('en-US', {
+          month: 'short',
+          year: 'numeric',
+      });
+    }
+  });
+
   return (
     <section id="project-list">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -62,10 +76,10 @@ export default function ProjectsList({
                   className="text-sm text-muted-foreground line-clamp-3 md:line-clamp-none font-inter [&>p]:mb-0 [&>ul]:mb-0 [&>ol]:mb-0"
                 />
                 <span className="text-xs text-muted-foreground mt-1 font-sans tracking-wider">
-                  <time>{formatDateFull(project.starting_date)}</time>
+                  <time>{project.starting_date}</time>
                   {project.end_date ? (
                     <>
-                      <time>- {formatDateFull(project.end_date)}</time>
+                      <time>- {project.end_date}</time>
                     </>
                   ) : (
                     <>{" - Present"}</>

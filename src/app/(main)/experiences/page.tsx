@@ -65,10 +65,10 @@ export default async function ExperiencesPage() {
           >
             <div className="flex flex-col items-center w-full">
               <h3 className="text-2xl font-semibold mb-8 text-zinc-800 dark:text-zinc-200">
-                Organization Experiences
+              Organizational Experiences
               </h3>
               <div className="grid grid-cols-1 w-full max-w-3xl gap-6">
-                {orgExperiences.length > 0 ? (
+                {orgExperiences.length > -1 ? (
                   orgExperiences.map((exp) => (
                     <OrganizationExperienceCard key={exp.id} experience={exp} />
                   ))

@@ -37,11 +37,11 @@ export default async function Home() {
           )}
 
           <div className="flex flex-col items-center justify-center text-center gap-0 md:gap-6">
-            <div className="font-sans text-zinc-800 dark:text-zinc-50 text-3xl md:text-5xl font-bold mb-2">
+            <div className="font-sans text-zinc-800 dark:text-zinc-50 text-3xl md:text-5xl font-bold mb-2 md:mb-0">
               Bagas Sambega R.
             </div>
 
-            <div className="font-mono tracking-widest text-muted-foreground text-sm md:text-2xl mb-4 md:mb-6">
+            <div className="font-mono tracking-widest text-muted-foreground text-sm md:text-xl mb-4">
               SOFTWARE ENGINEER
             </div>
 
