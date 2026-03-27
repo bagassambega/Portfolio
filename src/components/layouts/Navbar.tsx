@@ -9,7 +9,7 @@ import Link from "next/link"
 export default function Navbar() {
   const navLinks = [
     {
-      title: "Home",
+      title: "About",
       url: "/",
       icon: <Home size={20} />,
     },
