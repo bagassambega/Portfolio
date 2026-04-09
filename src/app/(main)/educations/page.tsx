@@ -1,9 +1,7 @@
 import type { Metadata } from "next"
-import SkeletonImage from "@/components/shared/SkeletonImage"
 import { getEducationsList, getPublicationsList } from "@/lib/services/api"
-import { getOriginalImageUrl } from "@/lib/helpers"
-import PublicationCard from "@/components/PublicationCard"
-import type { Media } from "@/lib/types/payload-types"
+import PublicationCard from "@/components/pages/educations/PublicationCard"
+import EducationalModal from "@/components/pages/educations/EducationModal"
 
 export const metadata: Metadata = {
   title: "Educations",
@@ -26,45 +24,10 @@ export default async function EducationsPage() {
           </p>
         </div>
 
-        {/* Massive Education Cards */}
+        {/* Education Cards */}
         <section className="w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-            {educations.map((edu, index) => {
-              const logoMedia = edu.logo as Media | undefined
-              const logoUrl = logoMedia ? getOriginalImageUrl(logoMedia) : null
-
-              return (
-                <div
-                  key={edu.id}
-                  className="flex flex-col items-center justify-center p-12 bg-zinc-100 dark:bg-[#1a1a1a] border border-zinc-200 dark:border-zinc-800 rounded-[2rem] hover:bg-zinc-200 dark:hover:bg-[#222] transition-colors duration-300 opacity-0"
-                  style={{
-                    animation: `fadeUp 0.5s ease-out forwards`,
-                    animationDelay: `${index * 100}ms`,
-                  }}
-                >
-                  {logoUrl ? (
-                    <div className="relative w-40 h-40 md:w-48 md:h-48 mb-8 drop-shadow-2xl flex items-center justify-center overflow-hidden">
-                      <SkeletonImage
-                        src={logoUrl}
-                        alt={logoMedia?.alt || edu.name}
-                        width={400}
-                        height={400}
-                        unoptimized
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-40 h-40 md:w-48 md:h-48 mb-8 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-                  )}
-                  <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white text-center mb-2">
-                    {edu.name}
-                  </h3>
-                  <p className="text-zinc-600 dark:text-zinc-400 text-lg text-center">
-                    {edu.level}
-                  </p>
-                </div>
-              )
-            })}
+            <EducationalModal educations={educations}/>
           </div>
         </section>
 

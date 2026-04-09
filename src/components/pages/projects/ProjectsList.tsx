@@ -3,7 +3,7 @@ import SkeletonImage from "@/components/shared/SkeletonImage"
 import { Card, CardContent } from "@/components/ui/card"
 import { getImageUrl, formatDateFull } from "@/lib/helpers"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
-import ProjectTypeBadge from "@/components/ProjectTypeBadge"
+import ProjectTypeBadge from "@/components/pages/projects/ProjectTypeBadge"
 import type { ProjectListItem } from "@/lib/services/api"
 
 export default function ProjectsList({
@@ -11,19 +11,25 @@ export default function ProjectsList({
 }: {
   projects: ProjectListItem[]
 }) {
-  projects.forEach(project => {
-    project.starting_date = new Date(project.starting_date).toLocaleDateString('en-US', {
-        month: 'short',
-        year: 'numeric',
-    });
-    
+  projects.forEach((project) => {
+    project.starting_date = new Date(project.starting_date).toLocaleDateString(
+      "en-US",
+      {
+        month: "short",
+        year: "numeric",
+      }
+    )
+
     if (project.end_date) {
-      project.end_date = new Date(project.end_date).toLocaleDateString('en-US', {
-          month: 'short',
-          year: 'numeric',
-      });
+      project.end_date = new Date(project.end_date).toLocaleDateString(
+        "en-US",
+        {
+          month: "short",
+          year: "numeric",
+        }
+      )
     }
-  });
+  })
 
   return (
     <section id="project-list">

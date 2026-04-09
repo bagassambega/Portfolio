@@ -4,8 +4,8 @@ import {
   getOrganizationExperiencesList,
 } from "@/lib/services/api"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import WorkExperienceTimeline from "@/components/WorkExperienceTimeline"
-import OrganizationExperienceCard from "@/components/OrganizationExperienceCard"
+import WorkExperienceTimeline from "@/components/pages/experiences/WorkExperienceTimeline"
+import OrganizationExperienceCard from "@/components/pages/experiences/OrganizationExperienceCard"
 
 export const metadata: Metadata = {
   title: "Experiences",

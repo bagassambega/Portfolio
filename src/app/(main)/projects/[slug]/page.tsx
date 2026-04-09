@@ -8,7 +8,7 @@ import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import AnimatedSection from "@/components/shared/AnimatedSection"
 import SlugPageLayout from "@/components/shared/SlugPageLayout"
 import type { TocItem } from "@/components/shared/TableOfContents"
-import ProjectTypeBadge from "@/components/ProjectTypeBadge"
+import ProjectTypeBadge from "@/components/pages/projects/ProjectTypeBadge"
 import { getOriginalImageUrl, formatDateShort } from "@/lib/helpers"
 
 import type { Metadata } from "next"
@@ -51,9 +51,9 @@ export default async function ProjectDetailPage({
   const bannerUrl = getOriginalImageUrl(project["media-highlight"])
   const bannerWidth = bannerMedia?.width ?? 1920
   const bannerHeight = bannerMedia?.height ?? 1080
-  const techstacks = (project.techstack ?? []).filter(
-    (t): t is Techstack => typeof t !== "number"
-  ).sort((a, b) => a.name.localeCompare(b.name))
+  const techstacks = (project.techstack ?? [])
+    .filter((t): t is Techstack => typeof t !== "number")
+    .sort((a, b) => a.name.localeCompare(b.name))
   const mediaItems = (project.media ?? []).filter(
     (m): m is Media => typeof m !== "number"
   )
@@ -170,7 +170,6 @@ export default async function ProjectDetailPage({
                     </a>
                   )}
                 </div>
-
               </div>
             </div>
           </section>

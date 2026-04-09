@@ -28,11 +28,11 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       <head>
         <meta name="apple-mobile-web-app-title" content="Portfolio" />
       </head>
-      <body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
+      >
         <Suspense>
-          <div
-            className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
-          >
+          <div>
             <ThemeProvider
               attribute="class"
               defaultTheme="dark"
