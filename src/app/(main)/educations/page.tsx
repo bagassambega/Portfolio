@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import SkeletonImage from "@/components/shared/SkeletonImage"
 import { getEducationsList, getPublicationsList } from "@/lib/services/api"
-import { getImageUrl } from "@/lib/helpers"
+import { getOriginalImageUrl } from "@/lib/helpers"
 import PublicationCard from "@/components/PublicationCard"
 import type { Media } from "@/lib/types/payload-types"
 
@@ -31,7 +31,7 @@ export default async function EducationsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
             {educations.map((edu, index) => {
               const logoMedia = edu.logo as Media | undefined
-              const logoUrl = logoMedia ? getImageUrl(logoMedia) : null
+              const logoUrl = logoMedia ? getOriginalImageUrl(logoMedia) : null
 
               return (
                 <div
@@ -43,13 +43,14 @@ export default async function EducationsPage() {
                   }}
                 >
                   {logoUrl ? (
-                    <div className="relative w-40 h-40 md:w-48 md:h-48 mb-8 drop-shadow-2xl">
+                    <div className="relative w-40 h-40 md:w-48 md:h-48 mb-8 drop-shadow-2xl flex items-center justify-center overflow-hidden">
                       <SkeletonImage
                         src={logoUrl}
                         alt={logoMedia?.alt || edu.name}
-                        fill
+                        width={400}
+                        height={400}
                         unoptimized
-                        className="object-contain"
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   ) : (
