@@ -49,7 +49,7 @@ export default function EducationalModal({
             </h3>
           </div>
         </DialogTrigger>
-        <DialogContent className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+        <DialogContent className="max-h-[calc(100vh-8rem)] overflow-y-auto sm:max-w-xl">
           <DialogHeader>
             <DialogTitle>{edu.level}</DialogTitle>
           </DialogHeader>
