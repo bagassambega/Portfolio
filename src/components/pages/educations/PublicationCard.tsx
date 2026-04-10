@@ -22,7 +22,6 @@ export default function PublicationCard({
 }) {
   const [open, setOpen] = useState(false)
 
-  // The image array can be populated Media docs
   const rawImages = (publication.image || []) as Media[]
   const mainImage = rawImages.length > 0 ? rawImages[0] : null
   const mainImageUrl = mainImage ? getImageUrl(mainImage) : null
@@ -44,6 +43,10 @@ export default function PublicationCard({
 
   const formattedDate = formatPublishDate(publication.publishDate)
   const publishYear = formatPublishYear(publication.publishDate)
+  const publishedOrganization =
+    publication.isPublished && publication.publishedTo?.trim()
+      ? publication.publishedTo.trim()
+      : null
 
   return (
     <Collapsible
@@ -90,6 +93,12 @@ export default function PublicationCard({
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
             {formattedDate && <span>{formattedDate}</span>}
+
+            {publishedOrganization && (
+              <span className="inline-flex items-center rounded-full px-3 py-2 text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 ring-1 ring-inset ring-blue-600/20">
+                {publishedOrganization}
+              </span>
+            )}
 
             {publication.url && (
               <a
