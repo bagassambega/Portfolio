@@ -33,7 +33,7 @@ export default async function EducationsPage() {
 
         <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 my-8" />
 
-        {/* Publications Grid */}
+        {/* Publications List */}
         <section className="w-full flex flex-col items-center">
           <div className="flex flex-col items-center text-center gap-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold font-sans tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -44,7 +44,7 @@ export default async function EducationsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="flex flex-col justify-center items-center gap-2 md:gap-4 w-full">
             {publications.length > 0 ? (
               publications.map((pub, index) => (
                 <PublicationCard key={pub.id} publication={pub} index={index} />
