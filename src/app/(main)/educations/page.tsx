@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { getEducationsList, getPublicationsList } from "@/lib/services/api"
-import PublicationCard from "@/components/pages/educations/PublicationCard"
+import PublicationCard from "@/components/pages/educations/PublicationCollapsible"
 import EducationalModal from "@/components/pages/educations/EducationModal"
 
 export const metadata: Metadata = {
