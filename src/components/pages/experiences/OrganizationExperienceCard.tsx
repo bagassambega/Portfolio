@@ -83,10 +83,6 @@ export default function OrganizationExperienceCard({ experience }: Props) {
               <Calendar className="w-4 h-4" />
               <span>{dateString}</span>
             </div>
-            <div className="flex items-center gap-1.5 uppercase tracking-wider">
-              <MapPin className="w-4 h-4" />
-              <span>{experience.location}</span>
-            </div>
           </div>
         </div>
       </div>
