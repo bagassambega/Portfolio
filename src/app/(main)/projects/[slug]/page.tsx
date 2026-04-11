@@ -1,8 +1,20 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
-import { ArrowLeft, Calendar, Code, ExternalLink } from "lucide-react"
-import { getProjectBySlug, getAllProjectSlugs } from "@/lib/services/api"
+import {
+  ArrowLeft,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Code,
+  ExternalLink,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {
+  getProjectBySlug,
+  getAllProjectSlugs,
+  getProjectsList,
+} from "@/lib/services/api"
 import type { Media, Techstack } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import AnimatedSection from "@/components/shared/AnimatedSection"
@@ -42,6 +54,17 @@ export default async function ProjectDetailPage({
   const project = await getProjectBySlug(slug)
 
   if (!project) notFound()
+
+  const projects = await getProjectsList()
+  const currentProjectIndex = projects.docs.findIndex(
+    (item) => item["project-slug"] === slug
+  )
+  const previousProject =
+    currentProjectIndex > 0 ? projects.docs[currentProjectIndex - 1] : null
+  const nextProject =
+    currentProjectIndex >= 0 && currentProjectIndex < projects.docs.length - 1
+      ? projects.docs[currentProjectIndex + 1]
+      : null
 
   const bannerMedia =
     typeof project["media-highlight"] === "object" &&
@@ -87,6 +110,56 @@ export default async function ProjectDetailPage({
             Back to Projects
           </Link>
         </AnimatedSection>
+
+        {(previousProject || nextProject) && (
+          <AnimatedSection delay={75}>
+            <nav className="mb-12 grid gap-4 sm:grid-cols-2">
+              {previousProject ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-auto w-full justify-between px-4 py-3"
+                >
+                  <Link href={`/projects/${previousProject["project-slug"]}`}>
+                    <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                        Previous Project
+                      </span>
+                      <span className="truncate font-medium">
+                        {previousProject.title}
+                      </span>
+                    </span>
+                    <ChevronLeft className="size-4 shrink-0" />
+                  </Link>
+                </Button>
+              ) : (
+                <div className="hidden sm:block" />
+              )}
+
+              {nextProject ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-auto w-full justify-between px-4 py-3"
+                >
+                  <Link href={`/projects/${nextProject["project-slug"]}`}>
+                    <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                        Next Project
+                      </span>
+                      <span className="truncate font-medium">
+                        {nextProject.title}
+                      </span>
+                    </span>
+                    <ChevronRight className="size-4 shrink-0" />
+                  </Link>
+                </Button>
+              ) : (
+                <div className="hidden sm:block" />
+              )}
+            </nav>
+          </AnimatedSection>
+        )}
 
         {/* Banner + Header */}
         <AnimatedSection delay={100}>
