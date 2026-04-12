@@ -111,56 +111,6 @@ export default async function ProjectDetailPage({
           </Link>
         </AnimatedSection>
 
-        {(previousProject || nextProject) && (
-          <AnimatedSection delay={75}>
-            <nav className="mb-12 grid gap-4 sm:grid-cols-2">
-              {previousProject ? (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-auto w-full justify-between px-4 py-3"
-                >
-                  <Link href={`/projects/${previousProject["project-slug"]}`}>
-                    <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                        Previous Project
-                      </span>
-                      <span className="truncate font-medium">
-                        {previousProject.title}
-                      </span>
-                    </span>
-                    <ChevronLeft className="size-4 shrink-0" />
-                  </Link>
-                </Button>
-              ) : (
-                <div className="hidden sm:block" />
-              )}
-
-              {nextProject ? (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-auto w-full justify-between px-4 py-3"
-                >
-                  <Link href={`/projects/${nextProject["project-slug"]}`}>
-                    <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                        Next Project
-                      </span>
-                      <span className="truncate font-medium">
-                        {nextProject.title}
-                      </span>
-                    </span>
-                    <ChevronRight className="size-4 shrink-0" />
-                  </Link>
-                </Button>
-              ) : (
-                <div className="hidden sm:block" />
-              )}
-            </nav>
-          </AnimatedSection>
-        )}
-
         {/* Banner + Header */}
         <AnimatedSection delay={100}>
           <section id="overview" className="mb-12">
@@ -328,6 +278,57 @@ export default async function ProjectDetailPage({
                 })}
               </div>
             </section>
+          </AnimatedSection>
+        )}
+
+        {/* Next and previous page */}
+        {(previousProject || nextProject) && (
+          <AnimatedSection delay={75}>
+            <nav className="mb-12 grid gap-4 sm:grid-cols-2">
+              {previousProject ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-auto w-full justify-between px-4 py-3"
+                >
+                  <Link href={`/projects/${previousProject["project-slug"]}`}>
+                    <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                        Previous Project
+                      </span>
+                      <span className="truncate font-medium">
+                        {previousProject.title}
+                      </span>
+                    </span>
+                    <ChevronLeft className="size-4 shrink-0" />
+                  </Link>
+                </Button>
+              ) : (
+                <div className="hidden sm:block" />
+              )}
+
+              {nextProject ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-auto w-full justify-between px-4 py-3"
+                >
+                  <Link href={`/projects/${nextProject["project-slug"]}`}>
+                    <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                        Next Project
+                      </span>
+                      <span className="truncate font-medium">
+                        {nextProject.title}
+                      </span>
+                    </span>
+                    <ChevronRight className="size-4 shrink-0" />
+                  </Link>
+                </Button>
+              ) : (
+                <div className="hidden sm:block" />
+              )}
+            </nav>
           </AnimatedSection>
         )}
       </div>
