@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
-import { Calendar, MapPin } from "lucide-react"
+import { Calendar } from "lucide-react"
 import type { OrganizationExperienceListItem } from "@/lib/services/api"
 import type { Media, Corporation } from "@/lib/types/payload-types"
 import { getOriginalImageUrl } from "@/lib/helpers"
