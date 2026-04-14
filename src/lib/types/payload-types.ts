@@ -522,6 +522,7 @@ export interface SocialMedia {
   id: number;
   name: string;
   url?: string | null;
+  username?: string | null;
   logo: string;
   updatedAt: string;
   createdAt: string;
@@ -852,6 +853,7 @@ export interface PublicationSelect<T extends boolean = true> {
 export interface SocialMediaSelect<T extends boolean = true> {
   name?: T;
   url?: T;
+  username?: T;
   logo?: T;
   updatedAt?: T;
   createdAt?: T;
