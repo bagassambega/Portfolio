@@ -3,7 +3,7 @@
 import { Home, FolderKanban, Briefcase, GraduationCap } from "lucide-react"
 import SearchBar from "./SearchBar"
 import { ThemeToggle } from "./ThemeToggle"
-import NavLink from "../ui/navlink"
+import NavLink from "./Navlilnk"
 import Link from "next/link"
 
 export default function Navbar() {
