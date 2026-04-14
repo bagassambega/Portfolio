@@ -44,7 +44,7 @@ export default function Navbar() {
             key={link.url}
             href={link.url}
             icon={link.icon}
-            activeClass="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-blue-400 text-blue-600 underline underline-offset-8 decoration-[3px] py-1.5 px-6 -translate-y-px"
+            activeClass="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-blue-400 text-blue-600 underline underline-offset-8 decoration-[3px] py-1.5 px-4 -translate-y-px"
             inactiveClass="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 text-gray-500 hover:text-gray-700 py-1.5 px-4"
           >
             {link.title}
