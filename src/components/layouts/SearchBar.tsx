@@ -13,8 +13,13 @@ import { useEffect, useState } from "react"
 import { Search, Home } from "lucide-react"
 import { Button } from "../ui/button"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
-export default function SearchBar() {
+type SearchBarProps = {
+  className?: string
+}
+
+export default function SearchBar({ className }: SearchBarProps) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -33,9 +38,13 @@ export default function SearchBar() {
       <Button
         onClick={() => setOpen(true)}
         variant="ghost"
-        className="w-fit inline-flex items-center gap-2 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700"
+        size="icon"
+        className={cn(
+          "inline-flex items-center cursor-pointer rounded-full",
+          className
+        )}
       >
-        <Search />
+        <Search className="h-5 w-5" />
         <span className="hidden md:inline">Search or Press ⌘ K</span>
       </Button>
 
@@ -46,7 +55,7 @@ export default function SearchBar() {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Settings">
               <CommandItem>
-                <Home />
+                <Home className="h-5 w-5" />
                 <Link href="/">Home</Link>
               </CommandItem>
             </CommandGroup>

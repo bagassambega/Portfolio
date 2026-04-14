@@ -5,35 +5,46 @@ import SearchBar from "./SearchBar"
 import { ThemeToggle } from "./ThemeToggle"
 import NavLink from "./Navlilnk"
 import Link from "next/link"
+import SocMedBar from "./SocialMediaBar"
+import type { SocialMedia } from "@/lib/types/payload-types"
 
-export default function Navbar() {
+type NavbarProps = {
+  socialMedia: (Pick<SocialMedia, "id" | "name" | "url" | "logo"> & {
+    username?: string | null
+  })[]
+}
+
+export default function Navbar({ socialMedia }: NavbarProps) {
   const navLinks = [
     {
       title: "About",
       url: "/",
-      icon: <Home size={20} />,
+      icon: <Home className="h-5 w-5" />,
     },
     {
       title: "Projects",
       url: "/projects",
-      icon: <FolderKanban size={20} />,
+      icon: <FolderKanban className="h-5 w-5" />,
     },
     {
       title: "Experiences",
       url: "/experiences",
-      icon: <Briefcase size={20} />,
+      icon: <Briefcase className="h-5 w-5" />,
     },
     {
       title: "Educations",
       url: "/educations",
-      icon: <GraduationCap size={25} />,
+      icon: <GraduationCap className="h-5 w-5 scale-110" />,
     },
   ]
 
   return (
     <div className="relative flex items-center justify-center md:justify-end font-sans bg-linear-to-b from-gray-300 via-gray-50 to-zinc-50 dark:from-gray-900 dark:via-gray-950 dark:to-transparent px-8 pt-4 pb-18">
       <div className="absolute left-8 hidden md:flex items-center">
-        <Link className="text-lg font-bold tracking-[0.3em] dark:text-gray-200 text-gray-800 select-none" href="/">
+        <Link
+          className="text-lg font-bold tracking-[0.3em] dark:text-gray-200 text-gray-800 select-none"
+          href="/"
+        >
           B . S . R
         </Link>
       </div>
@@ -54,9 +65,13 @@ export default function Navbar() {
 
       {/* Right side actions */}
       <div className="dark:bg-gray-800 bg-white backdrop-blur-sm rounded-full p-1.5 hidden md:flex items-center gap-1">
-        <ThemeToggle />
+        <ThemeToggle className="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 transition-colors duration-300" />
+        <SocMedBar
+          socialMedia={socialMedia}
+          className="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 transition-colors duration-300"
+        />
         <div className="w-px h-5 dark:bg-gray-600 bg-gray-300 mx-0.5" />
-        <SearchBar />
+        <SearchBar className="w-fit gap-2 px-3 h-9 dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm" />
       </div>
 
       {/* Mobile icon nav */}
@@ -73,9 +88,13 @@ export default function Navbar() {
             {link.title}
           </NavLink>
         ))}
-        <ThemeToggle />
+        <ThemeToggle className="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 transition-colors duration-300 h-9 w-9 p-0" />
+        <SocMedBar
+          socialMedia={socialMedia}
+          className="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 transition-colors duration-300 h-9 w-9 p-0"
+        />
         <div className="w-px h-5 dark:bg-gray-600 bg-gray-300 mx-0.5" />
-        <SearchBar />
+        <SearchBar className="h-9 w-9 p-0 pr-0! justify-center dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm" />
       </div>
     </div>
   )

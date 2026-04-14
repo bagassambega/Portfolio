@@ -1,6 +1,7 @@
 import Footer from "@/components/layouts/Footer"
 import Navbar from "@/components/layouts/Navbar"
 import { ThemeProvider } from "@/components/layouts/ThemeProvider"
+import { getSocialMedia } from "@/lib/services/api"
 import { Geist, Geist_Mono, Inter } from "next/font/google"
 import { Suspense, type ReactNode } from "react"
 
@@ -22,7 +23,13 @@ const inter = Inter({
   preload: false,
 })
 
-export default function MainLayout({ children }: { children: ReactNode }) {
+export default async function MainLayout({
+  children,
+}: {
+  children: ReactNode
+}) {
+  const socialMedia = (await getSocialMedia()) ?? []
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -39,7 +46,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
               enableSystem
               disableTransitionOnChange
             >
-              <Navbar />
+              <Navbar socialMedia={socialMedia} />
               {children}
               <Footer />
             </ThemeProvider>

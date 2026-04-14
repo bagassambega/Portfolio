@@ -40,6 +40,11 @@ export const SocialMedia: CollectionConfig = {
             type: "text",
         },
         {
+            name: "username",
+            label: "Username (for tooltip)",
+            type: "text",
+        },
+        {
             name: "logo",
             label: "Logo (SVG, i.e. can be taken from Simple Icons or https://techicons.dev/)",
             type: "text",
