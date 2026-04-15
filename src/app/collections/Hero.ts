@@ -1,9 +1,15 @@
 import type { GlobalConfig, GlobalAfterChangeHook } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateHero: GlobalAfterChangeHook = () => {
+const revalidateHero: GlobalAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.HERO, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.HERO],
+        paths: ["/"],
+    })
 }
 
 export const Hero: GlobalConfig = {

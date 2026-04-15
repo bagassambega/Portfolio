@@ -5,13 +5,24 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidatePublications: CollectionAfterChangeHook = () => {
+const revalidatePublications: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.PUBLICATIONS],
+        paths: ["/educations"],
+    })
 }
 
-const deletePublications: CollectionAfterDeleteHook = () => {
+const deletePublications: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.PUBLICATIONS],
+        paths: ["/educations"],
+    })
 }
 
 export const Publication: CollectionConfig = {

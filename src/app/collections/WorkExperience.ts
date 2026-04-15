@@ -6,13 +6,30 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateWorkExperiences: CollectionAfterChangeHook = () => {
+const revalidateWorkExperiences: CollectionAfterChangeHook = async ({
+    doc,
+}) => {
     revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+
+    const slug = typeof doc?.slug === "string" ? doc.slug : undefined
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.WORK_EXPERIENCES],
+        paths: slug
+            ? ["/experiences", `/experiences/work/${slug}`]
+            : ["/experiences"],
+    })
 }
 
-const deleteWorkExperiences: CollectionAfterDeleteHook = () => {
+const deleteWorkExperiences: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.WORK_EXPERIENCES],
+        paths: ["/experiences"],
+    })
 }
 
 /**

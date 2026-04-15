@@ -5,15 +5,36 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateCorporations: CollectionAfterChangeHook = () => {
+const revalidateCorporations: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.CORPORATIONS, "days")
     revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+    revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [
+            Constant.CACHE_TAGS.CORPORATIONS,
+            Constant.CACHE_TAGS.WORK_EXPERIENCES,
+            Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
+        ],
+        paths: ["/experiences"],
+    })
 }
 
-const deleteCorporations: CollectionAfterDeleteHook = () => {
+const deleteCorporations: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.CORPORATIONS, "days")
     revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+    revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [
+            Constant.CACHE_TAGS.CORPORATIONS,
+            Constant.CACHE_TAGS.WORK_EXPERIENCES,
+            Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
+        ],
+        paths: ["/experiences"],
+    })
 }
 
 export const Corporation: CollectionConfig = {

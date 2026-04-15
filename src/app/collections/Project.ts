@@ -6,13 +6,29 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "../../_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateProjects: CollectionAfterChangeHook = () => {
+const revalidateProjects: CollectionAfterChangeHook = async ({ doc }) => {
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+
+    const slug =
+        typeof doc?.["project-slug"] === "string"
+            ? doc["project-slug"]
+            : undefined
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.PROJECTS],
+        paths: slug ? ["/projects", `/projects/${slug}`] : ["/projects"],
+    })
 }
 
-const deleteProjects: CollectionAfterDeleteHook = () => {
+const deleteProjects: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.PROJECTS],
+        paths: ["/projects"],
+    })
 }
 
 /**

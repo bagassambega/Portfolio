@@ -5,13 +5,24 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateSocialMedia: CollectionAfterChangeHook = () => {
+const revalidateSocialMedia: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.SOCIAL_MEDIA, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.SOCIAL_MEDIA],
+        paths: ["/"],
+    })
 }
 
-const deleteSocialMedia: CollectionAfterDeleteHook = () => {
+const deleteSocialMedia: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.SOCIAL_MEDIA, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.SOCIAL_MEDIA],
+        paths: ["/"],
+    })
 }
 
 export const SocialMedia: CollectionConfig = {

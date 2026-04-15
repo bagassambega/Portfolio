@@ -1,7 +1,36 @@
-import type { CollectionConfig } from "payload"
+import type {
+    CollectionConfig,
+    CollectionAfterChangeHook,
+    CollectionAfterDeleteHook,
+} from "payload"
+import { revalidateTag } from "next/cache"
+import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
+
+const revalidateFiles: CollectionAfterChangeHook = async () => {
+    revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.PUBLICATIONS],
+        paths: ["/educations"],
+    })
+}
+
+const deleteFiles: CollectionAfterDeleteHook = async () => {
+    revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.PUBLICATIONS],
+        paths: ["/educations"],
+    })
+}
 
 export const Files: CollectionConfig = {
     slug: "files",
+    hooks: {
+        afterChange: [revalidateFiles],
+        afterDelete: [deleteFiles],
+    },
     access: {
         read: () => true,
     },

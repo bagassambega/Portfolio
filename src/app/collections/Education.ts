@@ -5,13 +5,24 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "@/_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateEducation: CollectionAfterChangeHook = () => {
+const revalidateEducation: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.EDUCATION],
+        paths: ["/educations"],
+    })
 }
 
-const deleteEducation: CollectionAfterDeleteHook = () => {
+const deleteEducation: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.EDUCATION],
+        paths: ["/educations"],
+    })
 }
 
 export const Education: CollectionConfig = {

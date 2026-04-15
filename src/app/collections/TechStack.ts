@@ -5,15 +5,26 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "../../_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateTechStacks: CollectionAfterChangeHook = () => {
+const revalidateTechStacks: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.TECHSTACKS, "days")
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.TECHSTACKS, Constant.CACHE_TAGS.PROJECTS],
+        paths: ["/projects"],
+    })
 }
 
-const deleteTechStacks: CollectionAfterDeleteHook = () => {
+const deleteTechStacks: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.TECHSTACKS, "days")
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [Constant.CACHE_TAGS.TECHSTACKS, Constant.CACHE_TAGS.PROJECTS],
+        paths: ["/projects"],
+    })
 }
 
 export const TechStack: CollectionConfig = {

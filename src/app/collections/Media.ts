@@ -5,15 +5,52 @@ import type {
 } from "payload"
 import { revalidateTag } from "next/cache"
 import * as Constant from "../../_config/Constant"
+import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
 
-const revalidateMedia: CollectionAfterChangeHook = () => {
+const revalidateMedia: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.MEDIA, "days")
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+    revalidateTag(Constant.CACHE_TAGS.HERO, "days")
+    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+    revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
+    revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+    revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [
+            Constant.CACHE_TAGS.MEDIA,
+            Constant.CACHE_TAGS.PROJECTS,
+            Constant.CACHE_TAGS.HERO,
+            Constant.CACHE_TAGS.WORK_EXPERIENCES,
+            Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
+            Constant.CACHE_TAGS.EDUCATION,
+            Constant.CACHE_TAGS.PUBLICATIONS,
+        ],
+        paths: ["/", "/projects", "/experiences", "/educations"],
+    })
 }
 
-const deleteMedia: CollectionAfterDeleteHook = () => {
+const deleteMedia: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.MEDIA, "days")
     revalidateTag(Constant.CACHE_TAGS.PROJECTS, "days")
+    revalidateTag(Constant.CACHE_TAGS.HERO, "days")
+    revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
+    revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
+    revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+    revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
+
+    await triggerRevalidatePrewarm({
+        tags: [
+            Constant.CACHE_TAGS.MEDIA,
+            Constant.CACHE_TAGS.PROJECTS,
+            Constant.CACHE_TAGS.HERO,
+            Constant.CACHE_TAGS.WORK_EXPERIENCES,
+            Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
+            Constant.CACHE_TAGS.EDUCATION,
+            Constant.CACHE_TAGS.PUBLICATIONS,
+        ],
+        paths: ["/", "/projects", "/experiences", "/educations"],
+    })
 }
 
 export const Media: CollectionConfig = {
