@@ -55,7 +55,7 @@ export default function SocMedBar({ className, socialMedia }: SocMedBarProps) {
       <Button
         variant="ghost"
         size="icon"
-        className={cn("cursor-pointer rounded-full", className)}
+        className={cn("group relative cursor-pointer rounded-full", className)}
         onClick={() => setIsActive((prev) => !prev)}
         aria-label="Toggle social media"
         aria-expanded={isActive}
@@ -63,6 +63,11 @@ export default function SocMedBar({ className, socialMedia }: SocMedBarProps) {
         disabled={socialMedia.length === 0}
       >
         <Contact className="h-5 w-5" />
+        {!isActive && (
+          <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 rounded-md bg-zinc-800 dark:bg-zinc-200 px-2 py-1 text-xs text-white dark:text-zinc-900 opacity-0 transition-all group-hover:opacity-100 pointer-events-none whitespace-nowrap z-[100] font-medium hidden md:block">
+            Socials
+          </span>
+        )}
       </Button>
 
       {isActive && socialMedia.length > 0 && (
