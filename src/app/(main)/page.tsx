@@ -120,27 +120,6 @@ export default async function Home() {
               </div>
             </Link>
           </div>
-
-
-            {socialMedia && socialMedia.length > 0 && (
-              <div className="flex gap-4 mt-2 md:mt-0">
-                {socialMedia.map((sm) => {
-                  if (!sm.logo) return null
-                  return (
-                    <a
-                      key={sm.id}
-                      href={sm.url ?? "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={sm.name}
-                      className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors duration-200"
-                    >
-                      {sm.logo}
-                    </a>
-                  )
-                })}
-              </div>
-            )}
         </div>
       </section>
     </div>
