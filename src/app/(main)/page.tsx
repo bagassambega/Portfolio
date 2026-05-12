@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import SkeletonImage from "@/components/shared/SkeletonImage"
 import Link from "next/link"
-import { getHero, getSocialMedia } from "@/lib/services/api"
+import { getHero } from "@/lib/services/api"
 import type { Media } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ScrollToButton from "@/components/shared/ScrollToButton"
@@ -15,7 +15,6 @@ export default async function Home() {
   const hero = await getHero()
   const heroMedia = hero?.media as Media | undefined
   const heroImageUrl = heroMedia?.url
-  const socialMedia = await getSocialMedia()
 
   return (
     <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-gray-950 font-sans">
