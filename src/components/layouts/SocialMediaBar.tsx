@@ -72,7 +72,7 @@ export default function SocMedBar({ className, socialMedia }: SocMedBarProps) {
 
       {isActive && socialMedia.length > 0 && (
         <div className="absolute top-full right-0 mt-2 z-50 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg p-2">
-          <div className="flex flex-col md:flex-row items-center gap-2">
+          <div className="flex flex-row items-center gap-2">
             {socialMedia.map((item) => (
               <a
                 key={item.id}
