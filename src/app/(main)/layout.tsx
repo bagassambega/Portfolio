@@ -2,6 +2,7 @@ import Footer from "@/components/layouts/Footer"
 import Navbar from "@/components/layouts/Navbar"
 import { ThemeProvider } from "@/components/layouts/ThemeProvider"
 import { getSocialMedia } from "@/lib/services/api"
+import { getSearchIndex } from "@/lib/services/search"
 import { Geist, Geist_Mono, Inter } from "next/font/google"
 import { Suspense, type ReactNode } from "react"
 
@@ -28,7 +29,10 @@ export default async function MainLayout({
 }: {
   children: ReactNode
 }) {
-  const socialMedia = (await getSocialMedia()) ?? []
+  const [socialMedia, searchItems] = await Promise.all([
+    getSocialMedia(),
+    getSearchIndex(),
+  ])
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -46,7 +50,7 @@ export default async function MainLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Navbar socialMedia={socialMedia} />
+              <Navbar socialMedia={socialMedia ?? []} searchItems={searchItems} />
               {children}
               <Footer />
             </ThemeProvider>

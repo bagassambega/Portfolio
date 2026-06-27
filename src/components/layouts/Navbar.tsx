@@ -7,14 +7,16 @@ import NavLink from "./Navlilnk"
 import Link from "next/link"
 import SocMedBar from "./SocialMediaBar"
 import type { SocialMedia } from "@/lib/types/payload-types"
+import type { SearchItem } from "@/lib/search"
 
 type NavbarProps = {
   socialMedia: (Pick<SocialMedia, "id" | "name" | "url" | "logo"> & {
     username?: string | null
   })[]
+  searchItems: SearchItem[]
 }
 
-export default function Navbar({ socialMedia }: NavbarProps) {
+export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
   const navLinks = [
     {
       title: "About",
@@ -71,7 +73,10 @@ export default function Navbar({ socialMedia }: NavbarProps) {
           className="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 transition-colors duration-300"
         />
         <div className="w-px h-5 dark:bg-gray-600 bg-gray-300 mx-0.5" />
-        <SearchBar className="w-fit gap-2 px-3 h-9 dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm" />
+        <SearchBar
+          searchItems={searchItems}
+          className="w-fit gap-2 px-3 h-9 dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm"
+        />
       </div>
 
       {/* Mobile icon nav */}
@@ -94,7 +99,10 @@ export default function Navbar({ socialMedia }: NavbarProps) {
           className="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 transition-colors duration-300 h-9 w-9 p-0"
         />
         <div className="w-px h-5 dark:bg-gray-600 bg-gray-300 mx-0.5" />
-        <SearchBar className="h-9 w-9 p-0 pr-0! justify-center dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm" />
+        <SearchBar
+          searchItems={searchItems}
+          className="h-9 w-9 p-0 pr-0! justify-center dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm"
+        />
       </div>
     </div>
   )
