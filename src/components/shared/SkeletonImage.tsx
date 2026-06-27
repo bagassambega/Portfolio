@@ -25,9 +25,11 @@ export default function SkeletonImage({
   className,
   containerClassName,
   onLoad,
+  loading,
   ...props
 }: Props) {
   const [loaded, setLoaded] = useState(false)
+  const isPreloaded = Boolean(props.priority || props.preload)
 
   const handleLoad: ImageProps["onLoad"] = (e) => {
     setLoaded(true)
@@ -50,6 +52,7 @@ export default function SkeletonImage({
 
       <NextImage
         {...props}
+        loading={loading ?? (isPreloaded ? undefined : "lazy")}
         className={cn(
           "transition-opacity duration-500",
           loaded ? "opacity-100" : "opacity-0",

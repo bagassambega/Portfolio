@@ -11,7 +11,7 @@ import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import AnimatedSection from "@/components/shared/AnimatedSection"
 import SlugPageLayout from "@/components/shared/SlugPageLayout"
 import type { TocItem } from "@/components/shared/TableOfContents"
-import { formatDateShort } from "@/lib/helpers"
+import { formatDateShort, getOriginalImageUrl } from "@/lib/helpers"
 import type { Metadata } from "next"
 
 export async function generateStaticParams() {
@@ -46,7 +46,7 @@ export default async function OrganizationExperienceDetailPage({
   if (!exp) notFound()
 
   const corp = exp.corporation as Corporation
-  const logoUrl = (corp?.logo as Media | undefined)?.url
+  const logoUrl = getOriginalImageUrl(corp?.logo as Media | undefined)
 
   const dateRange = exp.end_date
     ? `${formatDateShort(exp.starting_date)} – ${formatDateShort(exp.end_date)}`

@@ -6,6 +6,7 @@ import type { Media } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ScrollToButton from "@/components/shared/ScrollToButton"
 import { ArrowDown, GraduationCap, Briefcase, Code } from "lucide-react"
+import { getOriginalImageUrl } from "@/lib/helpers"
 
 export const metadata: Metadata = {
   title: "Home",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const hero = await getHero()
   const heroMedia = hero?.media as Media | undefined
-  const heroImageUrl = heroMedia?.url
+  const heroImageUrl = getOriginalImageUrl(heroMedia)
 
   return (
     <div className="absolute top-0 z-[-12] h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-zinc-50 dark:bg-gray-950 font-sans">

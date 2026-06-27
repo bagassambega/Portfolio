@@ -11,7 +11,7 @@ import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import AnimatedSection from "@/components/shared/AnimatedSection"
 import SlugPageLayout from "@/components/shared/SlugPageLayout"
 import type { TocItem } from "@/components/shared/TableOfContents"
-import { formatDateShort } from "@/lib/helpers"
+import { formatDateShort, getOriginalImageUrl } from "@/lib/helpers"
 import type { Metadata } from "next"
 
 export async function generateStaticParams() {
@@ -46,7 +46,7 @@ export default async function WorkExperienceDetailPage({
   if (!exp) notFound()
 
   const corp = exp.corporation as Corporation
-  const logoUrl = (corp?.logo as Media | undefined)?.url
+  const logoUrl = getOriginalImageUrl(corp?.logo as Media | undefined)
 
   const techstacks = (exp.techstacks ?? []).filter(
     (t: number | Techstack): t is Techstack => typeof t !== "number"
@@ -211,7 +211,7 @@ export default async function WorkExperienceDetailPage({
               </h2>
               <div className="flex flex-col gap-8">
                 {mediaItems.map((media) => {
-                  const url = media.url
+                  const url = getOriginalImageUrl(media)
                   if (!url) return null
                   return (
                     <figure key={media.id} className="space-y-2">

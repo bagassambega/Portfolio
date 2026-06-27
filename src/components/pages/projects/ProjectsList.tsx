@@ -1,7 +1,7 @@
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
 import { Card, CardContent } from "@/components/ui/card"
-import { getImageUrl, formatDateFull } from "@/lib/helpers"
+import { getImageUrl } from "@/lib/helpers"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import ProjectTypeBadge from "@/components/pages/projects/ProjectTypeBadge"
 import type { ProjectListItem } from "@/lib/services/api"

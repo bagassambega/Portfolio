@@ -57,7 +57,7 @@ export default function ProjectsHighlight({
         {/* Carousel viewport */}
         <div ref={emblaRef} className="overflow-hidden rounded-xl">
           <div className="flex">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <div
                 key={project["project-slug"]}
                 className="min-w-0 shrink-0 grow-0 basis-full"
@@ -75,7 +75,8 @@ export default function ProjectsHighlight({
                     fill
                     unoptimized
                     className="object-cover"
-                    priority
+                    priority={index === 0}
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                   {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />

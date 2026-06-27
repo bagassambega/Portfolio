@@ -6,6 +6,7 @@ import type {
 import { revalidateTag } from "next/cache"
 import * as Constant from "../../_config/Constant"
 import { triggerRevalidatePrewarm } from "@/lib/services/revalidate-prewarm"
+import { triggerStaticMediaDeploy } from "@/lib/services/deploy-hook"
 
 const revalidateMedia: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.MEDIA, "days")
@@ -28,6 +29,7 @@ const revalidateMedia: CollectionAfterChangeHook = async () => {
         ],
         paths: ["/", "/projects", "/experiences", "/educations"],
     })
+    await triggerStaticMediaDeploy()
 }
 
 const deleteMedia: CollectionAfterDeleteHook = async () => {
@@ -51,6 +53,7 @@ const deleteMedia: CollectionAfterDeleteHook = async () => {
         ],
         paths: ["/", "/projects", "/experiences", "/educations"],
     })
+    await triggerStaticMediaDeploy()
 }
 
 export const Media: CollectionConfig = {

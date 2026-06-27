@@ -1,4 +1,5 @@
 import type { Media } from "@/lib/types/payload-types"
+import { getStaticMediaVariant } from "@/lib/static-media"
 
 /**
  * Extracts a usable pathname from a Payload Media relationship field.
@@ -9,6 +10,13 @@ export function getImageUrl(
     media: number | Media | null | undefined
 ): string | null {
     if (!media || typeof media === "number") return null
+    const staticAsset = getStaticMediaVariant(media, [
+        "card",
+        "thumbnail",
+        "original",
+    ])
+    if (staticAsset) return staticAsset.url
+
     const raw =
         media.sizes?.card?.url ??
         media.sizes?.thumbnail?.url ??
@@ -27,6 +35,9 @@ export function getOriginalImageUrl(
   media: number | Media | null | undefined
 ): string | null {
   if (!media || typeof media === "number") return null
+  const staticAsset = getStaticMediaVariant(media, ["original", "tablet", "card"])
+  if (staticAsset) return staticAsset.url
+
   const raw = media.url ?? null
   if (!raw) return null
   try {

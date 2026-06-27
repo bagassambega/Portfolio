@@ -8,6 +8,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
+        "generate:static-media": "tsx scripts/generate-static-media.ts",
+        "build:static-media": "pnpm generate:static-media && next build",
         "migrate": "payload migrate",
         "migrate:create": "payload migrate:create",
         "migrate:down": "payload migrate:down",
