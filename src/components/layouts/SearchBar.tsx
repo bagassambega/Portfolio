@@ -124,6 +124,13 @@ export default function SearchBar({
         <CommandInput
           value={query}
           onValueChange={setQuery}
+          onKeyDownCapture={(event) => {
+            if (event.key !== "Escape") return
+
+            event.preventDefault()
+            event.stopPropagation()
+            setOpen(false)
+          }}
           placeholder="Search content, pages, tech stack..."
         />
         <CommandList className="max-h-[420px]">
