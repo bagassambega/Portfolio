@@ -63,6 +63,16 @@ function getMediaPreview(media: unknown, variant: "card" | "original" = "card") 
   }
 }
 
+function emptyFacets() {
+  return {
+    techStacks: [],
+    locations: [],
+    statuses: [],
+    organizations: [],
+    labels: [],
+  }
+}
+
 const pageItems: SearchItem[] = [
   {
     id: "page-home",
@@ -72,6 +82,10 @@ const pageItems: SearchItem[] = [
     typeLabel: "Page",
     subtype: "About",
     excerpt: "Personal introduction and portfolio navigation.",
+    facets: {
+      ...emptyFacets(),
+      labels: ["About", "Profile"],
+    },
     tags: ["About", "Home", "Profile"],
     searchText: "home about profile introduction bagas sambega software engineer",
   },
@@ -83,6 +97,10 @@ const pageItems: SearchItem[] = [
     typeLabel: "Page",
     subtype: "Projects",
     excerpt: "Portfolio of active and notable work.",
+    facets: {
+      ...emptyFacets(),
+      labels: ["Portfolio"],
+    },
     tags: ["Projects", "Portfolio"],
     searchText: "projects portfolio work software development",
   },
@@ -94,6 +112,10 @@ const pageItems: SearchItem[] = [
     typeLabel: "Page",
     subtype: "Experiences",
     excerpt: "Work and organizational milestones.",
+    facets: {
+      ...emptyFacets(),
+      labels: ["Work", "Organization"],
+    },
     tags: ["Experiences", "Work", "Organization"],
     searchText: "experiences work organization career internship",
   },
@@ -105,6 +127,10 @@ const pageItems: SearchItem[] = [
     typeLabel: "Page",
     subtype: "Educations",
     excerpt: "Academic journey and publications.",
+    facets: {
+      ...emptyFacets(),
+      labels: ["Academic", "Publications"],
+    },
     tags: ["Educations", "Publications", "Academic"],
     searchText: "educations academic publications school university",
   },
@@ -164,10 +190,11 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
       )
       const highlighted = richTextToString(project["highlighted-description"])
       const description = richTextToString(project.description)
+      const status = project.end_date ? "Finished" : "Present"
       const tags = unique([
         type?.name,
         ...techstacks.map((tech) => tech.name),
-        project.end_date ? "Finished" : "Present",
+        status,
       ])
 
       return {
@@ -181,6 +208,12 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
         endDate: project.end_date,
         ...getMediaPreview(project["media-highlight"], "card"),
         excerpt: excerpt(highlighted, description),
+        facets: {
+          ...emptyFacets(),
+          techStacks: techstacks.map((tech) => tech.name),
+          statuses: [status],
+          labels: type?.name ? [type.name] : [],
+        },
         tags,
         searchText: [
           project.title,
@@ -225,6 +258,14 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
       endDate: experience.end_date,
       ...getMediaPreview(corp?.logo, "original"),
       excerpt: excerpt(description, result),
+      facets: {
+        ...emptyFacets(),
+        techStacks: techstacks.map((tech) => tech.name),
+        locations: [experience.location],
+        statuses: [experience.type],
+        organizations: corp?.name ? [corp.name] : [],
+        labels: ["Work"],
+      },
       tags,
       searchText: [
         experience.title,
@@ -268,6 +309,13 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
       endDate: experience.end_date,
       ...getMediaPreview(corp?.logo, "original"),
       excerpt: excerpt(description, result),
+      facets: {
+        ...emptyFacets(),
+        locations: [experience.location],
+        statuses: [experience.type],
+        organizations: corp?.name ? [corp.name] : [],
+        labels: ["Organization"],
+      },
       tags,
       searchText: [
         experience.title,
@@ -302,6 +350,11 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
         date: education.createdAt,
         ...getMediaPreview(education.logo, "original"),
         excerpt: description,
+        facets: {
+          ...emptyFacets(),
+          organizations: [education.name],
+          labels: tags,
+        },
         tags,
         searchText: [education.name, education.level, description, ...tags].join(
           " "
@@ -314,9 +367,10 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
     publications.docs as Publication[]
   ).map((publication) => {
     const description = richTextToString(publication.description)
+    const status = publication.isPublished ? "Published" : "Unpublished"
     const tags = unique([
       "Publication",
-      publication.isPublished ? "Published" : "Unpublished",
+      status,
       publication.publishedTo,
     ])
 
@@ -330,6 +384,12 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
       date: publication.publishDate,
       ...getMediaPreview(publication.image?.[0], "card"),
       excerpt: description,
+      facets: {
+        ...emptyFacets(),
+        statuses: [status],
+        organizations: publication.publishedTo ? [publication.publishedTo] : [],
+        labels: ["Publication"],
+      },
       tags,
       searchText: [
         publication.title,

@@ -83,7 +83,10 @@ export default function SearchPageClient({
     query: initialQuery,
     contentType: "all",
     subtype: "",
-    tag: "",
+    techStack: "",
+    location: "",
+    status: "",
+    organization: "",
     from: "",
     to: "",
     sort: "relevance",
@@ -101,17 +104,35 @@ export default function SearchPageClient({
     )
   }, [filters.contentType, items])
 
-  const tags = useMemo(() => {
-    return uniqueSorted(
-      items
-        .filter(
-          (item) =>
-            filters.contentType === "all" ||
-            item.contentType === filters.contentType
-        )
-        .flatMap((item) => item.tags)
-    )
-  }, [filters.contentType, items])
+  const scopedItems = useMemo(
+    () =>
+      items.filter(
+        (item) =>
+          filters.contentType === "all" ||
+          item.contentType === filters.contentType
+      ),
+    [filters.contentType, items]
+  )
+
+  const techStacks = useMemo(
+    () => uniqueSorted(scopedItems.flatMap((item) => item.facets.techStacks)),
+    [scopedItems]
+  )
+
+  const locations = useMemo(
+    () => uniqueSorted(scopedItems.flatMap((item) => item.facets.locations)),
+    [scopedItems]
+  )
+
+  const statuses = useMemo(
+    () => uniqueSorted(scopedItems.flatMap((item) => item.facets.statuses)),
+    [scopedItems]
+  )
+
+  const organizations = useMemo(
+    () => uniqueSorted(scopedItems.flatMap((item) => item.facets.organizations)),
+    [scopedItems]
+  )
 
   const results = useMemo(
     () => filterSearchItems(items, filters),
@@ -125,7 +146,15 @@ export default function SearchPageClient({
     setFilters((current) => ({
       ...current,
       [key]: value,
-      ...(key === "contentType" ? { subtype: "", tag: "" } : {}),
+      ...(key === "contentType"
+        ? {
+            subtype: "",
+            techStack: "",
+            location: "",
+            status: "",
+            organization: "",
+          }
+        : {}),
     }))
   }
 
@@ -134,7 +163,10 @@ export default function SearchPageClient({
       query: "",
       contentType: "all",
       subtype: "",
-      tag: "",
+      techStack: "",
+      location: "",
+      status: "",
+      organization: "",
       from: "",
       to: "",
       sort: "relevance",
@@ -147,9 +179,6 @@ export default function SearchPageClient({
         <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80 sm:p-7">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-blue-600 dark:text-blue-300">
-                Portfolio Index
-              </p>
               <h1 className="text-3xl font-bold md:text-5xl">Search</h1>
             </div>
             <div className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300">
@@ -227,16 +256,68 @@ export default function SearchPageClient({
               </label>
 
               <label className={labelClass}>
-                Tag
+                Tech Stack
                 <select
-                  value={filters.tag}
-                  onChange={(event) => setFilter("tag", event.target.value)}
+                  value={filters.techStack}
+                  onChange={(event) =>
+                    setFilter("techStack", event.target.value)
+                  }
                   className={fieldClass}
                 >
                   <option value="">Any</option>
-                  {tags.map((tag) => (
-                    <option key={tag} value={tag}>
-                      {tag}
+                  {techStacks.map((techStack) => (
+                    <option key={techStack} value={techStack}>
+                      {techStack}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className={labelClass}>
+                Location / Mode
+                <select
+                  value={filters.location}
+                  onChange={(event) => setFilter("location", event.target.value)}
+                  className={fieldClass}
+                >
+                  <option value="">Any</option>
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className={labelClass}>
+                Status
+                <select
+                  value={filters.status}
+                  onChange={(event) => setFilter("status", event.target.value)}
+                  className={fieldClass}
+                >
+                  <option value="">Any</option>
+                  {statuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className={labelClass}>
+                Organization
+                <select
+                  value={filters.organization}
+                  onChange={(event) =>
+                    setFilter("organization", event.target.value)
+                  }
+                  className={fieldClass}
+                >
+                  <option value="">Any</option>
+                  {organizations.map((organization) => (
+                    <option key={organization} value={organization}>
+                      {organization}
                     </option>
                   ))}
                 </select>
@@ -295,9 +376,17 @@ export default function SearchPageClient({
               const startDate = formatDate(item.date)
               const endDate = formatDate(item.endDate)
               const imageFit =
-                item.contentType === "project" || item.contentType === "publication"
+                item.contentType === "project" ||
+                item.contentType === "publication"
                   ? "object-cover"
                   : "object-contain p-4"
+              const chipGroups = [
+                { label: "Tech", values: item.facets.techStacks.slice(0, 4) },
+                { label: "Mode", values: item.facets.locations.slice(0, 2) },
+                { label: "Status", values: item.facets.statuses.slice(0, 2) },
+                { label: "Org", values: item.facets.organizations.slice(0, 2) },
+                { label: "Info", values: item.facets.labels.slice(0, 3) },
+              ].filter((group) => group.values.length > 0)
 
               return (
                 <Link
@@ -338,16 +427,21 @@ export default function SearchPageClient({
                         {item.excerpt}
                       </p>
                     )}
-                    {item.tags.length > 0 && (
+                    {chipGroups.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {item.tags.slice(0, 8).map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                        {chipGroups.flatMap((group) =>
+                          group.values.map((value) => (
+                            <span
+                              key={`${group.label}-${value}`}
+                              className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                            >
+                              <span className="font-semibold text-zinc-400 dark:text-zinc-500">
+                                {group.label}:
+                              </span>{" "}
+                              {value}
+                            </span>
+                          ))
+                        )}
                       </div>
                     )}
                   </div>

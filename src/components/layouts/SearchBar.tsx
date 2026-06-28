@@ -20,7 +20,7 @@ import {
   SlidersHorizontal,
   Users,
 } from "lucide-react"
-import { type ComponentType, useMemo, useState } from "react"
+import { type ComponentType, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "../ui/button"
 import { cn } from "@/lib/utils"
@@ -56,13 +56,32 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
         query,
         contentType: "all",
         subtype: "",
-        tag: "",
+        techStack: "",
+        location: "",
+        status: "",
+        organization: "",
         from: "",
         to: "",
         sort: "relevance",
       }).slice(0, 8),
     [query, searchItems]
   )
+
+  useEffect(() => {
+    const handleShortcut = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() !== "k" || (!event.ctrlKey && !event.metaKey)) {
+        return
+      }
+
+      event.preventDefault()
+      event.stopPropagation()
+      setOpen((current) => !current)
+    }
+
+    document.addEventListener("keydown", handleShortcut, { capture: true })
+    return () =>
+      document.removeEventListener("keydown", handleShortcut, { capture: true })
+  }, [])
 
   const openResult = (href: string) => {
     setOpen(false)
@@ -115,7 +134,7 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
                     item.searchText,
                   ].join(" ")}
                   onSelect={() => openResult(item.href)}
-                  className="items-start gap-3"
+                  className="cursor-pointer items-start gap-3"
                 >
                   <Icon className="mt-0.5 h-4 w-4" />
                   <span className="flex min-w-0 flex-1 flex-col gap-1">
@@ -137,7 +156,7 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
               forceMount
               value="advanced search filters content type project experience education publication tech stack date sort"
               onSelect={openAdvancedSearch}
-              className="items-center gap-3"
+              className="cursor-pointer items-center gap-3"
             >
               <SlidersHorizontal className="h-4 w-4" />
               <span className="flex flex-1 flex-col gap-1">

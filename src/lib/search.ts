@@ -18,6 +18,13 @@ export type SearchItem = {
   excerpt?: string
   imageUrl?: string | null
   imageAlt?: string | null
+  facets: {
+    techStacks: string[]
+    locations: string[]
+    statuses: string[]
+    organizations: string[]
+    labels: string[]
+  }
   tags: string[]
   searchText: string
 }
@@ -26,7 +33,10 @@ export type SearchFilters = {
   query: string
   contentType: "all" | SearchContentType
   subtype: string
-  tag: string
+  techStack: string
+  location: string
+  status: string
+  organization: string
   from: string
   to: string
   sort: "relevance" | "newest" | "oldest" | "title"
@@ -66,7 +76,24 @@ export function filterSearchItems(items: SearchItem[], filters: SearchFilters) {
         return false
       }
       if (filters.subtype && item.subtype !== filters.subtype) return false
-      if (filters.tag && !item.tags.includes(filters.tag)) return false
+      if (
+        filters.techStack &&
+        !item.facets.techStacks.includes(filters.techStack)
+      ) {
+        return false
+      }
+      if (filters.location && !item.facets.locations.includes(filters.location)) {
+        return false
+      }
+      if (filters.status && !item.facets.statuses.includes(filters.status)) {
+        return false
+      }
+      if (
+        filters.organization &&
+        !item.facets.organizations.includes(filters.organization)
+      ) {
+        return false
+      }
       const itemTime = item.date ? new Date(item.date).getTime() : null
       if (filters.from) {
         const fromTime = new Date(filters.from).getTime()
