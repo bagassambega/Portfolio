@@ -34,6 +34,7 @@ import {
 type SearchBarProps = {
   className?: string
   searchItems: SearchItem[]
+  enableShortcut?: boolean
 }
 
 const iconByType: Record<SearchContentType, ComponentType<{ className?: string }>> = {
@@ -45,7 +46,11 @@ const iconByType: Record<SearchContentType, ComponentType<{ className?: string }
   publication: FileText,
 }
 
-export default function SearchBar({ className, searchItems }: SearchBarProps) {
+export default function SearchBar({
+  className,
+  searchItems,
+  enableShortcut = false,
+}: SearchBarProps) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState("")
   const router = useRouter()
@@ -68,6 +73,8 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
   )
 
   useEffect(() => {
+    if (!enableShortcut) return
+
     const handleShortcut = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== "k" || (!event.ctrlKey && !event.metaKey)) {
         return
@@ -81,7 +88,7 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
     document.addEventListener("keydown", handleShortcut, { capture: true })
     return () =>
       document.removeEventListener("keydown", handleShortcut, { capture: true })
-  }, [])
+  }, [enableShortcut])
 
   const openResult = (href: string) => {
     setOpen(false)

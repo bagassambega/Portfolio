@@ -75,6 +75,7 @@ export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
         <div className="w-px h-5 dark:bg-gray-600 bg-gray-300 mx-0.5" />
         <SearchBar
           searchItems={searchItems}
+          enableShortcut
           className="w-fit gap-2 px-3 h-9 dark:hover:bg-gray-700 hover:bg-gray-100 transition-colors duration-300 dark:text-gray-400 text-gray-500 dark:hover:text-gray-300 hover:text-gray-700 text-sm"
         />
       </div>
