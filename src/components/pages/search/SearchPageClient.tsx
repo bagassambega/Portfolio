@@ -429,19 +429,17 @@ export default function SearchPageClient({
                     )}
                     {chipGroups.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {chipGroups.flatMap((group) =>
-                          group.values.map((value) => (
-                            <span
-                              key={`${group.label}-${value}`}
-                              className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
-                            >
-                              <span className="font-semibold text-zinc-400 dark:text-zinc-500">
-                                {group.label}:
-                              </span>{" "}
-                              {value}
-                            </span>
-                          ))
-                        )}
+                        {chipGroups.map((group) => (
+                          <span
+                            key={group.label}
+                            className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                          >
+                            <span className="font-semibold text-zinc-400 dark:text-zinc-500">
+                              {group.label}:
+                            </span>{" "}
+                            {group.values.join(", ")}
+                          </span>
+                        ))}
                       </div>
                     )}
                   </div>

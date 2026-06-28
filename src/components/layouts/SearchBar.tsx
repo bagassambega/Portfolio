@@ -93,8 +93,9 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
     const params = new URLSearchParams()
     if (query.trim()) params.set("q", query.trim())
 
-    setOpen(false)
     router.push(`/search${params.toString() ? `?${params}` : ""}`)
+    setOpen(false)
+    setQuery("")
   }
 
   return (
@@ -155,6 +156,10 @@ export default function SearchBar({ className, searchItems }: SearchBarProps) {
             <CommandItem
               forceMount
               value="advanced search filters content type project experience education publication tech stack date sort"
+              onMouseDown={(event) => {
+                event.preventDefault()
+                openAdvancedSearch()
+              }}
               onSelect={openAdvancedSearch}
               className="cursor-pointer items-center gap-3"
             >
