@@ -18,7 +18,7 @@ const revalidateCorporations: CollectionAfterChangeHook = async () => {
             Constant.CACHE_TAGS.WORK_EXPERIENCES,
             Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
         ],
-        paths: ["/experiences"],
+        paths: ["/experiences/work", "/experiences/organization"],
     })
 }
 
@@ -33,7 +33,7 @@ const deleteCorporations: CollectionAfterDeleteHook = async () => {
             Constant.CACHE_TAGS.WORK_EXPERIENCES,
             Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
         ],
-        paths: ["/experiences"],
+        paths: ["/experiences/work", "/experiences/organization"],
     })
 }
 

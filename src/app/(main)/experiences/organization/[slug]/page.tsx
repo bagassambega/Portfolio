@@ -64,7 +64,7 @@ export default async function OrganizationExperienceDetailPage({
         {/* Back link */}
         <AnimatedSection delay={0}>
           <Link
-            href="/experiences?tab=org"
+            href="/experiences/organization"
             className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-blue-500 transition-colors mb-12 group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />

@@ -105,7 +105,7 @@ export default async function Home() {
             </Link>
 
             <Link
-              href="/experiences"
+              href="/experiences/work"
               className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all duration-500 hover:scale-[1.02] md:hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 flex flex-row md:flex-col items-center md:justify-center p-6 md:p-8 md:aspect-3/4 gap-4 md:gap-0 backface-hidden"
             >
               <div className="absolute inset-0 bg-linear-to-b md:from-transparent from-zinc-200/50 to-zinc-200/50 dark:to-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

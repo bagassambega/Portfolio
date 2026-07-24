@@ -27,7 +27,13 @@ const revalidateMedia: CollectionAfterChangeHook = async () => {
             Constant.CACHE_TAGS.EDUCATION,
             Constant.CACHE_TAGS.PUBLICATIONS,
         ],
-        paths: ["/", "/projects", "/experiences", "/educations"],
+        paths: [
+            "/",
+            "/projects",
+            "/experiences/work",
+            "/experiences/organization",
+            "/educations",
+        ],
     })
     await triggerStaticMediaDeploy()
 }
@@ -51,7 +57,13 @@ const deleteMedia: CollectionAfterDeleteHook = async () => {
             Constant.CACHE_TAGS.EDUCATION,
             Constant.CACHE_TAGS.PUBLICATIONS,
         ],
-        paths: ["/", "/projects", "/experiences", "/educations"],
+        paths: [
+            "/",
+            "/projects",
+            "/experiences/work",
+            "/experiences/organization",
+            "/educations",
+        ],
     })
     await triggerStaticMediaDeploy()
 }

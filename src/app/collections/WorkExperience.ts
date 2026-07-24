@@ -18,8 +18,8 @@ const revalidateWorkExperiences: CollectionAfterChangeHook = async ({
     await triggerRevalidatePrewarm({
         tags: [Constant.CACHE_TAGS.WORK_EXPERIENCES],
         paths: slug
-            ? ["/experiences", `/experiences/work/${slug}`]
-            : ["/experiences"],
+            ? ["/experiences/work", `/experiences/work/${slug}`]
+            : ["/experiences/work"],
     })
 }
 
@@ -28,7 +28,7 @@ const deleteWorkExperiences: CollectionAfterDeleteHook = async () => {
 
     await triggerRevalidatePrewarm({
         tags: [Constant.CACHE_TAGS.WORK_EXPERIENCES],
-        paths: ["/experiences"],
+        paths: ["/experiences/work"],
     })
 }
 

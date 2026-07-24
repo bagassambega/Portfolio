@@ -107,7 +107,7 @@ const pageItems: SearchItem[] = [
   {
     id: "page-experiences",
     title: "Experiences",
-    href: "/experiences",
+    href: "/experiences/work",
     contentType: "page",
     typeLabel: "Page",
     subtype: "Experiences",

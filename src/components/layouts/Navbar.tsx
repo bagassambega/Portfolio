@@ -30,7 +30,7 @@ export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
     },
     {
       title: "Experiences",
-      url: "/experiences",
+      url: "/experiences/work",
       icon: <Briefcase className="h-5 w-5" />,
     },
     {
