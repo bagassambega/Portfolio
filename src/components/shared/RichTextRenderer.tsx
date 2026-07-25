@@ -1,4 +1,7 @@
 import type { ReactNode } from "react"
+import SkeletonImage from "@/components/shared/SkeletonImage"
+import { getOriginalImageUrl } from "@/lib/helpers"
+import type { Media } from "@/lib/types/payload-types"
 
 /**
  * Recursive Lexical JSON → React element renderer.
@@ -28,6 +31,8 @@ type LexicalNode = {
   url?: string
   target?: string
   rel?: string
+  relationTo?: string
+  value?: number | Media | null
   fields?: {
     url?: string
     newTab?: boolean
@@ -45,6 +50,10 @@ type RichTextRendererProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: { root: any; [k: string]: unknown }
   className?: string
+}
+
+function isMedia(value: unknown): value is Media {
+  return typeof value === "object" && value !== null && "id" in value
 }
 
 function renderNode(node: LexicalNode, index: number): ReactNode {
@@ -155,6 +164,53 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
 
     case "linebreak":
       return <br key={index} />
+
+    case "upload": {
+      if (node.relationTo !== "media" || !isMedia(node.value)) return null
+
+      const media = node.value
+      const url = getOriginalImageUrl(media)
+      if (!url) return null
+
+      if (media.mimeType?.startsWith("video/")) {
+        return (
+          <figure key={index} className="my-8">
+            <video
+              src={url}
+              controls
+              className="w-full rounded-xl border border-border bg-zinc-100 dark:bg-zinc-900"
+            />
+            {media.alt && (
+              <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+                {media.alt}
+              </figcaption>
+            )}
+          </figure>
+        )
+      }
+
+      if (!media.mimeType?.startsWith("image/")) return null
+
+      return (
+        <figure key={index} className="my-8">
+          <div className="w-full overflow-hidden rounded-xl border border-border bg-zinc-100 dark:bg-zinc-900">
+            <SkeletonImage
+              src={url}
+              alt={media.alt}
+              width={media.width ?? 1920}
+              height={media.height ?? 1080}
+              unoptimized
+              className="h-auto w-full object-contain"
+            />
+          </div>
+          {media.alt && (
+            <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+              {media.alt}
+            </figcaption>
+          )}
+        </figure>
+      )
+    }
 
     case "text": {
       const format = typeof node.format === "number" ? node.format : 0

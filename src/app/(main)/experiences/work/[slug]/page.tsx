@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
-import { ArrowLeft, Calendar, MapPin, Briefcase, Code } from "lucide-react"
+import { ArrowLeft, Calendar, MapPin, Code } from "lucide-react"
 import {
   getWorkExperienceBySlug,
   getAllWorkExperienceSlugs,
@@ -13,6 +13,7 @@ import SlugPageLayout from "@/components/shared/SlugPageLayout"
 import type { TocItem } from "@/components/shared/TableOfContents"
 import { formatDateShort, getOriginalImageUrl } from "@/lib/helpers"
 import type { Metadata } from "next"
+import { CorporationDetailHeader } from "@/components/pages/experiences/CorporationProfile"
 
 export async function generateStaticParams() {
   const slugs = await getAllWorkExperienceSlugs()
@@ -46,8 +47,6 @@ export default async function WorkExperienceDetailPage({
   if (!exp) notFound()
 
   const corp = exp.corporation as Corporation
-  const logoUrl = getOriginalImageUrl(corp?.logo as Media | undefined)
-
   const techstacks = (exp.techstacks ?? []).filter(
     (t: number | Techstack): t is Techstack => typeof t !== "number"
   ).sort((a, b) => a.name.localeCompare(b.name))
@@ -92,24 +91,7 @@ export default async function WorkExperienceDetailPage({
             id="overview"
             className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12"
           >
-            <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl shadow-sm border border-zinc-100 dark:border-zinc-800 flex items-center justify-center p-4 relative overflow-hidden">
-              {logoUrl ? (
-                <SkeletonImage
-                  src={logoUrl}
-                  alt={corp?.name || "Company Logo"}
-                  fill
-                  unoptimized
-                  className="object-contain p-4"
-                />
-              ) : (
-                <Briefcase className="w-12 h-12 text-zinc-300" />
-              )}
-            </div>
-
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-blue-500 mb-1 tracking-wider uppercase">
-                {corp?.name || "Company"}
-              </span>
+            <CorporationDetailHeader corporation={corp}>
               <h1 className="text-3xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-50 mb-4 leading-tight">
                 {exp.title}
               </h1>
@@ -127,7 +109,7 @@ export default async function WorkExperienceDetailPage({
                   {exp.type}
                 </span>
               </div>
-            </div>
+            </CorporationDetailHeader>
           </section>
         </AnimatedSection>
 

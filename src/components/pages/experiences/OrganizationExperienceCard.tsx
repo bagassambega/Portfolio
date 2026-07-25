@@ -5,6 +5,7 @@ import { Calendar } from "lucide-react"
 import type { OrganizationExperienceListItem } from "@/lib/services/api"
 import type { Media, Corporation } from "@/lib/types/payload-types"
 import { getOriginalImageUrl } from "@/lib/helpers"
+import { CorporationHoverPreview } from "./CorporationProfile"
 
 interface Props {
   experience: OrganizationExperienceListItem
@@ -35,7 +36,7 @@ export default function OrganizationExperienceCard({ experience }: Props) {
   const orgName = corp?.name || "Organization"
   const positionTitle = experience.title
 
-  return (
+  const card = (
     <Link
       href={`/experiences/organization/${experience.slug}`}
       className="block w-full"
@@ -52,7 +53,10 @@ export default function OrganizationExperienceCard({ experience }: Props) {
                 "
       >
         {/* Left side: Logo */}
-        <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden flex items-center justify-center p-2 relative">
+        <div
+          data-corporation-preview-trigger
+          className="shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden flex items-center justify-center p-2 relative"
+        >
           {logoMedia?.url ? (
             <SkeletonImage
               src={getOriginalImageUrl(logoMedia) ?? logoMedia.url}
@@ -70,7 +74,10 @@ export default function OrganizationExperienceCard({ experience }: Props) {
 
         {/* Right side: Content */}
         <div className="flex flex-col justify-center h-full min-h-16 md:min-h-20">
-          <p className="text-sm md:text-base font-bold text-blue-500 hover:text-blue-400 mb-1 tracking-wider uppercase">
+          <p
+            data-corporation-preview-trigger
+            className="text-sm md:text-base font-bold text-blue-500 hover:text-blue-400 mb-1 tracking-wider uppercase"
+          >
             {orgName}
           </p>
 
@@ -87,5 +94,13 @@ export default function OrganizationExperienceCard({ experience }: Props) {
         </div>
       </div>
     </Link>
+  )
+
+  return corp ? (
+    <CorporationHoverPreview corporation={corp}>
+      {card}
+    </CorporationHoverPreview>
+  ) : (
+    card
   )
 }
