@@ -156,7 +156,7 @@ export const WorkExperience: CollectionConfig = {
         {
             name: "documentation",
             type: "relationship",
-            label: "Images/Videos",
+            label: "Documentation",
             relationTo: "media",
             hasMany: true,
         },

@@ -5,7 +5,7 @@ import {
   getOrganizationExperienceBySlug,
   getAllOrganizationExperienceSlugs,
 } from "@/lib/services/api"
-import type { Corporation } from "@/lib/types/payload-types"
+import type { Corporation, Media } from "@/lib/types/payload-types"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import AnimatedSection from "@/components/shared/AnimatedSection"
 import SlugPageLayout from "@/components/shared/SlugPageLayout"
@@ -13,6 +13,7 @@ import type { TocItem } from "@/components/shared/TableOfContents"
 import { formatDateShort } from "@/lib/helpers"
 import type { Metadata } from "next"
 import { CorporationDetailHeader } from "@/components/pages/experiences/CorporationProfile"
+import ExperienceDocumentationSection from "@/components/pages/experiences/ExperienceDocumentationSection"
 
 export async function generateStaticParams() {
   const slugs = await getAllOrganizationExperienceSlugs()
@@ -46,6 +47,9 @@ export default async function OrganizationExperienceDetailPage({
   if (!exp) notFound()
 
   const corp = exp.corporation as Corporation
+  const mediaItems = (exp.documentation ?? []).filter(
+    (m: number | Media): m is Media => typeof m !== "number"
+  )
   const dateRange = exp.end_date
     ? `${formatDateShort(exp.starting_date)} – ${formatDateShort(exp.end_date)}`
     : `${formatDateShort(exp.starting_date)} – Present`
@@ -54,6 +58,9 @@ export default async function OrganizationExperienceDetailPage({
     { id: "overview", label: "Overview" },
     { id: "role-description", label: "Role Description" },
     ...(exp.result ? [{ id: "results", label: "Results & Deliverables" }] : []),
+    ...(mediaItems.length > 0
+      ? [{ id: "documentation", label: "Documentation" }]
+      : []),
   ]
 
   return (
@@ -126,6 +133,13 @@ export default async function OrganizationExperienceDetailPage({
                 <RichTextRenderer content={exp.result} />
               </div>
             </section>
+          </AnimatedSection>
+        )}
+
+        {/* Documentation */}
+        {mediaItems.length > 0 && (
+          <AnimatedSection>
+            <ExperienceDocumentationSection mediaItems={mediaItems} />
           </AnimatedSection>
         )}
       </div>
