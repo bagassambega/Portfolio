@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import SkeletonImage from "@/components/shared/SkeletonImage"
+import MediaPreview from "@/components/shared/MediaPreview"
 import { getOriginalImageUrl } from "@/lib/helpers"
 import type { Media } from "@/lib/types/payload-types"
 
@@ -178,6 +178,8 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
             <video
               src={url}
               controls
+              playsInline
+              preload="metadata"
               className="w-full rounded-xl border border-border bg-zinc-100 dark:bg-zinc-900"
             />
             {media.alt && (
@@ -194,7 +196,7 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
       return (
         <figure key={index} className="my-8">
           <div className="w-full overflow-hidden rounded-xl border border-border bg-zinc-100 dark:bg-zinc-900">
-            <SkeletonImage
+            <MediaPreview
               src={url}
               alt={media.alt}
               width={media.width ?? 1920}

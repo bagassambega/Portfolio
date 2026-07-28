@@ -1,4 +1,4 @@
-import SkeletonImage from "@/components/shared/SkeletonImage"
+import MediaPreview from "@/components/shared/MediaPreview"
 import { getOriginalImageUrl } from "@/lib/helpers"
 import type { Media } from "@/lib/types/payload-types"
 
@@ -28,10 +28,12 @@ export default function ExperienceDocumentationSection({
                   <video
                     src={url}
                     controls
+                    playsInline
+                    preload="metadata"
                     className="w-auto h-auto max-w-full max-h-[75vh] rounded-lg shadow-sm"
                   />
                 ) : (
-                  <SkeletonImage
+                  <MediaPreview
                     src={url}
                     alt={media.alt || "Documentation Image"}
                     width={media.width ?? 1920}

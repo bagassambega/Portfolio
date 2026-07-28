@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react"
 import { Building2, MapPin } from "lucide-react"
+import MediaPreview from "@/components/shared/MediaPreview"
 import RichTextRenderer from "@/components/shared/RichTextRenderer"
 import SkeletonImage from "@/components/shared/SkeletonImage"
 import {
@@ -48,7 +49,7 @@ function CorporationProfileContent({
           )}
         >
           {logoUrl ? (
-            <SkeletonImage
+            <MediaPreview
               src={logoUrl}
               alt={logo?.alt || `${corporation.name} logo`}
               fill
