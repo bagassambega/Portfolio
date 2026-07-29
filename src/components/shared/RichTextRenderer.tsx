@@ -20,6 +20,8 @@ const IS_ITALIC = 2
 const IS_STRIKETHROUGH = 4
 const IS_UNDERLINE = 8
 const IS_CODE = 16
+const MEDIA_CAPTION_CLASS =
+  "mt-3 text-center text-sm font-semibold uppercase tracking-wide text-white drop-shadow-sm md:text-base"
 
 type LexicalNode = {
   type: string
@@ -183,7 +185,7 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
               className="w-full rounded-xl border border-border bg-zinc-100 dark:bg-zinc-900"
             />
             {media.alt && (
-              <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+              <figcaption className={MEDIA_CAPTION_CLASS}>
                 {media.alt}
               </figcaption>
             )}
@@ -206,7 +208,7 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
             />
           </div>
           {media.alt && (
-            <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+            <figcaption className={MEDIA_CAPTION_CLASS}>
               {media.alt}
             </figcaption>
           )}

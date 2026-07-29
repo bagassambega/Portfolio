@@ -6,6 +6,9 @@ type ExperienceDocumentationSectionProps = {
   mediaItems: Media[]
 }
 
+const MEDIA_CAPTION_CLASS =
+  "mt-3 text-center text-sm font-semibold uppercase tracking-wide text-white drop-shadow-sm md:text-base"
+
 export default function ExperienceDocumentationSection({
   mediaItems,
 }: ExperienceDocumentationSectionProps) {
@@ -45,7 +48,7 @@ export default function ExperienceDocumentationSection({
                 )}
               </div>
               {media.alt && (
-                <figcaption className="text-sm font-medium text-zinc-500 dark:text-zinc-400 text-center mt-3">
+                <figcaption className={MEDIA_CAPTION_CLASS}>
                   {media.alt}
                 </figcaption>
               )}

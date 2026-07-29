@@ -93,7 +93,7 @@ export default async function ProjectDetailPage({
       ? [{ id: "tech-stack", label: "Tech Stack" }]
       : []),
     ...(mediaItems.length > 0
-      ? [{ id: "screenshots", label: "Screenshots" }]
+      ? [{ id: "screenshots", label: "Media" }]
       : []),
   ]
 
@@ -246,17 +246,22 @@ export default async function ProjectDetailPage({
           </AnimatedSection>
         )}
 
-        {/* Screenshots */}
+        {/* Media */}
         {mediaItems.length > 0 && (
           <AnimatedSection>
             <section id="screenshots" className="mb-12">
-              <h2 className="text-2xl font-bold mb-6">Screenshots</h2>
+              <h2 className="text-2xl font-bold mb-6">Media</h2>
               <div className="flex flex-col gap-8">
                 {mediaItems.map((media) => {
                   const url = getOriginalImageUrl(media)
                   if (!url) return null
                   return (
-                    <figure key={media.id} className="space-y-2">
+                    <figure key={media.id} className="space-y-3">
+                      {media.alt && (
+                        <figcaption className="text-left text-sm font-semibold uppercase tracking-wide text-white drop-shadow-sm md:text-base">
+                          {media.alt}
+                        </figcaption>
+                      )}
                       <div className="w-full rounded-xl overflow-hidden border border-border bg-zinc-100 dark:bg-zinc-900/50 flex items-center justify-center p-2 md:p-4">
                         <MediaPreview
                           src={url}
@@ -268,11 +273,6 @@ export default async function ProjectDetailPage({
                           loading="lazy"
                         />
                       </div>
-                      {media.alt && (
-                        <figcaption className="text-xs text-muted-foreground text-center">
-                          {media.alt}
-                        </figcaption>
-                      )}
                     </figure>
                   )
                 })}

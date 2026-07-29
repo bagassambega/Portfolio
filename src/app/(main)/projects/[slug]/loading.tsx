@@ -8,7 +8,7 @@ export default function Loading() {
         { id: "overview", label: "Overview" },
         { id: "description", label: "Description" },
         { id: "tech-stack", label: "Tech Stack" },
-        { id: "screenshots", label: "Screenshots" },
+        { id: "screenshots", label: "Media" },
       ]}
     >
       <div className="font-inter">
@@ -59,12 +59,12 @@ export default function Loading() {
           <Skeleton className="h-8 w-40 mb-6" />
           <div className="flex flex-col gap-8">
             <div className="space-y-2">
+              <Skeleton className="h-5 w-48" />
               <Skeleton className="w-full aspect-video rounded-xl" />
-              <Skeleton className="h-4 w-48 mx-auto" />
             </div>
             <div className="space-y-2">
+              <Skeleton className="h-5 w-44" />
               <Skeleton className="w-full aspect-video rounded-xl" />
-              <Skeleton className="h-4 w-44 mx-auto" />
             </div>
           </div>
         </section>

@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import { Home, FolderKanban, Briefcase, GraduationCap } from "lucide-react"
 import SearchBar from "./SearchBar"
 import { ThemeToggle } from "./ThemeToggle"
@@ -8,6 +9,7 @@ import Link from "next/link"
 import SocMedBar from "./SocialMediaBar"
 import type { SocialMedia } from "@/lib/types/payload-types"
 import type { SearchItem } from "@/lib/search"
+import { cn } from "@/lib/utils"
 
 type NavbarProps = {
   socialMedia: (Pick<SocialMedia, "id" | "name" | "url" | "logo"> & {
@@ -17,6 +19,31 @@ type NavbarProps = {
 }
 
 export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
+  const [isHidden, setIsHidden] = useState(false)
+  const lastScrollYRef = useRef(0)
+
+  useEffect(() => {
+    lastScrollYRef.current = window.scrollY
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      const scrollDelta = currentScrollY - lastScrollYRef.current
+
+      if (currentScrollY < 80) {
+        setIsHidden(false)
+      } else if (scrollDelta > 8 && currentScrollY > 140) {
+        setIsHidden(true)
+      } else if (scrollDelta < -8) {
+        setIsHidden(false)
+      }
+
+      lastScrollYRef.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   const navLinks = [
     {
       title: "About",
@@ -41,7 +68,13 @@ export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
   ]
 
   return (
-    <div className="relative flex items-center justify-center md:justify-end font-sans bg-linear-to-b from-gray-300 via-gray-50 to-zinc-50 dark:from-gray-900 dark:via-gray-950 dark:to-transparent px-8 pt-4 pb-18">
+    <div
+      data-site-navbar
+      className={cn(
+        "sticky top-0 z-[45] flex items-center justify-center md:justify-end font-sans bg-linear-to-b from-gray-300 via-gray-50 to-zinc-50 dark:from-gray-900 dark:via-gray-950 dark:to-transparent px-8 pt-4 pb-18 transition-transform duration-300 ease-out will-change-transform",
+        isHidden ? "-translate-y-full" : "translate-y-0"
+      )}
+    >
       <div className="absolute left-8 hidden md:flex items-center">
         <Link
           className="text-lg font-bold tracking-[0.3em] dark:text-gray-200 text-gray-800 select-none"
