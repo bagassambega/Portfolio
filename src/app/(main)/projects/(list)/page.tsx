@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ProjectsPage() {
-  const data = await getProjectsList()  
+  const data = await getProjectsList()
   const highlightedProjects = data.docs.filter((p) => p.isHighlighted)
 
   return (
@@ -16,7 +16,7 @@ export default async function ProjectsPage() {
       <div className="w-full max-w-5xl px-6 flex flex-col justify-center items-center font-inter">
         <div className="flex flex-col items-center justify-center gap-4 mb-10 md:mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-sans tracking-tight text-zinc-900 dark:text-zinc-50">
-            Projects  
+            Projects
           </h2>
           <span className="text-lg md:text-xl dark:text-gray-400 text-gray-600 text-center">
             All projects I participated and created

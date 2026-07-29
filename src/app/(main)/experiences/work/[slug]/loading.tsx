@@ -67,11 +67,11 @@ export default function Loading() {
           <div className="flex flex-col gap-8">
             <div className="space-y-2">
               <Skeleton className="w-full aspect-video rounded-xl" />
-              <Skeleton className="h-4 w-44 mx-auto" />
+              <Skeleton className="h-5 w-44 mx-auto" />
             </div>
             <div className="space-y-2">
               <Skeleton className="w-full aspect-video rounded-xl" />
-              <Skeleton className="h-4 w-48 mx-auto" />
+              <Skeleton className="h-5 w-48 mx-auto" />
             </div>
           </div>
         </section>
