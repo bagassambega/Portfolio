@@ -127,6 +127,10 @@ export const Project: CollectionConfig = {
             label: "Highlighted Media",
             type: "relationship",
             relationTo: "media",
+            admin: {
+                description:
+                    "Recommended for project header: 16:9 ratio, ideally 1920×1080 px (minimum 1600×900 px). Keep the important subject centered because the image is displayed responsively.",
+            },
         },
         {
             name: "media",
