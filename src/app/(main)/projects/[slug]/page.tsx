@@ -258,7 +258,7 @@ export default async function ProjectDetailPage({
                   return (
                     <figure key={media.id} className="space-y-3">
                       {media.alt && (
-                        <figcaption className="text-left text-sm font-semibold uppercase tracking-wide text-white drop-shadow-sm md:text-base">
+                        <figcaption className="text-left text-sm font-normal text-white drop-shadow-sm md:text-base">
                           {media.alt}
                         </figcaption>
                       )}

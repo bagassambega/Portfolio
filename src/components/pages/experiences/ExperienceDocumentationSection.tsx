@@ -7,7 +7,7 @@ type ExperienceDocumentationSectionProps = {
 }
 
 const MEDIA_CAPTION_CLASS =
-  "mt-3 text-center text-sm font-semibold uppercase tracking-wide text-white drop-shadow-sm md:text-base"
+  "mt-3 text-center text-sm font-normal text-white drop-shadow-sm md:text-base"
 
 export default function ExperienceDocumentationSection({
   mediaItems,
