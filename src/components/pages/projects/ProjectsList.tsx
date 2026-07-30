@@ -8,11 +8,21 @@ import ProjectTypeBadge from "@/components/pages/projects/ProjectTypeBadge"
 import type { ProjectListItem } from "@/lib/services/api"
 import type { Techstack } from "@/lib/types/payload-types"
 import { cn } from "@/lib/utils"
-import { ArrowRight, Calendar, Check, Filter, RotateCcw } from "lucide-react"
-import { useMemo, useState } from "react"
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUp,
+  ArrowUpDown,
+  Calendar,
+  Check,
+  Filter,
+  RotateCcw,
+} from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 type SortKey = "starting_date" | "title" | "end_date" | "duration"
 type SortDirection = "asc" | "desc"
+type OpenPanel = "sort" | "filter" | null
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "starting_date", label: "Start date" },
@@ -70,6 +80,8 @@ export default function ProjectsList({
   const [sortKey, setSortKey] = useState<SortKey>("starting_date")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const [selectedTechIds, setSelectedTechIds] = useState<number[]>([])
+  const [openPanel, setOpenPanel] = useState<OpenPanel>(null)
+  const controlsRef = useRef<HTMLDivElement>(null)
 
   const techOptions = useMemo(() => {
     const options = new Map<number, Techstack>()
@@ -89,6 +101,33 @@ export default function ProjectsList({
     () => new Set(selectedTechIds),
     [selectedTechIds]
   )
+  const hasActiveControls =
+    sortKey !== "starting_date" ||
+    sortDirection !== "desc" ||
+    selectedTechIds.length > 0
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      if (
+        controlsRef.current &&
+        !controlsRef.current.contains(event.target as Node)
+      ) {
+        setOpenPanel(null)
+      }
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenPanel(null)
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown)
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown)
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [])
 
   const displayedProjects = useMemo(() => {
     return projects
@@ -134,42 +173,76 @@ export default function ProjectsList({
     setSortKey("starting_date")
     setSortDirection("desc")
     setSelectedTechIds([])
+    setOpenPanel(null)
   }
 
   return (
     <section id="project-list" className="w-full">
-      <div className="mb-6 rounded-xl border border-zinc-200 bg-white/75 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/35 md:p-5">
-        <div className="flex flex-col gap-5">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                Browse Projects
-              </p>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                {displayedProjects.length} of {projects.length} projects
-              </p>
-            </div>
+      <div className="relative z-20 mb-5 flex items-center justify-between gap-3">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          {displayedProjects.length} of {projects.length} projects
+        </p>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-              <div className="flex flex-wrap items-center gap-2">
-                {SORT_OPTIONS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    onClick={() => setSortKey(option.value)}
-                    className={cn(
-                      "rounded-full border px-3 py-1.5 text-sm transition-colors hover:cursor-pointer",
-                      sortKey === option.value
-                        ? "border-blue-500 bg-blue-500 text-white"
-                        : "border-zinc-200 text-zinc-600 hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+        <div ref={controlsRef} className="relative flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() =>
+              setOpenPanel((current) => (current === "sort" ? null : "sort"))
+            }
+            className={cn(
+              "inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:cursor-pointer",
+              openPanel === "sort" || sortKey !== "starting_date" || sortDirection !== "desc"
+                ? "border-blue-500 bg-blue-500 text-white"
+                : "border-zinc-200 bg-white/75 text-zinc-600 hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+            )}
+            aria-label="Sort projects"
+            title="Sort projects"
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </button>
 
-              <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() =>
+              setOpenPanel((current) =>
+                current === "filter" ? null : "filter"
+              )
+            }
+            className={cn(
+              "relative inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:cursor-pointer",
+              openPanel === "filter" || selectedTechIds.length > 0
+                ? "border-blue-500 bg-blue-500 text-white"
+                : "border-zinc-200 bg-white/75 text-zinc-600 hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+            )}
+            aria-label="Filter projects"
+            title="Filter projects"
+          >
+            <Filter className="h-4 w-4" />
+            {selectedTechIds.length > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-950 px-1 text-[10px] text-white ring-1 ring-white dark:bg-white dark:text-zinc-950 dark:ring-zinc-950">
+                {selectedTechIds.length}
+              </span>
+            )}
+          </button>
+
+          {hasActiveControls && (
+            <button
+              type="button"
+              onClick={resetControls}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white/75 text-zinc-500 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+              aria-label="Reset project controls"
+              title="Reset project controls"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </button>
+          )}
+
+          {openPanel === "sort" && (
+            <div className="absolute right-0 top-11 w-60 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl shadow-zinc-950/10 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/30">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  Sort
+                </p>
                 <button
                   type="button"
                   onClick={() =>
@@ -177,50 +250,91 @@ export default function ProjectsList({
                       current === "asc" ? "desc" : "asc"
                     )
                   }
-                  className="rounded-full border border-zinc-200 px-3 py-1.5 text-sm text-zinc-600 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 text-zinc-600 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+                  aria-label={`Sort ${
+                    sortDirection === "asc" ? "descending" : "ascending"
+                  }`}
+                  title={sortDirection === "asc" ? "Ascending" : "Descending"}
                 >
-                  {sortDirection === "asc" ? "Ascending" : "Descending"}
+                  {sortDirection === "asc" ? (
+                    <ArrowUp className="h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="h-4 w-4" />
+                  )}
                 </button>
-                <button
-                  type="button"
-                  onClick={resetControls}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 text-zinc-500 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
-                  aria-label="Reset project filters"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                </button>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                {SORT_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setSortKey(option.value)}
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors hover:cursor-pointer",
+                      sortKey === option.value
+                        ? "bg-blue-500 text-white"
+                        : "text-zinc-600 hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-blue-300"
+                    )}
+                  >
+                    <span>{option.label}</span>
+                    {sortKey === option.value && (
+                      <Check className="h-4 w-4" aria-hidden="true" />
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
+          )}
 
-          {techOptions.length > 0 && (
-            <div className="border-t border-zinc-200 pt-4 dark:border-zinc-800">
-              <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                <Filter className="h-3.5 w-3.5" />
-                Tech Stack
+          {openPanel === "filter" && (
+            <div className="absolute right-0 top-11 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-zinc-200 bg-white p-3 shadow-xl shadow-zinc-950/10 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/30">
+              <div className="mb-3">
+                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  Tech Stack
+                </p>
+                <p className="mt-0.5 text-sm text-zinc-900 dark:text-zinc-100">
+                  Match any selected tech
+                </p>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {techOptions.map((tech) => {
-                  const active = selectedTechSet.has(tech.id)
 
-                  return (
-                    <button
-                      key={tech.id}
-                      type="button"
-                      onClick={() => toggleTech(tech.id)}
-                      className={cn(
-                        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors hover:cursor-pointer",
-                        active
-                          ? "border-blue-500 bg-blue-500 text-white"
-                          : "border-zinc-200 text-zinc-600 hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
-                      )}
-                    >
-                      {active && <Check className="h-3.5 w-3.5" />}
-                      {tech.name}
-                    </button>
-                  )
-                })}
-              </div>
+              {techOptions.length > 0 ? (
+                <div className="flex max-h-72 flex-col gap-1 overflow-y-auto pr-1">
+                  {techOptions.map((tech) => {
+                    const active = selectedTechSet.has(tech.id)
+
+                    return (
+                      <button
+                        key={tech.id}
+                        type="button"
+                        onClick={() => toggleTech(tech.id)}
+                        className={cn(
+                          "flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-colors hover:cursor-pointer",
+                          active
+                            ? "bg-blue-500 text-white"
+                            : "text-zinc-600 hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-blue-300"
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "flex h-4 w-4 shrink-0 items-center justify-center rounded border",
+                            active
+                              ? "border-white bg-white text-blue-500"
+                              : "border-zinc-300 dark:border-zinc-600"
+                          )}
+                        >
+                          {active && <Check className="h-3 w-3" />}
+                        </span>
+                        <span>{tech.name}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              ) : (
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  No tech stack available.
+                </p>
+              )}
             </div>
           )}
         </div>
