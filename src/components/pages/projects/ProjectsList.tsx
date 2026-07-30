@@ -293,9 +293,6 @@ export default function ProjectsList({
                 <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                   Tech Stack
                 </p>
-                <p className="mt-0.5 text-sm text-zinc-900 dark:text-zinc-100">
-                  Match any selected tech
-                </p>
               </div>
 
               {techOptions.length > 0 ? (
