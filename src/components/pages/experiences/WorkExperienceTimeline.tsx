@@ -20,7 +20,7 @@ export default function WorkExperienceTimeline({
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto py-8">
+    <div className="flex flex-col items-center w-full max-w-4xl mx-auto py-8">
       {experiences.map((exp, index) => {
         const corp = exp.corporation as Corporation | null
         const logoMedia = corp?.logo as Media | undefined
@@ -55,11 +55,11 @@ export default function WorkExperienceTimeline({
                   <div
                     className="
                       flex flex-row items-start gap-6
-                      p-6 rounded-2xl border
+                      p-5 md:p-7 rounded-2xl border
                       bg-white dark:bg-zinc-900/40
                       border-zinc-200 dark:border-zinc-800
                       transition-all duration-300 ease-out
-                      hover:scale-101 hover:bg-zinc-100 dark:hover:bg-zinc-800 will-change-transform backface-hidden
+                      hover:-translate-y-0.5 hover:border-blue-200 hover:bg-zinc-100 hover:shadow-lg dark:hover:border-blue-500/30 dark:hover:bg-zinc-800/80 will-change-transform backface-hidden
                       cursor-pointer w-full opacity-0
                     "
                     style={{
@@ -89,16 +89,16 @@ export default function WorkExperienceTimeline({
                     <div className="flex flex-col justify-center gap-2 md:gap-1 h-full min-h-16 md:min-h-20">
                       <p
                         data-corporation-preview-trigger
-                        className="text-sm md:text-base font-bold text-blue-500 hover:text-blue-400 mb-1 uppercase tracking-wide"
+                        className="mb-1 text-sm font-bold uppercase tracking-wide text-blue-500 hover:text-blue-400 md:text-base"
                       >
                         {orgName}
                       </p>
 
-                      <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-1 leading-tight">
+                      <h3 className="mb-2 text-xl font-bold leading-tight text-zinc-900 dark:text-zinc-100 md:text-2xl">
                         {exp.title}
                       </h3>
 
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-500 dark:text-zinc-400 font-mono">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-sm text-zinc-500 dark:text-zinc-400">
                         <div className="flex items-center gap-1.5 uppercase tracking-wider">
                           <Calendar className="w-4 h-4" />
                           <span>{dateString}</span>

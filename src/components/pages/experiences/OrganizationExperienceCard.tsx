@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import SkeletonImage from "@/components/shared/SkeletonImage"
-import { Calendar } from "lucide-react"
+import { ArrowRight, Calendar, MapPin } from "lucide-react"
 import type { OrganizationExperienceListItem } from "@/lib/services/api"
 import type { Media, Corporation } from "@/lib/types/payload-types"
 import { getOriginalImageUrl } from "@/lib/helpers"
@@ -39,23 +39,23 @@ export default function OrganizationExperienceCard({ experience }: Props) {
   const card = (
     <Link
       href={`/experiences/organization/${experience.slug}`}
-      className="block w-full"
+      className="group block w-full"
     >
       <div
         className="
-                    flex flex-row items-start gap-6 
-                    p-6 rounded-2xl border
+                    flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7
+                    p-5 md:p-7 rounded-2xl border
                     bg-white dark:bg-zinc-900/40 
                     border-zinc-200 dark:border-zinc-800
                     transition-all duration-300 ease-out
-                    hover:scale-105 hover:bg-zinc-100 dark:hover:bg-zinc-800
+                    hover:-translate-y-0.5 hover:border-blue-200 hover:bg-zinc-100 hover:shadow-lg dark:hover:border-blue-500/30 dark:hover:bg-zinc-800/80
                     cursor-pointer w-full backface-hidden
                 "
       >
         {/* Left side: Logo */}
         <div
           data-corporation-preview-trigger
-          className="shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden flex items-center justify-center p-2 relative"
+          className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-zinc-100 bg-white p-2 shadow-sm dark:border-zinc-800 md:h-20 md:w-20"
         >
           {logoMedia?.url ? (
             <SkeletonImage
@@ -73,24 +73,35 @@ export default function OrganizationExperienceCard({ experience }: Props) {
         </div>
 
         {/* Right side: Content */}
-        <div className="flex flex-col justify-center h-full min-h-16 md:min-h-20">
+        <div className="flex min-w-0 flex-1 flex-col justify-center">
           <p
             data-corporation-preview-trigger
-            className="text-sm md:text-base font-bold text-blue-500 hover:text-blue-400 mb-1 tracking-wider uppercase"
+            className="mb-1 text-sm font-bold uppercase tracking-wider text-blue-500 hover:text-blue-400 md:text-base"
           >
             {orgName}
           </p>
 
-          <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-2 leading-tight">
+          <h3 className="mb-3 text-xl font-bold leading-tight text-zinc-900 dark:text-zinc-100 md:text-2xl">
             {positionTitle}
           </h3>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-500 dark:text-zinc-400 font-mono">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-sm text-zinc-500 dark:text-zinc-400">
             <div className="flex items-center gap-1.5 uppercase tracking-wider">
               <Calendar className="w-4 h-4" />
               <span>{dateString}</span>
             </div>
+            <div className="flex items-center gap-1.5 uppercase tracking-wider">
+              <MapPin className="w-4 h-4" />
+              <span>{experience.location}</span>
+            </div>
+            <span className="rounded-full border border-zinc-200 px-2.5 py-1 text-xs uppercase tracking-wider text-zinc-600 dark:border-zinc-700 dark:text-zinc-300">
+              {experience.type}
+            </span>
           </div>
+        </div>
+
+        <div className="hidden self-center text-blue-500 transition-transform group-hover:translate-x-1 sm:block">
+          <ArrowRight className="h-5 w-5" />
         </div>
       </div>
     </Link>

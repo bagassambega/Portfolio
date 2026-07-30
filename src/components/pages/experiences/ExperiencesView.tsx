@@ -71,7 +71,7 @@ export default async function ExperiencesView({
                 <h3 className="text-2xl font-semibold mb-8 text-zinc-800 dark:text-zinc-200">
                   Organizational Experiences
                 </h3>
-                <div className="grid grid-cols-1 w-full max-w-3xl gap-6">
+                <div className="grid grid-cols-1 w-full max-w-4xl gap-5 md:gap-6">
                   {orgExperiences.length > 0 ? (
                     orgExperiences.map((exp) => (
                       <OrganizationExperienceCard
