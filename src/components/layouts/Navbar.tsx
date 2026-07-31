@@ -58,6 +58,7 @@ export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
     {
       title: "Experiences",
       url: "/experiences/work",
+      activeHref: "/experiences",
       icon: <Briefcase className="h-5 w-5" />,
     },
     {
@@ -89,6 +90,7 @@ export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
           <NavLink
             key={link.url}
             href={link.url}
+            activeHref={link.activeHref}
             icon={link.icon}
             activeClass="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-blue-400 text-blue-600 underline underline-offset-8 decoration-[3px] py-1.5 px-4 -translate-y-px"
             inactiveClass="dark:hover:bg-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 text-gray-500 hover:text-gray-700 py-1.5 px-4"
@@ -119,6 +121,7 @@ export default function Navbar({ socialMedia, searchItems }: NavbarProps) {
           <NavLink
             key={link.url}
             href={link.url}
+            activeHref={link.activeHref}
             icon={link.icon}
             iconOnly
             activeClass="dark:text-blue-400 text-blue-600 p-2 cursor-pointer"

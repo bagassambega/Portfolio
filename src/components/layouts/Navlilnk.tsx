@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 
 export type NavLinkType = {
   href: string
+  activeHref?: string
   children: ReactNode
   icon?: ReactNode
   activeClass: string
@@ -16,10 +17,11 @@ export type NavLinkType = {
 
 export default function NavLink(props: NavLinkType) {
   const url = usePathname()
+  const activeHref = props.activeHref ?? props.href
   const active =
-    url === props.href ||
-    (props.href !== "/" && url.startsWith(props.href + "/")) ||
-    url === props.href.replace(/\/$/, "")
+    url === activeHref ||
+    (activeHref !== "/" && url.startsWith(activeHref + "/")) ||
+    url === activeHref.replace(/\/$/, "")
   return (
     <Link
       href={props.href}
