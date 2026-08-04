@@ -6,7 +6,6 @@ import {
   Calendar,
   ChevronLeft,
   ChevronRight,
-  Code,
   ExternalLink,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -21,6 +20,7 @@ import AnimatedSection from "@/components/shared/AnimatedSection"
 import SlugPageLayout from "@/components/shared/SlugPageLayout"
 import type { TocItem } from "@/components/shared/TableOfContents"
 import ProjectTypeBadge from "@/components/pages/projects/ProjectTypeBadge"
+import TechStackPill from "@/components/pages/techstack/TechStackPill"
 import { getOriginalImageUrl, formatDateShort } from "@/lib/helpers"
 
 import type { Metadata } from "next"
@@ -215,31 +215,7 @@ export default async function ProjectDetailPage({
               </h2>
               <div className="flex flex-wrap gap-3">
                 {techstacks.map((tech: Techstack) => (
-                  <div
-                    key={tech.id}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg text-sm font-medium transition-colors border border-zinc-200 dark:border-zinc-700/50 hover:cursor-pointer"
-                  >
-                    {tech.logo ? (
-                      <div
-                        className="w-4 h-4 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full"
-                        dangerouslySetInnerHTML={{ __html: tech.logo }}
-                      />
-                    ) : (
-                      <Code className="w-4 h-4" />
-                    )}
-                    {tech.url ? (
-                      <a
-                        href={tech.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-blue-500 transition-colors"
-                      >
-                        {tech.name}
-                      </a>
-                    ) : (
-                      <span>{tech.name}</span>
-                    )}
-                  </div>
+                  <TechStackPill key={tech.id} tech={tech} />
                 ))}
               </div>
             </section>

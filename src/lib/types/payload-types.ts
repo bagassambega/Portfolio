@@ -345,6 +345,7 @@ export interface Techstack {
   name: string;
   url?: string | null;
   logo?: string | null;
+  logoColor?: ('black' | 'white' | 'neutral') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -866,6 +867,7 @@ export interface TechstackSelect<T extends boolean = true> {
   name?: T;
   url?: T;
   logo?: T;
+  logoColor?: T;
   updatedAt?: T;
   createdAt?: T;
 }
