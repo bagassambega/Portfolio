@@ -15,6 +15,8 @@ import {
   ArrowUpDown,
   Calendar,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Filter,
   RotateCcw,
 } from "lucide-react"
@@ -23,6 +25,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 type SortKey = "starting_date" | "title" | "end_date" | "duration"
 type SortDirection = "asc" | "desc"
 type OpenPanel = "sort" | "filter" | null
+type PageItem = number | "ellipsis"
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "starting_date", label: "Start date" },
@@ -30,6 +33,7 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "end_date", label: "Finish date" },
   { value: "duration", label: "Duration" },
 ]
+const PAGE_SIZE_OPTIONS = [5, 10, 25] as const
 
 function isTechstack(value: unknown): value is Techstack {
   return typeof value === "object" && value !== null && "id" in value
@@ -72,6 +76,28 @@ function getRichTextPlainText(content: ProjectListItem["highlighted-description"
   return fragments.join(" ").replace(/\s+/g, " ").trim()
 }
 
+function getPaginationItems(currentPage: number, totalPages: number): PageItem[] {
+  if (totalPages <= 10) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1)
+  }
+
+  const firstPages = [1, 2, 3, 4]
+  const lastPages = Array.from(
+    { length: 4 },
+    (_, index) => totalPages - 3 + index
+  )
+
+  if (currentPage <= 5) {
+    return [1, 2, 3, 4, 5, "ellipsis", ...lastPages]
+  }
+
+  if (currentPage >= totalPages - 4) {
+    return [...firstPages, "ellipsis", totalPages - 4, ...lastPages]
+  }
+
+  return [...firstPages, "ellipsis", currentPage, "ellipsis", ...lastPages]
+}
+
 export default function ProjectsList({
   projects,
 }: {
@@ -81,6 +107,10 @@ export default function ProjectsList({
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const [selectedTechIds, setSelectedTechIds] = useState<number[]>([])
   const [openPanel, setOpenPanel] = useState<OpenPanel>(null)
+  const [pageSize, setPageSize] = useState<(typeof PAGE_SIZE_OPTIONS)[number]>(
+    25
+  )
+  const [currentPage, setCurrentPage] = useState(1)
   const controlsRef = useRef<HTMLDivElement>(null)
 
   const techOptions = useMemo(() => {
@@ -161,7 +191,27 @@ export default function ProjectsList({
       .map(({ project }) => project)
   }, [projects, selectedTechSet, sortDirection, sortKey])
 
+  const totalPages = Math.max(1, Math.ceil(displayedProjects.length / pageSize))
+  const effectiveCurrentPage = Math.min(currentPage, totalPages)
+  const paginatedProjects = useMemo(() => {
+    const start = (effectiveCurrentPage - 1) * pageSize
+    return displayedProjects.slice(start, start + pageSize)
+  }, [displayedProjects, effectiveCurrentPage, pageSize])
+  const paginationItems = useMemo(
+    () => getPaginationItems(effectiveCurrentPage, totalPages),
+    [effectiveCurrentPage, totalPages]
+  )
+  const pageStart =
+    displayedProjects.length === 0
+      ? 0
+      : (effectiveCurrentPage - 1) * pageSize + 1
+  const pageEnd = Math.min(
+    effectiveCurrentPage * pageSize,
+    displayedProjects.length
+  )
+
   const toggleTech = (techId: number) => {
+    setCurrentPage(1)
     setSelectedTechIds((current) =>
       current.includes(techId)
         ? current.filter((id) => id !== techId)
@@ -173,6 +223,7 @@ export default function ProjectsList({
     setSortKey("starting_date")
     setSortDirection("desc")
     setSelectedTechIds([])
+    setCurrentPage(1)
     setOpenPanel(null)
   }
 
@@ -245,11 +296,12 @@ export default function ProjectsList({
                 </p>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
                     setSortDirection((current) =>
                       current === "asc" ? "desc" : "asc"
                     )
-                  }
+                    setCurrentPage(1)
+                  }}
                   className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 text-zinc-600 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
                   aria-label={`Sort ${
                     sortDirection === "asc" ? "descending" : "ascending"
@@ -269,7 +321,10 @@ export default function ProjectsList({
                   <button
                     key={option.value}
                     type="button"
-                    onClick={() => setSortKey(option.value)}
+                    onClick={() => {
+                      setSortKey(option.value)
+                      setCurrentPage(1)
+                    }}
                     className={cn(
                       "flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors hover:cursor-pointer",
                       sortKey === option.value
@@ -338,7 +393,7 @@ export default function ProjectsList({
       </div>
 
       <div className="flex flex-col gap-5 md:gap-6">
-        {displayedProjects.map((project, index) => {
+        {paginatedProjects.map((project, index) => {
           const startDate = new Date(project.starting_date).toLocaleDateString(
             "en-US",
             {
@@ -418,6 +473,103 @@ export default function ProjectsList({
             </Link>
           )
         })}
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 items-center gap-4 rounded-xl border border-zinc-200 bg-white/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/35 md:grid-cols-[1fr_auto_1fr]">
+        <p className="text-center text-sm text-zinc-500 dark:text-zinc-400 md:text-left">
+          Showing {pageStart}-{pageEnd} of {displayedProjects.length}
+        </p>
+
+        <div className="flex justify-center">
+          {totalPages > 1 && (
+          <nav
+            aria-label="Project pagination"
+            className="flex flex-wrap items-center justify-center gap-2"
+          >
+            <button
+              type="button"
+              onClick={() =>
+                setCurrentPage((page) =>
+                  Math.max(1, Math.min(page, totalPages) - 1)
+                )
+              }
+              disabled={effectiveCurrentPage === 1}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 text-zinc-600 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 disabled:pointer-events-none disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+              aria-label="Previous project page"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
+            {paginationItems.map((item, index) =>
+              item === "ellipsis" ? (
+                <span
+                  key={`ellipsis-${index}`}
+                  className="inline-flex h-9 min-w-9 items-center justify-center px-2 text-sm text-zinc-500 dark:text-zinc-400"
+                >
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setCurrentPage(item)}
+                  aria-current={
+                    effectiveCurrentPage === item ? "page" : undefined
+                  }
+                  className={cn(
+                    "inline-flex h-9 min-w-9 items-center justify-center rounded-full border px-3 text-sm transition-colors hover:cursor-pointer",
+                    effectiveCurrentPage === item
+                      ? "border-blue-500 bg-blue-500 text-white"
+                      : "border-zinc-200 text-zinc-600 hover:border-blue-300 hover:text-blue-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+                  )}
+                >
+                  {item}
+                </button>
+              )
+            )}
+
+            <button
+              type="button"
+              onClick={() =>
+                setCurrentPage((page) => Math.min(totalPages, page + 1))
+              }
+              disabled={effectiveCurrentPage === totalPages}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 text-zinc-600 transition-colors hover:cursor-pointer hover:border-blue-300 hover:text-blue-600 disabled:pointer-events-none disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
+              aria-label="Next project page"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </nav>
+          )}
+        </div>
+
+        <div className="flex items-center justify-center gap-2 md:justify-end">
+          <label
+            htmlFor="projects-page-size"
+            className="text-sm text-zinc-500 dark:text-zinc-400"
+          >
+            Per page
+          </label>
+          <select
+            id="projects-page-size"
+            value={pageSize}
+            onChange={(event) => {
+              setPageSize(Number(event.target.value) as typeof pageSize)
+              setCurrentPage(1)
+            }}
+            className="h-9 rounded-full border border-zinc-200 bg-white px-3 text-sm text-zinc-700 transition-colors hover:cursor-pointer hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:border-blue-500/50"
+          >
+            {PAGE_SIZE_OPTIONS.map((option) => (
+              <option
+                key={option}
+                value={option}
+                className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"
+              >
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </section>
   )
