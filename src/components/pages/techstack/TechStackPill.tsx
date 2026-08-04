@@ -6,12 +6,9 @@ import type { Techstack } from "@/lib/types/payload-types"
 type TechStackLogoColor = NonNullable<Techstack["logoColor"]>
 
 const logoColorClasses: Record<TechStackLogoColor, string> = {
-  neutral:
-    "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:border-zinc-700/50",
-  black:
-    "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-100 dark:border-zinc-200",
-  white:
-    "bg-zinc-950 text-white hover:bg-black dark:bg-zinc-950 dark:text-white dark:hover:bg-black dark:border-zinc-700",
+  neutral: "",
+  black: "dark:bg-white",
+  white: "bg-zinc-950 dark:bg-black",
 }
 
 export default function TechStackPill({ tech }: { tech: Techstack }) {
@@ -19,14 +16,14 @@ export default function TechStackPill({ tech }: { tech: Techstack }) {
 
   return (
     <div
-      className={cn(
-        "inline-flex items-center gap-2 rounded-lg border border-zinc-200 px-3 py-1.5 text-sm font-medium transition-colors hover:cursor-pointer",
-        logoColorClasses[logoColor]
-      )}
+      className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:cursor-pointer hover:bg-zinc-200 dark:border-zinc-700/50 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-800"
     >
       {tech.logo ? (
         <div
-          className="flex h-4 w-4 items-center justify-center [&>svg]:h-full [&>svg]:w-full"
+          className={cn(
+            "flex h-5 w-5 items-center justify-center rounded p-0.5 [&>svg]:h-full [&>svg]:w-full",
+            logoColorClasses[logoColor]
+          )}
           dangerouslySetInnerHTML={{ __html: tech.logo }}
         />
       ) : (
