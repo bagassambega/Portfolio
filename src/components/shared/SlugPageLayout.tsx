@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import TableOfContents, { type TocItem } from "./TableOfContents"
 import TocDrawer from "./TocDrawer"
+import DetailScrollControls from "./DetailScrollControls"
 
 interface Props {
   children: ReactNode
@@ -22,6 +23,8 @@ export default function SlugPageLayout({ children, tocItems }: Props) {
         {/* Main content */}
         <article className="flex-1 min-w-0 font-inter">{children}</article>
       </div>
+
+      <DetailScrollControls />
     </main>
   )
 }
