@@ -7,8 +7,8 @@ type TechStackLogoColor = NonNullable<Techstack["logoColor"]>
 
 const logoColorClasses: Record<TechStackLogoColor, string> = {
   neutral: "",
-  black: "dark:bg-white",
-  white: "bg-zinc-950 dark:bg-black",
+  black: "bg-zinc-100 dark:bg-zinc-100",
+  white: "bg-zinc-800/50 dark:bg-zinc-800/50",
 }
 
 export default function TechStackPill({ tech }: { tech: Techstack }) {

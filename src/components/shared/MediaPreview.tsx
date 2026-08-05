@@ -42,15 +42,26 @@ export default function MediaPreview({
   const previewWidth = toNumber(width) ?? 1920
   const previewHeight = toNumber(height) ?? 1080
   const title = previewTitle || alt || "Image preview"
+  const openPreview = () => setOpen(true)
 
   return (
     <>
       <div
         className={cn(
-          "group/media-preview relative",
+          "group/media-preview relative cursor-zoom-in",
           props.fill ? "absolute inset-0" : "block",
           containerClassName
         )}
+        role="button"
+        tabIndex={0}
+        aria-label={`Preview ${alt || "image"}`}
+        onClick={openPreview}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault()
+            openPreview()
+          }
+        }}
       >
         <SkeletonImage
           {...props}
@@ -67,7 +78,7 @@ export default function MediaPreview({
           onClick={(event) => {
             event.preventDefault()
             event.stopPropagation()
-            setOpen(true)
+            openPreview()
           }}
         >
           <Maximize2 className="h-4 w-4" aria-hidden="true" />
@@ -75,7 +86,7 @@ export default function MediaPreview({
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[calc(100vh-2rem)] max-w-[min(96vw,1200px)] overflow-hidden border-zinc-200 bg-zinc-950/95 p-3 shadow-2xl dark:border-zinc-800 [&_[data-slot=dialog-close]]:text-white">
+        <DialogContent className="max-h-[calc(100vh-2rem)] max-w-[min(96vw,1200px)] overflow-hidden border-zinc-200 bg-zinc-950/95 p-3 shadow-2xl dark:border-zinc-800 [&_[data-slot=dialog-close]]:bg-zinc-500/80 [&_[data-slot=dialog-close]]:text-white [&_[data-slot=dialog-close]]:shadow-lg [&_[data-slot=dialog-close]]:backdrop-blur [&_[data-slot=dialog-close]]:hover:bg-zinc-600/90">
           <DialogHeader className="sr-only">
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
