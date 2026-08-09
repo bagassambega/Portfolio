@@ -25,6 +25,7 @@ export const CACHE_TAGS = {
     HERO: "hero",
     CORPORATIONS: "corporations",
     EDUCATION: "education",
+    CERTIFICATIONS: "certifications",
     PUBLICATIONS: "publications",
     SOCIAL_MEDIA: "social-media",
 } as const

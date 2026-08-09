@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { getEducationsList, getPublicationsList } from "@/lib/services/api"
 import PublicationCard from "@/components/pages/educations/PublicationCollapsible"
 import EducationalModal from "@/components/pages/educations/EducationModal"
+import CertificationCarousel from "@/components/pages/educations/CertificationCarousel"
 
 export const metadata: Metadata = {
   title: "Educations",
@@ -27,9 +28,13 @@ export default async function EducationsPage() {
         {/* Education Cards */}
         <section className="w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-            <EducationalModal educations={educations}/>
+            <EducationalModal educations={educations} />
           </div>
         </section>
+
+        <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 my-8" />
+
+        <CertificationCarousel />
 
         <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 my-8" />
 

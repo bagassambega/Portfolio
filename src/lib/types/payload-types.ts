@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     corporation: Corporation;
     education: Education;
+    certification: Certification;
     files: File;
     media: Media;
     'work-experience': WorkExperience;
@@ -89,6 +90,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     corporation: CorporationSelect<false> | CorporationSelect<true>;
     education: EducationSelect<false> | EducationSelect<true>;
+    certification: CertificationSelect<false> | CertificationSelect<true>;
     files: FilesSelect<false> | FilesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'work-experience': WorkExperienceSelect<false> | WorkExperienceSelect<true>;
@@ -268,6 +270,64 @@ export interface Education {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "certification".
+ */
+export interface Certification {
+  id: number;
+  title: string;
+  issuer: string;
+  summary?: string | null;
+  issuedAt: string;
+  expiresAt?: string | null;
+  status: 'active' | 'completed' | 'in_progress' | 'expired';
+  credentialUrl?: string | null;
+  credentialId?: string | null;
+  issuerLogo?: (number | null) | Media;
+  certificationLogo?: (number | null) | Media;
+  /**
+   * Optional training period showing when and how long the certification preparation took.
+   */
+  workingPeriod?: {
+    start?: string | null;
+    end?: string | null;
+  };
+  logoDisplayMode: 'certification' | 'issuer' | 'both' | 'none';
+  /**
+   * Primary card accent color. Use a CSS color such as #f97316, rgb(...), or oklch(...).
+   */
+  themeColor?: string | null;
+  /**
+   * Optional second color for gradient themes. Leave empty for a single-color theme.
+   */
+  themeColorEnd?: string | null;
+  themeMode: 'gradient' | 'solid' | 'subtle';
+  /**
+   * Comma-separated freeform skills, separate from reusable Tech Stack documents.
+   */
+  skills?: string | null;
+  techstacks?: (number | Techstack)[] | null;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "techstack".
+ */
+export interface Techstack {
+  id: number;
+  name: string;
+  url?: string | null;
+  logo?: string | null;
+  /**
+   * Use Black for black SVG logos that need a white pill in dark mode. Use White for white SVG logos that need a black pill.
+   */
+  logoColor?: ('neutral' | 'black' | 'white') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "files".
  */
 export interface File {
@@ -333,19 +393,6 @@ export interface WorkExperience {
     };
     [k: string]: unknown;
   } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "techstack".
- */
-export interface Techstack {
-  id: number;
-  name: string;
-  url?: string | null;
-  logo?: string | null;
-  logoColor?: ('black' | 'white' | 'neutral') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -445,6 +492,9 @@ export interface Project {
   url?: string | null;
   starting_date: string;
   end_date?: string | null;
+  /**
+   * Recommended for project header: 16:9 ratio, ideally 1920×1080 px (minimum 1600×900 px). Keep the important subject centered because the image is displayed responsively.
+   */
   'media-highlight'?: (number | null) | Media;
   media?: (number | Media)[] | null;
   techstack?: (number | Techstack)[] | null;
@@ -563,6 +613,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'education';
         value: number | Education;
+      } | null)
+    | ({
+        relationTo: 'certification';
+        value: number | Certification;
       } | null)
     | ({
         relationTo: 'files';
@@ -689,6 +743,37 @@ export interface EducationSelect<T extends boolean = true> {
   credits?: T;
   description?: T;
   logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "certification_select".
+ */
+export interface CertificationSelect<T extends boolean = true> {
+  title?: T;
+  issuer?: T;
+  summary?: T;
+  issuedAt?: T;
+  expiresAt?: T;
+  status?: T;
+  credentialUrl?: T;
+  credentialId?: T;
+  issuerLogo?: T;
+  certificationLogo?: T;
+  workingPeriod?:
+    | T
+    | {
+        start?: T;
+        end?: T;
+      };
+  logoDisplayMode?: T;
+  themeColor?: T;
+  themeColorEnd?: T;
+  themeMode?: T;
+  skills?: T;
+  techstacks?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

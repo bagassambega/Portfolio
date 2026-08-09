@@ -18,6 +18,7 @@ import { TechStack } from "@/app/collections/TechStack"
 import { Publication } from "@/app/collections/Publication"
 import { Files } from "@/app/collections/Files"
 import { ProjectType } from "@/app/collections/ProjectType"
+import { Certification } from "@/app/collections/Certification"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -36,6 +37,7 @@ export default buildConfig({
         Users,
         Corporation,
         Education,
+        Certification,
         Files,
         Media,
         WorkExperience,

@@ -3,6 +3,7 @@ import * as migration_20260223_022520_publication_enhancement from "./20260223_0
 import * as migration_20260223_052839_techstack_to_workexp from "./20260223_052839_techstack_to_workexp"
 import * as migration_20260414_000001_social_media_username from "./20260414_000001_social_media_username"
 import * as migration_20260804_000001_techstack_logo_color from "./20260804_000001_techstack_logo_color"
+import * as migration_20260809_000001_certification_collection from "./20260809_000001_certification_collection"
 
 export const migrations = [
     {
@@ -29,5 +30,10 @@ export const migrations = [
         up: migration_20260804_000001_techstack_logo_color.up,
         down: migration_20260804_000001_techstack_logo_color.down,
         name: "20260804_000001_techstack_logo_color",
+    },
+    {
+        up: migration_20260809_000001_certification_collection.up,
+        down: migration_20260809_000001_certification_collection.down,
+        name: "20260809_000001_certification_collection",
     },
 ]
