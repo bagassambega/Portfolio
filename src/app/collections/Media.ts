@@ -15,6 +15,7 @@ const revalidateMedia: CollectionAfterChangeHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
     revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
     revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+    revalidateTag(Constant.CACHE_TAGS.CERTIFICATIONS, "days")
     revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
 
     await triggerRevalidatePrewarm({
@@ -25,6 +26,7 @@ const revalidateMedia: CollectionAfterChangeHook = async () => {
             Constant.CACHE_TAGS.WORK_EXPERIENCES,
             Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
             Constant.CACHE_TAGS.EDUCATION,
+            Constant.CACHE_TAGS.CERTIFICATIONS,
             Constant.CACHE_TAGS.PUBLICATIONS,
         ],
         paths: [
@@ -45,6 +47,7 @@ const deleteMedia: CollectionAfterDeleteHook = async () => {
     revalidateTag(Constant.CACHE_TAGS.WORK_EXPERIENCES, "days")
     revalidateTag(Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES, "days")
     revalidateTag(Constant.CACHE_TAGS.EDUCATION, "days")
+    revalidateTag(Constant.CACHE_TAGS.CERTIFICATIONS, "days")
     revalidateTag(Constant.CACHE_TAGS.PUBLICATIONS, "days")
 
     await triggerRevalidatePrewarm({
@@ -55,6 +58,7 @@ const deleteMedia: CollectionAfterDeleteHook = async () => {
             Constant.CACHE_TAGS.WORK_EXPERIENCES,
             Constant.CACHE_TAGS.ORGANIZATION_EXPERIENCES,
             Constant.CACHE_TAGS.EDUCATION,
+            Constant.CACHE_TAGS.CERTIFICATIONS,
             Constant.CACHE_TAGS.PUBLICATIONS,
         ],
         paths: [

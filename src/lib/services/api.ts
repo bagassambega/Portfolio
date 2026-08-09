@@ -7,6 +7,7 @@ import type {
     WorkExperience,
     OrganizationExperience,
     Education,
+    Certification,
     Publication,
     Hero,
     SocialMedia,
@@ -258,6 +259,64 @@ export async function getEducationsList() {
         sort: "createdAt",
     })
     return result.docs as EducationListItem[]
+}
+
+export type CertificationListItem = Pick<
+    Certification,
+    | "id"
+    | "title"
+    | "issuer"
+    | "summary"
+    | "issuedAt"
+    | "expiresAt"
+    | "status"
+    | "credentialUrl"
+    | "credentialId"
+    | "issuerLogo"
+    | "certificationLogo"
+    | "workingPeriod"
+    | "logoDisplayMode"
+    | "themeColor"
+    | "themeColorEnd"
+    | "themeMode"
+    | "skills"
+    | "techstacks"
+    | "sortOrder"
+>
+
+export async function getCertificationsList() {
+    "use cache"
+    cacheLife("days")
+    cacheTag(CACHE_TAGS.CERTIFICATIONS)
+
+    const result = await payload.find({
+        collection: "certification",
+        limit: 0,
+        depth: 2,
+        sort: "sortOrder",
+        select: {
+            title: true,
+            issuer: true,
+            summary: true,
+            issuedAt: true,
+            expiresAt: true,
+            status: true,
+            credentialUrl: true,
+            credentialId: true,
+            issuerLogo: true,
+            certificationLogo: true,
+            workingPeriod: true,
+            logoDisplayMode: true,
+            themeColor: true,
+            themeColorEnd: true,
+            themeMode: true,
+            skills: true,
+            techstacks: true,
+            sortOrder: true,
+        },
+    })
+
+    return result.docs as CertificationListItem[]
 }
 
 export type PublicationListItem = Pick<

@@ -1,5 +1,9 @@
 import type { Metadata } from "next"
-import { getEducationsList, getPublicationsList } from "@/lib/services/api"
+import {
+  getCertificationsList,
+  getEducationsList,
+  getPublicationsList,
+} from "@/lib/services/api"
 import PublicationCard from "@/components/pages/educations/PublicationCollapsible"
 import EducationalModal from "@/components/pages/educations/EducationModal"
 import CertificationCarousel from "@/components/pages/educations/CertificationCarousel"
@@ -10,6 +14,7 @@ export const metadata: Metadata = {
 
 export default async function EducationsPage() {
   const educations = await getEducationsList()
+  const certifications = await getCertificationsList()
   const publications = await getPublicationsList()
 
   return (
@@ -34,9 +39,13 @@ export default async function EducationsPage() {
 
         <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 my-8" />
 
-        <CertificationCarousel />
+        {certifications.length > 0 && (
+          <>
+            <CertificationCarousel certifications={certifications} />
 
-        <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 my-8" />
+            <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800 my-8" />
+          </>
+        )}
 
         {/* Publications List */}
         <section className="w-full flex flex-col items-center">
