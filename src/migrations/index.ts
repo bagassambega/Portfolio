@@ -4,6 +4,7 @@ import * as migration_20260223_052839_techstack_to_workexp from "./20260223_0528
 import * as migration_20260414_000001_social_media_username from "./20260414_000001_social_media_username"
 import * as migration_20260804_000001_techstack_logo_color from "./20260804_000001_techstack_logo_color"
 import * as migration_20260809_000001_certification_collection from "./20260809_000001_certification_collection"
+import * as migration_20260809_000002_certification_locked_documents from "./20260809_000002_certification_locked_documents"
 
 export const migrations = [
     {
@@ -35,5 +36,10 @@ export const migrations = [
         up: migration_20260809_000001_certification_collection.up,
         down: migration_20260809_000001_certification_collection.down,
         name: "20260809_000001_certification_collection",
+    },
+    {
+        up: migration_20260809_000002_certification_locked_documents.up,
+        down: migration_20260809_000002_certification_locked_documents.down,
+        name: "20260809_000002_certification_locked_documents",
     },
 ]
