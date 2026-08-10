@@ -375,7 +375,12 @@ export default function ProjectsList({
                               : "border-zinc-300 dark:border-zinc-600"
                           )}
                         >
-                          {active && <Check className="h-3 w-3" />}
+                          {active && (
+                            <Check
+                              className="h-3.5 w-3.5 text-blue-700 dark:text-blue-800"
+                              strokeWidth={3.5}
+                            />
+                          )}
                         </span>
                         <span>{tech.name}</span>
                       </button>
